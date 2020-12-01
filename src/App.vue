@@ -1,30 +1,57 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+    <PageHeader />
+    <router-view />
+    <PageFooter />
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+import PageHeader from '@/components/PageHeader.vue';
+import PageFooter from '@/components/PageFooter.vue';
+export default {
+    name: 'App',
+    components: {
+        PageHeader,
+        PageFooter
+    },
+    setup () {
+        const store = useStore();
+        const mediaSensor = (minWidth, deviceType) => {
+            const resizeWidth = pMatchMedia =>
+                store.commit('updateDevice', { deviceType, value: pMatchMedia.matches });
+            const mm = window.matchMedia(`(max-width: ${minWidth}px)`);
+            mm.addListener(resizeWidth);
+            resizeWidth(mm);
+        };
+        onMounted(() => {
+            mediaSensor(768, 'tablet');
+        });
+        return {
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+        };
     }
-  }
+};
+</script>
+
+<style lang="scss">
+@import '@/assets/sass/reset';
+@import '@/assets/sass/common';
+
+html,
+body,
+.app {
+    height: 100%;
+}
+body {
+    min-width: 375px;
+}
+.container {
+    margin: 0 auto;
+    padding: 0 30px;
+    max-width: #{$content-width}px;
+    @media (min-width: #{$tablet-width + 1}px) {
+        padding: 0 42px;
+    }
 }
 </style>

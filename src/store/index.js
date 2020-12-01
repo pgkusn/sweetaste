@@ -1,12 +1,16 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+    state: {
+        tabletWidth: false
+    },
+    mutations: {
+        updateDevice (state, payload) {
+            state[payload.deviceType + 'Width'] = payload.value;
+        }
+    },
+    actions: {
+    },
+    modules: {
+    }
+});
