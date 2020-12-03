@@ -8,13 +8,13 @@
                     <img src="@/assets/images/logo-m.svg" alt="Sweetaste">
                 </picture>
             </h1>
-            <PageNav v-if="!tabletWidth" />
+            <PageNav v-if="tabletWidth" />
             <router-link :to="{ name: 'Cart' }" class="material-icons cart">
                 shopping_cart
             </router-link>
         </div>
         <input id="toggler-input" type="checkbox">
-        <PageNav v-if="tabletWidth" />
+        <PageNav v-if="!tabletWidth" />
     </header>
 </template>
 
@@ -39,9 +39,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/sass/common.scss';
-header {
-    outline: 1px solid #f00;
-}
 .container {
     display: flex;
     min-height: 84px;
@@ -52,7 +49,7 @@ header {
     position: relative;
     width: 18px;
     height: 12px;
-    background-image: linear-gradient(#3f5d45 20%, transparent 20%, transparent 40%, #3f5d45 40%, #3f5d45 60%, transparent 60%, transparent 80%, #3f5d45 80%);
+    background-image: linear-gradient(#3f5d45 20%, transparent 0, transparent 40%, #3f5d45 0, #3f5d45 60%, transparent 0, transparent 80%, #3f5d45 0);
     cursor: pointer;
     @media (min-width: #{$tablet-width + 1}px) {
         display: none;

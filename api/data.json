@@ -1,0 +1,148 @@
+{
+  "product_list": [
+    {
+      "id": 1,
+      "category": "today",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item1.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 2,
+      "category": "today",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item2.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 3,
+      "category": "today",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item3.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 4,
+      "category": "today",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item4.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 5,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item5.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 6,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item6.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 7,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item1.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 8,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item2.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 9,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item3.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 10,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item4.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 11,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item5.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 12,
+      "category": "popular",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item6.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 13,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item1.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 14,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item2.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 15,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item3.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 16,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item4.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 17,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item5.jpeg",
+      "inCart": false
+    },
+    {
+      "id": 18,
+      "category": "new",
+      "name": "焦糖馬卡龍",
+      "price": 450,
+      "url": "product-item6.jpeg",
+      "inCart": false
+    }
+  ]
+}
