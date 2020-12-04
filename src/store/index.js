@@ -7,6 +7,13 @@ export default createStore({
         mobileDevice: null,
         productList: []
     },
+    getters: {
+        productCategoryList: () => ({
+            today: '本日精選',
+            popular: '人氣推薦',
+            new: '新品上市'
+        })
+    },
     mutations: {
         setDeviceWidth (state, payload) {
             state[payload.deviceType + 'Width'] = payload.value;
@@ -21,11 +28,23 @@ export default createStore({
     actions: {
         async getProductList ({ commit }) {
             try {
-                const { data } = await axios(`${process.env.VUE_APP_API_URL}/product_list`);
+                const { data } = await axios('/product_list');
                 commit('setProductList', data);
             }
             catch (error) {
-                console.error(error.message);
+                alert(error.message);
+            }
+        },
+        async addCart (context, id) {
+            try {
+                return await axios({
+                    method: 'patch',
+                    url: `/product_list/${id}`,
+                    data: { inCart: true }
+                });
+            }
+            catch (error) {
+                alert(error.message);
             }
         }
     },

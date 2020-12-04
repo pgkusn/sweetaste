@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card__img">
-            <img :src="props.url" alt="">
+            <img :src="require(`@/assets/images/${props.info.url}`)" alt="">
             <div class="card__tag">
                 {{ showCategory }}
             </div>
@@ -11,13 +11,13 @@
         </div>
         <div class="card__text">
             <div class="card__text--name">
-                {{ props.name }}
+                {{ props.info.name }}
             </div>
             <div class="card__text--price">
-                NT$ {{ props.price }}
+                NT$ {{ props.info.price }}
             </div>
         </div>
-        <button class="card__add" @click="addCart(props.pid)">
+        <button class="card__add" :disabled="props.info.inCart" @click="addCart(props.info.id)">
             加入購物車
         </button>
     </div>
@@ -25,41 +25,31 @@
 
 <script>
 import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
     name: 'Card',
     props: {
-        pid: {
-            type: Number,
-            default: 0
-        },
-        category: {
-            type: String,
-            default: ''
-        },
-        url: {
-            type: String,
-            default: ''
-        },
-        name: {
-            type: String,
-            default: ''
-        },
-        price: {
-            type: Number,
-            default: 0
+        info: {
+            type: Object,
+            default: () => {}
         }
     },
     setup (props) {
-        const showCategory = computed(() => {
-            const categoryMap = {
-                today: '本日精選',
-                popular: '人氣推薦',
-                new: '新品上市'
-            };
-            return categoryMap[props.category];
-        });
-        const addCart = id => {
-            console.log(id);
+        const store = useStore();
+        const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
+        const addCart = async id => {
+            const result = await store.dispatch('addCart', id);
+            if (result) {
+                const newProductList = store.state.productList.map(value => ({
+                    id: value.id,
+                    category: value.category,
+                    name: value.name,
+                    price: value.price,
+                    url: value.url,
+                    inCart: value.id === id ? true : value.inCart
+                }));
+                store.commit('setProductList', newProductList);
+            }
         };
         return {
             props,
@@ -128,8 +118,12 @@ export default {
         color: $dark-color;
         font-size: 24px;
         transition: background-color .3s;
+        &:disabled {
+            opacity: .5;
+            cursor: default;
+        }
         @at-root {
-            :not(.is-mobile) .card__add:hover {
+            :not(.is-mobile) .card__add:not(:disabled):hover {
                 background-color: #d4e0da;
             }
         }

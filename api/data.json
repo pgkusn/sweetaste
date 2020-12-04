@@ -6,7 +6,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item1.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 2,
@@ -30,7 +30,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item4.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 5,
@@ -38,7 +38,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item5.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 6,
@@ -70,7 +70,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item3.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 10,
@@ -78,7 +78,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item4.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 11,
@@ -86,7 +86,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item5.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 12,
@@ -110,7 +110,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item2.jpeg",
-      "inCart": false
+      "inCart": true
     },
     {
       "id": 15,
@@ -142,7 +142,7 @@
       "name": "焦糖馬卡龍",
       "price": 450,
       "url": "product-item6.jpeg",
-      "inCart": false
+      "inCart": true
     }
   ]
 }

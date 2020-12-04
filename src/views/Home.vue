@@ -4,19 +4,9 @@
             <div class="container">
                 <div class="banner" />
                 <div class="nav">
-                    <div class="nav__item">
-                        <router-link :to="{ name: 'Product' }">
-                            本日精選
-                        </router-link>
-                    </div>
-                    <div class="nav__item">
-                        <router-link :to="{ name: 'Product' }">
-                            人氣推薦
-                        </router-link>
-                    </div>
-                    <div class="nav__item">
-                        <router-link :to="{ name: 'Product' }">
-                            新品上市
+                    <div v-for="(value, name) in categoryList" :key="name" class="nav__item">
+                        <router-link :to="{ name: 'Product', query: { cate: name } }">
+                            {{ value }}
                         </router-link>
                     </div>
                 </div>
@@ -52,15 +42,7 @@
                     想吃甜點——<br>是不需要理由的。
                 </div>
                 <div class="showcase__cards">
-                    <Card
-                        v-for="item in productList"
-                        :key="item.id"
-                        :pid="item.id"
-                        :category="item.category"
-                        :name="item.name"
-                        :price="item.price"
-                        :url="require(`@/assets/images/${item.url}`)"
-                    />
+                    <Card v-for="item in productList" :key="item.id" :info="item" />
                 </div>
             </div>
         </div>
@@ -78,8 +60,9 @@ export default {
     },
     setup () {
         const store = useStore();
-        const productList = computed(() => { // 取隨機三個產品
-            const all = store.state.productList;
+        const categoryList = computed(() => store.getters.productCategoryList);
+        const productList = computed(() => { // 隨機取未放入購物車的三個商品
+            const all = store.state.productList.filter(value => !value.inCart);
             const randomList = [];
             if (all.length) {
                 for (let i = 0; i < 3; i++) {
@@ -91,6 +74,7 @@ export default {
             return randomList;
         });
         return {
+            categoryList,
             productList
         };
     }

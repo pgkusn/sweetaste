@@ -7,41 +7,41 @@
                 </p>
                 <img src="@/assets/images/product/hero.jpeg" alt="">
             </div>
-            <div class="content">
+            <div ref="contentRef" class="content">
                 <div class="category">
                     <div class="category__title">
                         甜點類別
                     </div>
-                    <div class="category__item">
-                        所有甜點 ()
+                    <div :class="['category__item', { active: showList === 'all' }]" @click="changeCategory('all')">
+                        所有甜點 ({{ getCategoryList('all').length }})
                     </div>
-                    <div class="category__item">
-                        本日精選 ()
-                    </div>
-                    <div class="category__item">
-                        人氣推薦 ()
-                    </div>
-                    <div class="category__item">
-                        新品上市 ()
+                    <div
+                        v-for="(value, name) in categoryList"
+                        :key="name"
+                        :class="['category__item', { active: showList === name }]"
+                        @click="changeCategory(name)"
+                    >
+                        {{ value }} ({{ getCategoryList(name).length }})
                     </div>
                 </div>
                 <div class="list">
-                    <Card
-                        v-for="item in productList"
-                        :key="item.id"
-                        :pid="item.id"
-                        :category="item.category"
-                        :name="item.name"
-                        :price="item.price"
-                        :url="require(`@/assets/images/${item.url}`)"
-                    />
+                    <Card v-for="item in currentList" :key="item.id" :info="item" />
                 </div>
-                <div class="pagination">
-                    <button><span class="material-icons">arrow_left</span></button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button><span class="material-icons">arrow_right</span></button>
+                <div v-if="totalPage > 1" class="pagination">
+                    <button v-if="currentPage > 1" @click="currentPage--">
+                        <span class="material-icons">arrow_left</span>
+                    </button>
+                    <button
+                        v-for="n in totalPage"
+                        :key="n"
+                        :class="{ active: n === currentPage }"
+                        @click="currentPage = n"
+                    >
+                        {{ n }}
+                    </button>
+                    <button v-if="currentPage < totalPage" @click="currentPage++">
+                        <span class="material-icons">arrow_right</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -49,8 +49,9 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
 export default {
     name: 'Product',
@@ -59,9 +60,55 @@ export default {
     },
     setup () {
         const store = useStore();
-        const productList = computed(() => store.state.productList);
+        const route = useRoute();
+        const router = useRouter();
+
+        const tabletWidth = computed(() => store.state.tabletWidth);
+        const contentRef = ref(null);
+        const categoryList = computed(() => store.getters.productCategoryList);
+        const showList = ref(route.query.cate || 'all');
+        router.replace({ name: 'Product' }); // remove url query
+        const productList = computed(() => getCategoryList(showList.value));
+        const getCategoryList = category => (category === 'all' ? store.state.productList : store.state.productList.filter(value => value.category === category));
+        const changeCategory = category => {
+            currentPage.value = 1;
+            showList.value = category;
+        };
+
+        // 分頁顯示
+        const perPage = 4;
+        const currentPage = ref(1);
+        const totalPage = computed(() => Math.ceil(productList.value.length / perPage));
+        const currentList = computed(() => {
+            const list = [];
+            if (productList.value.length) {
+                const start = currentPage.value * perPage - perPage;
+                let end = currentPage.value * perPage - 1;
+                end = end < productList.value.length ? end : productList.value.length - 1;
+                for (let i = start; i <= end; i++) {
+                    list.push(productList.value[i]);
+                }
+            }
+            return list;
+        });
+
+        watch(currentPage, value => {
+            if (!tabletWidth.value) {
+                const contentRefTop = contentRef.value.offsetTop;
+                window.scrollTo(0, contentRefTop);
+            }
+        });
+
         return {
-            productList
+            contentRef,
+            categoryList,
+            showList,
+            productList,
+            getCategoryList,
+            changeCategory,
+            currentPage,
+            totalPage,
+            currentList
         };
     }
 };
@@ -146,7 +193,7 @@ export default {
 }
 .list {
     display: flex;
-    padding: 15px;
+    padding: 20px;
     flex-wrap: wrap;
     justify-content: center;
     @media (min-width: #{$tablet-width + 1}px) {
@@ -161,10 +208,12 @@ export default {
 }
 .pagination {
     display: flex;
+    padding: 0 30px;
     justify-content: center;
     flex-wrap: wrap;
     @media (min-width: #{$tablet-width + 1}px) {
         margin: 30px 0 0 auto;
+        padding: 0;
     }
     > button {
         width: 60px;

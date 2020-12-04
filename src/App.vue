@@ -8,6 +8,7 @@
 <script>
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import axios from 'axios';
 import MobileDetect from 'mobile-detect';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
@@ -32,6 +33,8 @@ export default {
         onMounted(async () => {
             mediaSensor(768, 'tablet');
             store.commit('setMobileDevice', new MobileDetect(window.navigator.userAgent).mobile());
+
+            axios.defaults.baseURL = process.env.VUE_APP_API_URL;
             await store.dispatch('getProductList');
         });
         return {
