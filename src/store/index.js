@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { createStore } from 'vuex';
 
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
 export default createStore({
     state: {
         tabletWidth: false,
@@ -35,13 +37,14 @@ export default createStore({
                 alert(error.message);
             }
         },
-        async addCart (context, id) {
+        async setCart (context, { id, num }) {
             try {
-                return await axios({
+                const { data } = await axios({
                     method: 'patch',
                     url: `/product_list/${id}`,
-                    data: { inCart: true }
+                    data: { inCart: num }
                 });
+                return data;
             }
             catch (error) {
                 alert(error.message);

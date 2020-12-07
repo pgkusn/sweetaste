@@ -38,7 +38,7 @@ export default {
         const store = useStore();
         const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
         const addCart = async id => {
-            const result = await store.dispatch('addCart', id);
+            const result = await store.dispatch('setCart', { id, num: 1 });
             if (result) {
                 const newProductList = store.state.productList.map(value => ({
                     id: value.id,
@@ -46,7 +46,8 @@ export default {
                     name: value.name,
                     price: value.price,
                     url: value.url,
-                    inCart: value.id === id ? true : value.inCart
+                    inCart: value.id === id ? 1 : value.inCart,
+                    stock: value.stock
                 }));
                 store.commit('setProductList', newProductList);
             }
