@@ -33,6 +33,7 @@ export default {
             mediaSensor(768, 'tablet');
             store.commit('setMobileDevice', new MobileDetect(window.navigator.userAgent).mobile());
             await store.dispatch('getProductList');
+            store.dispatch('getCartList');
         });
         return {
             isMobile

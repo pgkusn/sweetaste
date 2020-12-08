@@ -17,7 +17,7 @@
                 NT$ {{ props.info.price }}
             </div>
         </div>
-        <button class="card__add" :disabled="props.info.inCart" @click="addCart(props.info.id)">
+        <button class="card__add" :disabled="checkCart" @click="addCart">
             加入購物車
         </button>
     </div>
@@ -26,6 +26,8 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import cloneDeep from 'lodash/cloneDeep';
+
 export default {
     name: 'Card',
     props: {
@@ -37,25 +39,27 @@ export default {
     setup (props) {
         const store = useStore();
         const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
-        const addCart = async id => {
-            const result = await store.dispatch('setCart', { id, num: 1 });
-            if (result) {
-                const newProductList = store.state.productList.map(value => ({
-                    id: value.id,
-                    category: value.category,
-                    name: value.name,
-                    price: value.price,
-                    url: value.url,
-                    inCart: value.id === id ? 1 : value.inCart,
-                    stock: value.stock
-                }));
-                store.commit('setProductList', newProductList);
-            }
+        const cartList = computed(() => store.state.cartList);
+        const addCart = () => {
+            const newCartList = cloneDeep(cartList.value);
+            newCartList.push({
+                id: props.info.id,
+                category: props.info.category,
+                name: props.info.name,
+                price: props.info.price,
+                url: props.info.url,
+                inCart: 1,
+                stock: props.info.stock
+            });
+            store.dispatch('saveCartList', newCartList);
+            store.dispatch('getCartList');
         };
+        const checkCart = computed(() => cartList.value.find(value => value.id === props.info.id));
         return {
             props,
             showCategory,
-            addCart
+            addCart,
+            checkCart
         };
     }
 };

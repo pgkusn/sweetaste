@@ -61,12 +61,13 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'Cart',
     setup () {
         const store = useStore();
-        const cartList = computed(() => store.state.productList.filter(value => value.inCart));
+        const cartList = computed(() => store.state.cartList);
 
         // 訂單摘要
         const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.inCart, 0));
@@ -74,40 +75,42 @@ export default {
         const total = computed(() => subtotal.value + shipping);
 
         const addCart = id => {
-            const { inCart, stock } = store.state.productList.find(value => value.id === id);
+            const { inCart, stock } = cartList.value.find(value => value.id === id);
             if (inCart + 1 <= stock) {
                 setCart(id, inCart + 1);
             }
         };
         const minusCart = id => {
-            const { inCart } = store.state.productList.find(value => value.id === id);
+            const { inCart } = cartList.value.find(value => value.id === id);
             if (inCart - 1 > 0) {
                 setCart(id, inCart - 1);
             }
         };
         const changeCart = id => {
             const value = parseInt(event.target.value.trim(), 10);
-            const { stock } = store.state.productList.find(value => value.id === id);
+            const { stock } = cartList.value.find(value => value.id === id);
             const num = value > 0 ? value <= stock ? value : stock : 1;
             setCart(id, num);
         };
-        const removeCart = id => {
-            setCart(id, 0);
-        };
         const setCart = async (id, num) => {
-            const result = await store.dispatch('setCart', { id, num });
-            if (result) {
-                const newProductList = store.state.productList.map(value => ({
-                    id: value.id,
-                    category: value.category,
-                    name: value.name,
-                    price: value.price,
-                    url: value.url,
-                    inCart: value.id === id ? result.inCart : value.inCart,
-                    stock: value.stock
-                }));
-                store.commit('setProductList', newProductList);
-            }
+            const newCartList = cartList.value.map(value => ({
+                id: value.id,
+                category: value.category,
+                name: value.name,
+                price: value.price,
+                url: value.url,
+                inCart: value.id === id ? num : value.inCart,
+                stock: value.stock
+            }));
+            store.dispatch('saveCartList', newCartList);
+            store.dispatch('getCartList');
+        };
+        const removeCart = id => {
+            const index = cartList.value.findIndex(value => value.id === id);
+            const newCartList = cloneDeep(cartList.value);
+            newCartList.splice(index, 1);
+            store.dispatch('saveCartList', newCartList);
+            store.dispatch('getCartList');
         };
 
         return {

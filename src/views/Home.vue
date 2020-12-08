@@ -52,7 +52,9 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import cloneDeep from 'lodash/cloneDeep';
 import Card from '@/components/Card.vue';
+
 export default {
     name: 'Home',
     components: {
@@ -61,8 +63,8 @@ export default {
     setup () {
         const store = useStore();
         const categoryList = computed(() => store.getters.productCategoryList);
-        const productList = computed(() => { // 隨機取未放入購物車的三個商品
-            const all = store.state.productList.filter(value => !value.inCart);
+        const productList = computed(() => { // 隨機取三個商品
+            const all = cloneDeep(store.state.productList);
             const randomList = [];
             if (all.length) {
                 for (let i = 0; i < 3; i++) {

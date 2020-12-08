@@ -7,7 +7,8 @@ export default createStore({
     state: {
         tabletWidth: false,
         mobileDevice: null,
-        productList: []
+        productList: [],
+        cartList: []
     },
     getters: {
         productCategoryList: () => ({
@@ -25,6 +26,9 @@ export default createStore({
         },
         setProductList (state, payload) {
             state.productList = payload;
+        },
+        setCartList (state, payload) {
+            state.cartList = payload;
         }
     },
     actions: {
@@ -37,18 +41,13 @@ export default createStore({
                 alert(error.message);
             }
         },
-        async setCart (context, { id, num }) {
-            try {
-                const { data } = await axios({
-                    method: 'patch',
-                    url: `/product_list/${id}`,
-                    data: { inCart: num }
-                });
-                return data;
-            }
-            catch (error) {
-                alert(error.message);
-            }
+        getCartList ({ commit }) {
+            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
+            commit('setCartList', cartList);
+        },
+        saveCartList (context, payload) {
+            const cartList = JSON.stringify(payload);
+            localStorage.setItem('cartList', cartList);
         }
     },
     modules: {
