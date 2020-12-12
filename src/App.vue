@@ -1,8 +1,10 @@
 <template>
-    <PageHeader />
-    <router-view :class="{ 'is-mobile': isMobile }" />
-    <Subscription />
-    <PageFooter />
+    <div :class="{ 'is-mobile': isMobile }">
+        <PageHeader />
+        <router-view />
+        <Subscription />
+        <PageFooter />
+    </div>
 </template>
 
 <script>

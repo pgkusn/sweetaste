@@ -62,6 +62,37 @@ export default {
     },
     setup () {
         const store = useStore();
+
+        // 檢查是否從 LINE 登入頁導回
+        const checkLineLogin = async () => {
+            const { channelID, channelSecret, callbackURL, state: urlState } = store.getters.lineInfo;
+
+            // 1.check url
+            const searchParams = (new URL(document.location)).searchParams;
+            const code = searchParams.get('code');
+            const state = searchParams.get('state');
+
+            if (!code || urlState !== state) return;
+
+            history.replaceState({}, '', '/#/');
+
+            // 2.getLineToken
+            const params = new URLSearchParams();
+            params.append('grant_type', 'authorization_code');
+            params.append('code', code);
+            params.append('redirect_uri', callbackURL);
+            params.append('client_id', channelID);
+            params.append('client_secret', channelSecret);
+            const accessToken = await store.dispatch('getLineToken', params);
+
+            // 3.getLineProfile
+            const lineProfile = await store.dispatch('getLineProfile', accessToken);
+            store.commit('setLineProfile', lineProfile);
+            localStorage.setItem('lineProfile', JSON.stringify(lineProfile));
+        };
+        checkLineLogin();
+
+        // showcase
         const categoryList = computed(() => store.getters.productCategoryList);
         const productList = computed(() => { // 隨機取三個商品
             const all = cloneDeep(store.state.productList);
@@ -75,6 +106,7 @@ export default {
             }
             return randomList;
         });
+
         return {
             categoryList,
             productList

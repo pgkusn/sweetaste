@@ -7,16 +7,39 @@
             <router-link :to="{ name: 'Product' }">
                 甜點
             </router-link>
-            <router-link :to="{ name: 'Login' }">
+            <router-link v-if="!isLogin" :to="{ name: 'Login' }">
                 登入
             </router-link>
+            <a v-else href @click.prevent="logout">登出</a>
         </nav>
     </div>
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 export default {
-    name: 'PageNav'
+    name: 'PageNav',
+    setup () {
+        const store = useStore();
+
+        // check line login
+        const lineProfile = localStorage.getItem('lineProfile');
+        if (lineProfile) {
+            store.commit('setLineProfile', lineProfile);
+        }
+        const isLogin = computed(() => store.state.lineProfile);
+
+        const logout = () => {
+            store.commit('setLineProfile', null);
+            localStorage.removeItem('lineProfile');
+        };
+
+        return {
+            isLogin,
+            logout
+        };
+    }
 };
 </script>
 

@@ -102,17 +102,14 @@ export default {
                 inCart: value.id === id ? num : value.inCart,
                 stock: value.stock
             }));
-            store.dispatch('saveCartList', newCartList);
-            store.dispatch('getCartList');
+            store.dispatch('updateCartList', newCartList);
         };
         const removeCart = id => {
             const index = cartList.value.findIndex(value => value.id === id);
             const newCartList = cloneDeep(cartList.value);
             newCartList.splice(index, 1);
-            store.dispatch('saveCartList', newCartList);
-            store.dispatch('getCartList');
+            store.dispatch('updateCartList', newCartList);
         };
-
         return {
             cartList,
             subtotal,

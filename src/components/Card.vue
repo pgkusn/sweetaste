@@ -40,6 +40,7 @@ export default {
         const store = useStore();
         const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
         const cartList = computed(() => store.state.cartList);
+        const checkCart = computed(() => cartList.value.find(value => value.id === props.info.id));
         const addCart = () => {
             const newCartList = cloneDeep(cartList.value);
             newCartList.push({
@@ -51,15 +52,13 @@ export default {
                 inCart: 1,
                 stock: props.info.stock
             });
-            store.dispatch('saveCartList', newCartList);
-            store.dispatch('getCartList');
+            store.dispatch('updateCartList', newCartList);
         };
-        const checkCart = computed(() => cartList.value.find(value => value.id === props.info.id));
         return {
             props,
             showCategory,
-            addCart,
-            checkCart
+            checkCart,
+            addCart
         };
     }
 };
