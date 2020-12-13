@@ -2,9 +2,14 @@
     <button @click="lineLogin">
         LINE LOGIN
     </button>
+    |
+    <button @click="fbLogin">
+        FB LOGIN
+    </button>
 </template>
 
 <script>
+/* eslint-disable no-undef */
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -13,8 +18,8 @@ export default {
         const store = useStore();
         const router = useRouter();
 
-        // check line login
-        if (store.state.lineProfile) {
+        // check login
+        if (store.state.lineProfile || store.state.fbProfile) {
             router.push({ name: 'Home' });
         }
 
@@ -29,8 +34,33 @@ export default {
             location.href = url; // 前往 line 登入畫面
         };
 
+        const fbLogin = () => {
+            const getStatus = res => {
+                if (res.status !== 'connected') {
+                    FB.login(getStatus);
+                    return;
+                }
+                // get user profile
+                FB.api('/me', 'GET', { fields: ['picture', 'name'] }, res => {
+                    const fbInfo = {
+                        id: res.id,
+                        name: res.name,
+                        picture: res.picture.data.url
+                    };
+                    store.commit('setFbProfile', fbInfo);
+                    localStorage.setItem('fbInfo', JSON.stringify(fbInfo));
+
+                    const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+                    router.push({ name: beforeLoginPage });
+                    localStorage.removeItem('beforeLoginPage');
+                });
+            };
+            FB.getLoginStatus(getStatus);
+        };
+
         return {
-            lineLogin
+            lineLogin,
+            fbLogin
         };
     }
 };

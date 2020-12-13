@@ -49,7 +49,7 @@
                             <dd>NT$ {{ total }}</dd>
                         </dl>
                     </div>
-                    <button class="summary__checkout">
+                    <button class="summary__checkout" @click="checkout">
                         結帳
                     </button>
                 </div>
@@ -61,12 +61,15 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'Cart',
     setup () {
         const store = useStore();
+        const route = useRoute();
+        const router = useRouter();
         const cartList = computed(() => store.state.cartList);
 
         // 訂單摘要
@@ -92,6 +95,7 @@ export default {
             const num = value > 0 ? value <= stock ? value : stock : 1;
             setCart(id, num);
         };
+
         const setCart = async (id, num) => {
             const newCartList = cartList.value.map(value => ({
                 id: value.id,
@@ -104,12 +108,23 @@ export default {
             }));
             store.dispatch('updateCartList', newCartList);
         };
+
         const removeCart = id => {
             const index = cartList.value.findIndex(value => value.id === id);
             const newCartList = cloneDeep(cartList.value);
             newCartList.splice(index, 1);
             store.dispatch('updateCartList', newCartList);
         };
+
+        const checkout = () => {
+            if (!store.state.lineProfile && !store.state.fbProfile) {
+                localStorage.setItem('beforeLoginPage', route.name);
+                router.push({ name: 'Login' });
+                return;
+            }
+            console.log('checkout..');
+        };
+
         return {
             cartList,
             subtotal,
@@ -118,7 +133,8 @@ export default {
             addCart,
             minusCart,
             changeCart,
-            removeCart
+            removeCart,
+            checkout
         };
     }
 };

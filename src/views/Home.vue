@@ -52,6 +52,7 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import cloneDeep from 'lodash/cloneDeep';
 import Card from '@/components/Card.vue';
 
@@ -62,12 +63,13 @@ export default {
     },
     setup () {
         const store = useStore();
+        const router = useRouter();
 
         // 檢查是否從 LINE 登入頁導回
         const checkLineLogin = async () => {
             const { channelID, channelSecret, callbackURL, state: urlState } = store.getters.lineInfo;
 
-            // 1.check url
+            // 1. check url
             const searchParams = (new URL(document.location)).searchParams;
             const code = searchParams.get('code');
             const state = searchParams.get('state');
@@ -75,8 +77,11 @@ export default {
             if (!code || urlState !== state) return;
 
             history.replaceState({}, '', '/#/');
+            const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+            router.push({ name: beforeLoginPage });
+            localStorage.removeItem('beforeLoginPage');
 
-            // 2.getLineToken
+            // 2. get token
             const params = new URLSearchParams();
             params.append('grant_type', 'authorization_code');
             params.append('code', code);
@@ -85,7 +90,7 @@ export default {
             params.append('client_secret', channelSecret);
             const accessToken = await store.dispatch('getLineToken', params);
 
-            // 3.getLineProfile
+            // 3. get user profile
             const lineProfile = await store.dispatch('getLineProfile', accessToken);
             store.commit('setLineProfile', lineProfile);
             localStorage.setItem('lineProfile', JSON.stringify(lineProfile));

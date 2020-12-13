@@ -34,8 +34,17 @@ export default {
         onMounted(async () => {
             mediaSensor(768, 'tablet');
             store.commit('setMobileDevice', new MobileDetect(window.navigator.userAgent).mobile());
+
             await store.dispatch('getProductList');
             store.dispatch('getCartList');
+
+            // eslint-disable-next-line no-undef
+            FB.init({
+                appId: '512477409242587',
+                autoLogAppEvents: true,
+                xfbml: true,
+                version: 'v9.0'
+            });
         });
         return {
             isMobile

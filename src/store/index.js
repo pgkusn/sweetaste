@@ -9,7 +9,8 @@ export default createStore({
         mobileDevice: null,
         productList: [],
         cartList: [],
-        lineProfile: null
+        lineProfile: null,
+        fbProfile: null
     },
     getters: {
         productCategoryList: () => ({
@@ -39,6 +40,9 @@ export default createStore({
         },
         setLineProfile (state, payload) {
             state.lineProfile = payload;
+        },
+        setFbProfile (state, payload) {
+            state.fbProfile = payload;
         }
     },
     actions: {
@@ -75,12 +79,12 @@ export default createStore({
         },
         async getLineProfile (context, token) {
             try {
-                const result = await axios({
+                const { data } = await axios({
                     method: 'get',
                     url: 'https://api.line.me/v2/profile',
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                return result.data;
+                return data;
             }
             catch (error) {
                 alert(error.message);

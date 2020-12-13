@@ -23,16 +23,28 @@ export default {
     setup () {
         const store = useStore();
 
-        // check line login
+        // check login
         const lineProfile = localStorage.getItem('lineProfile');
         if (lineProfile) {
             store.commit('setLineProfile', lineProfile);
         }
-        const isLogin = computed(() => store.state.lineProfile);
+        const fbInfo = localStorage.getItem('fbInfo');
+        if (fbInfo) {
+            store.commit('setFbProfile', fbInfo);
+        }
+        const isLogin = computed(() => store.state.lineProfile || store.state.fbProfile);
 
+        // logout
         const logout = () => {
-            store.commit('setLineProfile', null);
-            localStorage.removeItem('lineProfile');
+            if (store.state.lineProfile) {
+                store.commit('setLineProfile', null);
+                localStorage.removeItem('lineProfile');
+            }
+
+            if (store.state.fbProfile) {
+                store.commit('setFbProfile', null);
+                localStorage.removeItem('fbInfo');
+            }
         };
 
         return {
