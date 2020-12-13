@@ -10,7 +10,8 @@ export default createStore({
         productList: [],
         cartList: [],
         lineProfile: null,
-        fbProfile: null
+        fbProfile: null,
+        userProfile: null
     },
     getters: {
         productCategoryList: () => ({
@@ -43,6 +44,9 @@ export default createStore({
         },
         setFbProfile (state, payload) {
             state.fbProfile = payload;
+        },
+        setUserProfile (state, payload) {
+            state.userProfile = payload;
         }
     },
     actions: {
@@ -83,6 +87,22 @@ export default createStore({
                     method: 'get',
                     url: 'https://api.line.me/v2/profile',
                     headers: { Authorization: `Bearer ${token}` }
+                });
+                return data;
+            }
+            catch (error) {
+                alert(error.message);
+            }
+        },
+        async userLogin (context, payload) {
+            try {
+                const { data } = await axios({
+                    method: 'post',
+                    url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDs9SB9hhsCD0bNiDObyWWsq26ZLsJj_PA',
+                    data: {
+                        ...payload,
+                        returnSecureToken: true
+                    }
                 });
                 return data;
             }

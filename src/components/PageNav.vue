@@ -28,11 +28,15 @@ export default {
         if (lineProfile) {
             store.commit('setLineProfile', lineProfile);
         }
-        const fbInfo = localStorage.getItem('fbInfo');
-        if (fbInfo) {
-            store.commit('setFbProfile', fbInfo);
+        const fbProfile = localStorage.getItem('fbProfile');
+        if (fbProfile) {
+            store.commit('setFbProfile', fbProfile);
         }
-        const isLogin = computed(() => store.state.lineProfile || store.state.fbProfile);
+        const userProfile = localStorage.getItem('userProfile');
+        if (userProfile) {
+            store.commit('setFbProfile', userProfile);
+        }
+        const isLogin = computed(() => store.state.lineProfile || store.state.fbProfile || store.state.userProfile);
 
         // logout
         const logout = () => {
@@ -40,10 +44,13 @@ export default {
                 store.commit('setLineProfile', null);
                 localStorage.removeItem('lineProfile');
             }
-
             if (store.state.fbProfile) {
                 store.commit('setFbProfile', null);
-                localStorage.removeItem('fbInfo');
+                localStorage.removeItem('fbProfile');
+            }
+            if (store.state.userProfile) {
+                store.commit('setUserProfile', null);
+                localStorage.removeItem('userProfile');
             }
         };
 

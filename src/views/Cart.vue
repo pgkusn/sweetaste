@@ -117,7 +117,7 @@ export default {
         };
 
         const checkout = () => {
-            if (!store.state.lineProfile && !store.state.fbProfile) {
+            if (!store.state.lineProfile && !store.state.fbProfile && !store.state.userProfile) {
                 localStorage.setItem('beforeLoginPage', route.name);
                 router.push({ name: 'Login' });
                 return;
