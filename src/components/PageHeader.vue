@@ -9,6 +9,9 @@
                 </picture>
             </h1>
             <PageNav v-if="tabletWidth" />
+            <div v-if="tabletWidth && avatarSrc" class="avatar">
+                <img :src="avatarSrc" alt="">
+            </div>
             <router-link :to="{ name: 'Cart' }" class="material-icons cart">
                 shopping_cart
             </router-link>
@@ -30,8 +33,17 @@ export default {
     setup () {
         const store = useStore();
         const tabletWidth = computed(() => store.state.tabletWidth);
+        const avatarSrc = computed(() => {
+            if (store.state.lineProfile) {
+                return store.state.lineProfile.pictureUrl;
+            }
+            else if (store.state.fbProfile) {
+                return store.state.fbProfile.picture;
+            }
+        });
         return {
-            tabletWidth
+            tabletWidth,
+            avatarSrc
         };
     }
 };
@@ -67,6 +79,14 @@ h1 {
     @media (min-width: #{$tablet-width + 1}px) {
         width: 220px;
     }
+}
+.avatar {
+    overflow: hidden;
+    margin-right: 60px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 .cart {
     position: relative;

@@ -54,6 +54,7 @@ export default createStore({
             try {
                 const { data } = await axios('/product_list');
                 commit('setProductList', data);
+                return data;
             }
             catch (error) {
                 alert(error.message);
@@ -95,6 +96,7 @@ export default createStore({
             }
         },
         async userLogin (context, payload) {
+            // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
                 const { data } = await axios({
                     method: 'post',
@@ -107,7 +109,19 @@ export default createStore({
                 return data;
             }
             catch (error) {
-                alert(error.message);
+                const msg = error.response.data.error.message;
+                switch (msg) {
+                case 'EMAIL_NOT_FOUND':
+                    alert('Email 不存在');
+                    break;
+                case 'INVALID_PASSWORD':
+                    alert('密碼錯誤');
+                    break;
+                default:
+                    alert('登入失敗');
+                    break;
+                }
+                console.error(msg);
             }
         }
     },

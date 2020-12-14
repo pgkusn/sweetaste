@@ -35,8 +35,10 @@ export default {
             mediaSensor(768, 'tablet');
             store.commit('setMobileDevice', new MobileDetect(window.navigator.userAgent).mobile());
 
-            await store.dispatch('getProductList');
-            store.dispatch('getCartList');
+            const data = await store.dispatch('getProductList');
+            if (data) {
+                store.dispatch('getCartList');
+            }
 
             // eslint-disable-next-line no-undef
             FB.init({

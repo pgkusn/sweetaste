@@ -26,15 +26,15 @@ export default {
         // check login
         const lineProfile = localStorage.getItem('lineProfile');
         if (lineProfile) {
-            store.commit('setLineProfile', lineProfile);
+            store.commit('setLineProfile', JSON.parse(lineProfile));
         }
         const fbProfile = localStorage.getItem('fbProfile');
         if (fbProfile) {
-            store.commit('setFbProfile', fbProfile);
+            store.commit('setFbProfile', JSON.parse(fbProfile));
         }
         const userProfile = localStorage.getItem('userProfile');
         if (userProfile) {
-            store.commit('setFbProfile', userProfile);
+            store.commit('setUserProfile', JSON.parse(userProfile));
         }
         const isLogin = computed(() => store.state.lineProfile || store.state.fbProfile || store.state.userProfile);
 
@@ -82,7 +82,7 @@ nav {
     padding-bottom: 1rem;
     @media (min-width: #{$tablet-width + 1}px) {
         display: flex;
-        padding-right: 70px;
+        padding-right: 50px;
         padding-bottom: 0;
         justify-content: flex-end;
         align-items: center;

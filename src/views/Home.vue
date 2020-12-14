@@ -89,9 +89,11 @@ export default {
             params.append('client_id', channelID);
             params.append('client_secret', channelSecret);
             const accessToken = await store.dispatch('getLineToken', params);
+            if (!accessToken) return;
 
             // 3. get user profile
             const lineProfile = await store.dispatch('getLineProfile', accessToken);
+            if (!lineProfile) return;
             store.commit('setLineProfile', lineProfile);
             localStorage.setItem('lineProfile', JSON.stringify(lineProfile));
         };
