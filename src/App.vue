@@ -14,6 +14,7 @@ import MobileDetect from 'mobile-detect';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
 import PageFooter from '@/components/PageFooter.vue';
+
 export default {
     name: 'App',
     components: {

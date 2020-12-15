@@ -82,6 +82,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Progress from '@/components/Progress.vue';
+import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Invoice',
@@ -91,6 +92,11 @@ export default {
     setup () {
         const router = useRouter();
         const next = () => {
+            if (!checkLogin()) {
+                localStorage.setItem('beforeLoginPage', 'Ship');
+                router.push({ name: 'Login' });
+                return;
+            }
             router.replace({ name: 'Success' });
         };
         const invoiceType = ref('einvoice');

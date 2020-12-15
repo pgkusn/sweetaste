@@ -78,6 +78,8 @@
 <script>
 import { useRouter } from 'vue-router';
 import Progress from '@/components/Progress.vue';
+import { checkLogin } from '@/checkLogin.js';
+
 export default {
     name: 'Payment',
     components: {
@@ -86,6 +88,11 @@ export default {
     setup () {
         const router = useRouter();
         const next = () => {
+            if (!checkLogin()) {
+                localStorage.setItem('beforeLoginPage', 'Ship');
+                router.push({ name: 'Login' });
+                return;
+            }
             router.replace({ name: 'Invoice' });
         };
         return {

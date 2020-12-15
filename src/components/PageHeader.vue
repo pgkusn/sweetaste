@@ -25,6 +25,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import PageNav from '@/components/PageNav.vue';
+
 export default {
     name: 'PageHeader',
     components: {

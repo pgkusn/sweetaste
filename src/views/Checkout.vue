@@ -40,14 +40,24 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Checkout',
     setup () {
         const store = useStore();
-        const cartList = computed(() => store.state.cartList);
+        const router = useRouter();
 
-        // 訂單摘要
+        // checkLogin
+        if (!checkLogin()) {
+            localStorage.setItem('beforeLoginPage', 'Ship');
+            router.push({ name: 'Login' });
+            return;
+        }
+        router.push({ name: 'Ship' });
+
+        const cartList = computed(() => store.state.cartList);
         const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.inCart, 0));
         const shipping = 300;
         const total = computed(() => subtotal.value + shipping);

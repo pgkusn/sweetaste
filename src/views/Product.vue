@@ -53,6 +53,7 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
+
 export default {
     name: 'Product',
     components: {
