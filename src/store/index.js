@@ -1,7 +1,23 @@
-import axios from 'axios';
 import { createStore } from 'vuex';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
+import axios from 'axios';
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
+
+axios.interceptors.request.use(function (config) {
+    NProgress.start();
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+axios.interceptors.response.use(function (response) {
+    NProgress.done();
+    return response;
+}, function (error) {
+    return Promise.reject(error);
+});
 
 export default createStore({
     state: {
@@ -50,6 +66,15 @@ export default createStore({
         }
     },
     actions: {
+        getCartList ({ commit }) {
+            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
+            commit('setCartList', cartList);
+        },
+        updateCartList ({ dispatch }, payload) {
+            const cartList = JSON.stringify(payload);
+            localStorage.setItem('cartList', cartList);
+            dispatch('getCartList');
+        },
         async getProductList ({ commit }) {
             try {
                 const { data } = await axios('/product_list');
@@ -59,15 +84,6 @@ export default createStore({
             catch (error) {
                 alert(error.message);
             }
-        },
-        getCartList ({ commit }) {
-            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
-            commit('setCartList', cartList);
-        },
-        updateCartList ({ dispatch }, payload) {
-            const cartList = JSON.stringify(payload);
-            localStorage.setItem('cartList', cartList);
-            dispatch('getCartList');
         },
         async getLineToken (context, data) {
             try {

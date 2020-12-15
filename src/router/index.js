@@ -4,6 +4,7 @@ import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';
 import Cart from '../views/Cart.vue';
 import Checkout from '../views/Checkout.vue';
+import Success from '../views/Success.vue';
 
 const routes = [
     {
@@ -29,7 +30,29 @@ const routes = [
     {
         path: '/checkout',
         name: 'Checkout',
-        component: Checkout
+        component: Checkout,
+        children: [
+            {
+                path: 'ship',
+                name: 'Ship',
+                component: () => import('@/views/Ship.vue')
+            },
+            {
+                path: 'payment',
+                name: 'Payment',
+                component: () => import('@/views/Payment.vue')
+            },
+            {
+                path: 'invoice',
+                name: 'Invoice',
+                component: () => import('@/views/Invoice.vue')
+            }
+        ]
+    },
+    {
+        path: '/success',
+        name: 'Success',
+        component: Success
     }
 ];
 
@@ -40,5 +63,9 @@ const router = createRouter({
         return { top: 0 };
     }
 });
+// router.beforeEach((to, from, next) => {
+//     console.log(to, from);
+//     next();
+// });
 
 export default router;

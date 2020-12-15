@@ -2,9 +2,9 @@
     <div class="cart">
         <div class="container">
             <div class="col">
-                <p class="title">
+                <h2 class="title">
                     您的購物車
-                </p>
+                </h2>
                 <div v-for="item in cartList" :key="item.id" class="list">
                     <div class="list__img">
                         <img :src="require(`@/assets/images/${item.url}`)" alt="">
@@ -37,9 +37,9 @@
             <div class="col">
                 <div class="summary">
                     <div class="summary__content">
-                        <div class="summary__content--title">
+                        <h2 class="summary__content--title">
                             訂單摘要
-                        </div>
+                        </h2>
                         <dl class="summary__content--detail">
                             <dt>小計</dt>
                             <dd>NT$ {{ subtotal }}</dd>
@@ -61,14 +61,13 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'Cart',
     setup () {
         const store = useStore();
-        const route = useRoute();
         const router = useRouter();
         const cartList = computed(() => store.state.cartList);
 
@@ -118,11 +117,11 @@ export default {
 
         const checkout = () => {
             if (!store.state.lineProfile && !store.state.fbProfile && !store.state.userProfile) {
-                localStorage.setItem('beforeLoginPage', route.name);
+                localStorage.setItem('beforeLoginPage', 'Ship');
                 router.push({ name: 'Login' });
                 return;
             }
-            console.log('checkout..');
+            router.push({ name: 'Ship' });
         };
 
         return {
@@ -143,6 +142,7 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/sass/common.scss';
 .cart {
+    margin-top: 46px;
     color: $dark-color;
     @media (min-width: #{$tablet-width + 1}px) {
         padding-bottom: 60px;
