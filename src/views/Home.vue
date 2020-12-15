@@ -73,13 +73,7 @@ export default {
             const searchParams = (new URL(document.location)).searchParams;
             const code = searchParams.get('code');
             const state = searchParams.get('state');
-
             if (!code || urlState !== state) return;
-
-            history.replaceState({}, '', '/#/');
-            const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
-            router.push({ name: beforeLoginPage });
-            localStorage.removeItem('beforeLoginPage');
 
             // 2. get token
             const params = new URLSearchParams();
@@ -96,6 +90,11 @@ export default {
             if (!lineProfile) return;
             store.commit('setLineProfile', lineProfile);
             localStorage.setItem('lineProfile', JSON.stringify(lineProfile));
+
+            history.replaceState({}, '', '/#/');
+            const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+            router.push({ name: beforeLoginPage });
+            localStorage.removeItem('beforeLoginPage');
         };
         checkLineLogin();
 
