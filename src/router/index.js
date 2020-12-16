@@ -53,6 +53,10 @@ const routes = [
         path: '/success',
         name: 'Success',
         component: Success
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        redirect: Home
     }
 ];
 

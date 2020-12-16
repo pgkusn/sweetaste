@@ -37,22 +37,7 @@
                                 <label>地址</label>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="select w-50 pr-5">
-                                <select>
-                                    <option value="高雄市">
-                                        高雄市
-                                    </option>
-                                </select>
-                            </td>
-                            <td class="select w-50 pl-5">
-                                <select>
-                                    <option value="新興區">
-                                        新興區
-                                    </option>
-                                </select>
-                            </td>
-                        </tr>
+                        <CitySelector />
                         <tr>
                             <td class="pt-8" colspan="2">
                                 <input type="text">
@@ -82,12 +67,14 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Progress from '@/components/Progress.vue';
+import CitySelector from '@/components/CitySelector.vue';
 import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Invoice',
     components: {
-        Progress
+        Progress,
+        CitySelector
     },
     setup () {
         const router = useRouter();

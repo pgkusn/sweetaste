@@ -43,15 +43,21 @@
                     <tr>
                         <td class="select w-50 pr-5">
                             <select>
-                                <option value="12">
+                                <option value="">
                                     月
+                                </option>
+                                <option v-for="n in 12" :key="n" :value="n">
+                                    {{ n }}
                                 </option>
                             </select>
                         </td>
                         <td class="select w-50 pl-5">
                             <select>
-                                <option value="12">
+                                <option value="">
                                     年
+                                </option>
+                                <option v-for="year in years" :key="year" :value="year">
+                                    {{ year }}
                                 </option>
                             </select>
                         </td>
@@ -79,6 +85,7 @@
 import { useRouter } from 'vue-router';
 import Progress from '@/components/Progress.vue';
 import { checkLogin } from '@/checkLogin.js';
+import { computed } from 'vue';
 
 export default {
     name: 'Payment',
@@ -95,8 +102,17 @@ export default {
             }
             router.replace({ name: 'Invoice' });
         };
+        const years = computed(() => {
+            const arr = [];
+            const thisYear = new Date().getFullYear();
+            for (let i = thisYear - 100; i <= thisYear; i++) {
+                arr.push(i);
+            }
+            return arr;
+        });
         return {
-            next
+            next,
+            years
         };
     }
 };
