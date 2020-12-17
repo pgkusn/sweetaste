@@ -78,7 +78,7 @@ export default createStore({
         },
         async getProductList ({ commit }) {
             try {
-                const { data } = await axios('/product_list');
+                const { data } = await axios('/productList');
                 commit('setProductList', data);
                 return data;
             }
