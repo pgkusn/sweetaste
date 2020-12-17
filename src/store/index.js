@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 import axios from 'axios';
+import API from '@/data/api.js';
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
@@ -78,7 +79,10 @@ export default createStore({
         },
         async getProductList ({ commit }) {
             try {
-                const { data } = await axios('/productList');
+                const { data } = await axios({
+                    method: API.productList.method,
+                    url: API.productList.url
+                });
                 commit('setProductList', data);
                 return data;
             }
@@ -144,8 +148,8 @@ export default createStore({
         async order (context, payload) {
             try {
                 const result = await axios({
-                    method: 'post',
-                    url: '/order',
+                    method: API.order.method,
+                    url: API.order.url,
                     data: payload
                 });
                 return result;
