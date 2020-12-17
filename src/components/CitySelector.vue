@@ -19,7 +19,7 @@
 
 <script>
 import { computed, reactive, watch } from 'vue';
-import CityCountyData from '@/CityCountyData.json';
+import CityCountyData from '@/data/CityCountyData.json';
 
 export default {
     name: 'CitySelector',

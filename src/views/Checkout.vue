@@ -27,7 +27,7 @@
                             <img :src="require(`@/assets/images/${item.url}`)" alt="">
                         </div>
                         <div class="list__content--text">
-                            <p>{{ item.name }} ({{ item.inCart }})</p>
+                            <p>{{ item.name }} ({{ item.orderAmount }})</p>
                             <p>NT$ {{ item.price }}</p>
                         </div>
                     </li>
@@ -48,17 +48,22 @@ export default {
     setup () {
         const store = useStore();
         const router = useRouter();
+        const cartList = computed(() => store.state.cartList);
 
-        // checkLogin
+        // check cart
+        if (!cartList.value.length) {
+            router.push({ name: 'Home' });
+            return;
+        }
+
+        // check login
         if (!checkLogin()) {
             localStorage.setItem('beforeLoginPage', 'Ship');
             router.push({ name: 'Login' });
             return;
         }
-        router.push({ name: 'Ship' });
 
-        const cartList = computed(() => store.state.cartList);
-        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.inCart, 0));
+        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const shipping = 300;
         const total = computed(() => subtotal.value + shipping);
 

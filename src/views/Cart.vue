@@ -3,7 +3,7 @@
         <div class="container">
             <div class="col">
                 <h2 class="title">
-                    您的購物車
+                    {{ cartList.length ? '您的購物車' : '無商品' }}
                 </h2>
                 <div v-for="item in cartList" :key="item.id" class="list">
                     <div class="list__img">
@@ -21,20 +21,20 @@
                         <button @click="minusCart(item.id)">
                             -
                         </button>
-                        <input type="text" :value="item.inCart" @change="changeCart(item.id)">
+                        <input type="text" :value="item.orderAmount" @change="changeCart(item.id)">
                         <button @click="addCart(item.id)">
                             +
                         </button>
                     </div>
                     <div class="list__total">
-                        NT$ {{ item.price * item.inCart }}
+                        NT$ {{ item.price * item.orderAmount }}
                     </div>
                     <button class="list__delete material-icons" @click="removeCart(item.id)">
                         delete_outline
                     </button>
                 </div>
             </div>
-            <div class="col">
+            <div v-if="cartList.length" class="col">
                 <div class="summary">
                     <div class="summary__content">
                         <h2 class="summary__content--title">
@@ -73,20 +73,20 @@ export default {
         const cartList = computed(() => store.state.cartList);
 
         // 訂單摘要
-        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.inCart, 0));
+        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const shipping = 300;
         const total = computed(() => subtotal.value + shipping);
 
         const addCart = id => {
-            const { inCart, stock } = cartList.value.find(value => value.id === id);
-            if (inCart + 1 <= stock) {
-                setCart(id, inCart + 1);
+            const { orderAmount, stock } = cartList.value.find(value => value.id === id);
+            if (orderAmount + 1 <= stock) {
+                setCart(id, orderAmount + 1);
             }
         };
         const minusCart = id => {
-            const { inCart } = cartList.value.find(value => value.id === id);
-            if (inCart - 1 > 0) {
-                setCart(id, inCart - 1);
+            const { orderAmount } = cartList.value.find(value => value.id === id);
+            if (orderAmount - 1 > 0) {
+                setCart(id, orderAmount - 1);
             }
         };
         const changeCart = id => {
@@ -103,7 +103,7 @@ export default {
                 name: value.name,
                 price: value.price,
                 url: value.url,
-                inCart: value.id === id ? num : value.inCart,
+                orderAmount: value.id === id ? num : value.orderAmount,
                 stock: value.stock
             }));
             store.dispatch('updateCartList', newCartList);
@@ -306,10 +306,12 @@ export default {
         &--title {
             border-bottom: 1px solid #fff;
             background-color: $light-color;
-            background-color: transparent;
             text-align: center;
             font-size: 24px;
             line-height: 65px;
+            @media (min-width: #{$tablet-width + 1}px) {
+                background-color: transparent;
+            }
         }
         &--detail {
             display: flex;

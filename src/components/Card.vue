@@ -49,7 +49,7 @@ export default {
                 name: props.info.name,
                 price: props.info.price,
                 url: props.info.url,
-                inCart: 1,
+                orderAmount: 1,
                 stock: props.info.stock
             });
             store.dispatch('updateCartList', newCartList);

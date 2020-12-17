@@ -57,15 +57,16 @@
                 </tbody>
             </table>
         </div>
-        <button class="next" @click="next">
+        <button class="next" @click="order">
             確認結帳
         </button>
     </div>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import Progress from '@/components/Progress.vue';
 import CitySelector from '@/components/CitySelector.vue';
 import { checkLogin } from '@/checkLogin.js';
@@ -78,17 +79,23 @@ export default {
     },
     setup () {
         const router = useRouter();
-        const next = () => {
+        const store = useStore();
+        const order = async () => {
             if (!checkLogin()) {
                 localStorage.setItem('beforeLoginPage', 'Ship');
                 router.push({ name: 'Login' });
                 return;
             }
-            router.replace({ name: 'Success' });
+            const cartList = computed(() => store.state.cartList);
+            const result = await store.dispatch('order', cartList.value);
+            if (result) {
+                store.dispatch('updateCartList', []);
+                router.replace({ name: 'Success' });
+            }
         };
         const invoiceType = ref('einvoice');
         return {
-            next,
+            order,
             invoiceType
         };
     }

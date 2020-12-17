@@ -16,6 +16,7 @@ axios.interceptors.response.use(function (response) {
     NProgress.done();
     return response;
 }, function (error) {
+    NProgress.done();
     return Promise.reject(error);
 });
 
@@ -116,7 +117,7 @@ export default createStore({
             try {
                 const { data } = await axios({
                     method: 'post',
-                    url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDs9SB9hhsCD0bNiDObyWWsq26ZLsJj_PA',
+                    url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
                     data: {
                         ...payload,
                         returnSecureToken: true
@@ -138,6 +139,19 @@ export default createStore({
                     break;
                 }
                 console.error(msg);
+            }
+        },
+        async order (context, payload) {
+            try {
+                const result = await axios({
+                    method: 'post',
+                    url: '/order',
+                    data: payload
+                });
+                return result;
+            }
+            catch (error) {
+                alert(error.message);
             }
         }
     },

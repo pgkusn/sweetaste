@@ -33,7 +33,7 @@ const routes = [
         component: Checkout,
         children: [
             {
-                path: 'ship',
+                path: '',
                 name: 'Ship',
                 component: () => import('@/views/Ship.vue')
             },
