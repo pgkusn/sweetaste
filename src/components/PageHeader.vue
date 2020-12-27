@@ -34,14 +34,7 @@ export default {
     setup () {
         const store = useStore();
         const tabletWidth = computed(() => store.state.tabletWidth);
-        const avatarSrc = computed(() => {
-            if (store.state.lineProfile) {
-                return store.state.lineProfile.pictureUrl;
-            }
-            else if (store.state.fbProfile) {
-                return store.state.fbProfile.picture;
-            }
-        });
+        const avatarSrc = computed(() => store.state.userProfile?.photoURL);
         return {
             tabletWidth,
             avatarSrc

@@ -14,6 +14,7 @@ import MobileDetect from 'mobile-detect';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
 import PageFooter from '@/components/PageFooter.vue';
+import firebase from 'firebase/app';
 
 export default {
     name: 'App',
@@ -41,6 +42,7 @@ export default {
                 store.dispatch('getCartList');
             }
 
+            // init fb
             // eslint-disable-next-line no-undef
             FB.init({
                 appId: '512477409242587',
@@ -48,6 +50,18 @@ export default {
                 xfbml: true,
                 version: 'v9.0'
             });
+
+            // init firebase
+            const firebaseConfig = {
+                apiKey: 'AIzaSyDvkKiZKyxVcN_PMi81IRpZWF16AgIjFQU',
+                authDomain: 'sweetaste-9013f.firebaseapp.com',
+                databaseURL: 'https://sweetaste-9013f-default-rtdb.firebaseio.com',
+                projectId: 'sweetaste-9013f',
+                storageBucket: 'sweetaste-9013f.appspot.com',
+                messagingSenderId: '515679602203',
+                appId: '1:515679602203:web:fdad032ecca427ffdc5abe'
+            };
+            firebase.initializeApp(firebaseConfig);
         });
         return {
             isMobile

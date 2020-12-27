@@ -88,8 +88,13 @@ export default {
             // 3. get user profile
             const lineProfile = await store.dispatch('getLineProfile', accessToken);
             if (!lineProfile) return;
-            store.commit('setLineProfile', lineProfile);
-            localStorage.setItem('lineProfile', JSON.stringify(lineProfile));
+            const { displayName, pictureUrl: photoURL } = lineProfile;
+            const userProfile = {
+                displayName,
+                photoURL
+            };
+            store.commit('setUserProfile', userProfile);
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
             history.replaceState({}, '', '/#/');
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';

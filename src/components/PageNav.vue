@@ -18,40 +18,31 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
     name: 'PageNav',
     setup () {
         const store = useStore();
+        const route = useRoute();
+        const router = useRouter();
 
         // check login
-        const lineProfile = localStorage.getItem('lineProfile');
-        if (lineProfile) {
-            store.commit('setLineProfile', JSON.parse(lineProfile));
-        }
-        const fbProfile = localStorage.getItem('fbProfile');
-        if (fbProfile) {
-            store.commit('setFbProfile', JSON.parse(fbProfile));
-        }
         const userProfile = localStorage.getItem('userProfile');
         if (userProfile) {
             store.commit('setUserProfile', JSON.parse(userProfile));
         }
-        const isLogin = computed(() => store.state.lineProfile || store.state.fbProfile || store.state.userProfile);
+        const isLogin = computed(() => store.state.userProfile);
 
         // logout
         const logout = () => {
-            if (store.state.lineProfile) {
-                store.commit('setLineProfile', null);
-                localStorage.removeItem('lineProfile');
-            }
-            if (store.state.fbProfile) {
-                store.commit('setFbProfile', null);
-                localStorage.removeItem('fbProfile');
-            }
             if (store.state.userProfile) {
                 store.commit('setUserProfile', null);
                 localStorage.removeItem('userProfile');
+
+                if (route.fullPath.split('/').includes('checkout')) {
+                    router.replace({ name: 'Home' });
+                }
             }
         };
 

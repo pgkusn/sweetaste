@@ -7,11 +7,14 @@
             <h2 class="login__social--title">
                 連結社群帳號
             </h2>
-            <button @click="lineLogin">
-                LINE
+            <button @click="googleLogin">
+                Google
             </button>
             <button @click="fbLogin">
-                facebook
+                Facebook
+            </button>
+            <button @click="lineLogin">
+                LINE
             </button>
         </div>
         <form class="login__user" @submit.prevent="submitHandler">
@@ -46,6 +49,8 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 export default {
     name: 'Login',
@@ -54,22 +59,31 @@ export default {
         const router = useRouter();
 
         // check login
-        if (store.state.lineProfile || store.state.fbProfile || store.state.userProfile) {
+        if (store.state.userProfile) {
             router.push({ name: 'Home' });
         }
 
         // =============================================================================
-        // line login
+        // google login
         // =============================================================================
-        const lineLogin = () => {
-            const { channelID, callbackURL, state } = store.getters.lineInfo;
-            let url = 'https://access.line.me/oauth2/v2.1/authorize?';
-            url += 'response_type=code';
-            url += '&client_id=' + channelID;
-            url += '&redirect_uri=' + callbackURL;
-            url += '&state=' + state;
-            url += '&scope=openid%20email%20profile';
-            location.href = url; // 前往 line 登入畫面
+        const googleLogin = () => {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(provider)
+                .then(result => {
+                    const { displayName, email, photoURL } = result.user;
+                    const userProfile = {
+                        displayName,
+                        email,
+                        photoURL
+                    };
+                    store.commit('setUserProfile', userProfile);
+                    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+                    const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+                    router.push({ name: beforeLoginPage });
+                    localStorage.removeItem('beforeLoginPage');
+                })
+                .catch(error => console.error(error.message));
         };
 
         // =============================================================================
@@ -83,14 +97,14 @@ export default {
                     return;
                 }
                 // get user profile
-                FB.api('/me', 'GET', { fields: ['picture', 'name'] }, res => {
-                    const fbProfile = {
-                        id: res.id,
-                        name: res.name,
-                        picture: res.picture.data.url
+                FB.api('/me', 'GET', { fields: ['picture', 'name', 'email'] }, res => {
+                    const userProfile = {
+                        displayName: res.name,
+                        email: res.email,
+                        photoURL: res.picture.data.url
                     };
-                    store.commit('setFbProfile', fbProfile);
-                    localStorage.setItem('fbProfile', JSON.stringify(fbProfile));
+                    store.commit('setUserProfile', userProfile);
+                    localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
                     const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
                     router.push({ name: beforeLoginPage });
@@ -98,6 +112,20 @@ export default {
                 });
             };
             FB.getLoginStatus(getStatus);
+        };
+
+        // =============================================================================
+        // line login
+        // =============================================================================
+        const lineLogin = () => {
+            const { channelID, callbackURL, state } = store.getters.lineInfo;
+            let url = 'https://access.line.me/oauth2/v2.1/authorize?';
+            url += 'response_type=code';
+            url += '&client_id=' + channelID;
+            url += '&redirect_uri=' + callbackURL;
+            url += '&state=' + state;
+            url += '&scope=openid%20email%20profile';
+            location.href = url; // 前往 line 登入畫面
         };
 
         // =============================================================================
@@ -123,13 +151,7 @@ export default {
 
             if (!data) return;
 
-            store.commit('setUserProfile', {
-                userUid: data.userUid,
-                displayName: data.displayName
-            });
-
-            localStorage.setItem('userProfile', JSON.stringify(data));
-
+            // 記住我
             if (rememberMe.value) {
                 Cookies.set('userLoginInfo', JSON.stringify({ email: email.value, password: password.value }, { expires: 7 }));
             }
@@ -137,14 +159,18 @@ export default {
                 Cookies.remove('userLoginInfo');
             }
 
+            store.commit('setUserProfile', { displayName: data.displayName });
+            localStorage.setItem('userProfile', JSON.stringify(data));
+
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
             localStorage.removeItem('beforeLoginPage');
         };
 
         return {
-            lineLogin,
+            googleLogin,
             fbLogin,
+            lineLogin,
             email,
             password,
             rememberMe,

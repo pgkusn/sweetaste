@@ -27,8 +27,6 @@ export default createStore({
         mobileDevice: null,
         productList: [],
         cartList: [],
-        lineProfile: null,
-        fbProfile: null,
         userProfile: null
     },
     getters: {
@@ -56,12 +54,6 @@ export default createStore({
         },
         setCartList (state, payload) {
             state.cartList = payload;
-        },
-        setLineProfile (state, payload) {
-            state.lineProfile = payload;
-        },
-        setFbProfile (state, payload) {
-            state.fbProfile = payload;
         },
         setUserProfile (state, payload) {
             state.userProfile = payload;
