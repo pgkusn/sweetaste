@@ -185,7 +185,7 @@ export default {
 @import '@/assets/sass/common.scss';
 .login {
     display: grid;
-    margin: 46px auto 60px;
+    margin: 0 auto;
     max-width: 780px;
     grid-template: 'title'
     'social'
@@ -193,6 +193,8 @@ export default {
     grid-template-rows: repeat(auto, 4);
     grid-template-columns: repeat(auto, 4);
     @media (min-width: #{$tablet-width + 1}px) {
+        margin-top: 46px;
+        margin-bottom: 60px;
         grid-template: 'title social'
         'user social';
         grid-template-rows: repeat(auto, 2);

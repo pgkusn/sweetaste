@@ -66,7 +66,7 @@ export default {
         const router = useRouter();
 
         // 檢查是否從 LINE 登入頁導回
-        const checkLineLogin = async () => {
+        (async function () {
             const { channelID, channelSecret, callbackURL, state: urlState } = store.getters.lineInfo;
 
             // 1. check url
@@ -96,14 +96,15 @@ export default {
             store.commit('setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-            history.replaceState({}, '', '/#/');
+            history.replaceState({}, '', process.env.NODE_ENV === 'prod' ? '/sweetaste/#/' : '/#/');
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
             localStorage.removeItem('beforeLoginPage');
-        };
-        checkLineLogin();
+        })();
 
+        // ===============================================================
         // showcase
+        // ===============================================================
         const categoryList = computed(() => store.getters.productCategoryList);
         const productList = computed(() => { // 隨機取三個商品
             const all = cloneDeep(store.state.productList);

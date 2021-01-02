@@ -143,9 +143,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/sass/common.scss';
 .cart {
-    margin-top: 46px;
     color: $dark-color;
     @media (min-width: #{$tablet-width + 1}px) {
+        margin-top: 46px;
         padding-bottom: 60px;
     }
 }
