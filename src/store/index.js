@@ -60,28 +60,6 @@ export default createStore({
         }
     },
     actions: {
-        getCartList ({ commit }) {
-            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
-            commit('setCartList', cartList);
-        },
-        updateCartList ({ dispatch }, payload) {
-            const cartList = JSON.stringify(payload);
-            localStorage.setItem('cartList', cartList);
-            dispatch('getCartList');
-        },
-        async getProductList ({ commit }) {
-            try {
-                const { data } = await axios({
-                    method: API.productList.method,
-                    url: API.productList.url
-                });
-                commit('setProductList', data);
-                return data;
-            }
-            catch (error) {
-                alert(error.message);
-            }
-        },
         async getLineToken (context, data) {
             try {
                 const result = await axios({
@@ -112,8 +90,9 @@ export default createStore({
             // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
                 const { data } = await axios({
-                    method: 'post',
-                    url: `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
+                    method: process.env.NODE_ENV === 'prod' ? 'post' : 'get',
+                    url: `${process.env.VUE_APP_GOOGLE_API_URL}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
+                    baseURL: '/',
                     data: {
                         ...payload,
                         returnSecureToken: true
@@ -135,6 +114,28 @@ export default createStore({
                     break;
                 }
                 console.error(msg);
+            }
+        },
+        getCartList ({ commit }) {
+            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
+            commit('setCartList', cartList);
+        },
+        updateCartList ({ dispatch }, payload) {
+            const cartList = JSON.stringify(payload);
+            localStorage.setItem('cartList', cartList);
+            dispatch('getCartList');
+        },
+        async getProductList ({ commit }) {
+            try {
+                const { data } = await axios({
+                    method: API.productList.method,
+                    url: API.productList.url
+                });
+                commit('setProductList', data);
+                return data;
+            }
+            catch (error) {
+                alert(error.message);
             }
         },
         async order (context, payload) {

@@ -17,7 +17,7 @@
                 LINE
             </button>
         </div>
-        <form class="login__user" @submit.prevent="submitHandler">
+        <form class="login__user" @submit.prevent="userLogin">
             <div class="login__user--fields">
                 <div class="login__user--email">
                     <span class="material-icons">person</span>
@@ -70,6 +70,7 @@ export default {
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider)
                 .then(result => {
+                    console.dir(result);
                     const { displayName, email, photoURL } = result.user;
                     const userProfile = {
                         displayName,
@@ -143,7 +144,7 @@ export default {
             rememberMe.value = true;
         }
 
-        const submitHandler = async () => {
+        const userLogin = async () => {
             const data = await store.dispatch('userLogin', {
                 email: email.value.trim(),
                 password: password.value.trim()
@@ -159,8 +160,8 @@ export default {
                 Cookies.remove('userLoginInfo');
             }
 
-            store.commit('setUserProfile', { displayName: data.displayName });
-            localStorage.setItem('userProfile', JSON.stringify(data));
+            store.commit('setUserProfile', { email: data.email });
+            localStorage.setItem('userProfile', JSON.stringify(data.email));
 
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
@@ -174,7 +175,7 @@ export default {
             email,
             password,
             rememberMe,
-            submitHandler
+            userLogin
         };
     }
 };

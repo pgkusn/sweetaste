@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run api | npm run serve",
-    "api": "json-server --watch src/data/apiServer.json --port 3001",
-    "serve": "vue-cli-service serve",
+    "start": "npm run api | npm run serve_dev",
+    "api": "json-server --watch src/data/api-data.json --port 3001",
+    "serve_dev": "vue-cli-service serve",
     "serve_prod": "vue-cli-service serve --mode prod",
     "build": "vue-cli-service build --mode prod",
     "lint": "vue-cli-service lint"
