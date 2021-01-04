@@ -40,7 +40,7 @@ export default {
                 store.commit('setUserProfile', null);
                 localStorage.removeItem('userProfile');
 
-                if (route.fullPath.split('/').includes('checkout')) {
+                if (route.fullPath.split('/').includes('checkout') || route.name === 'Success') {
                     router.replace({ name: 'Home' });
                 }
             }

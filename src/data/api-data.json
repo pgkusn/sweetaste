@@ -148,5 +148,17 @@
       "stock": 10
     }
   ],
-  "order": []
+  "order": [
+    [
+      {
+        "id": 1,
+        "category": "today",
+        "name": "焦糖馬卡龍",
+        "price": 450,
+        "url": "product-item1.jpeg",
+        "orderAmount": 1,
+        "stock": 10
+      }
+    ]
+  ]
 }

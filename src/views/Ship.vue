@@ -61,7 +61,6 @@
 import { useRouter } from 'vue-router';
 import Progress from '@/components/Progress.vue';
 import CitySelector from '@/components/CitySelector.vue';
-import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Ship',
@@ -72,11 +71,6 @@ export default {
     setup () {
         const router = useRouter();
         const next = () => {
-            if (!checkLogin()) {
-                localStorage.setItem('beforeLoginPage', 'Ship');
-                router.push({ name: 'Login' });
-                return;
-            }
             router.replace({ name: 'Payment' });
         };
         return {

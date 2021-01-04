@@ -63,7 +63,6 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import cloneDeep from 'lodash/cloneDeep';
-import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Cart',
@@ -117,11 +116,6 @@ export default {
         };
 
         const checkout = () => {
-            if (!checkLogin()) {
-                localStorage.setItem('beforeLoginPage', 'Ship');
-                router.push({ name: 'Login' });
-                return;
-            }
             router.push({ name: 'Ship' });
         };
 

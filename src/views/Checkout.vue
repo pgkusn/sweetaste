@@ -41,7 +41,6 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Checkout',
@@ -53,13 +52,6 @@ export default {
         // check cart
         if (!cartList.value.length) {
             router.push({ name: 'Home' });
-            return;
-        }
-
-        // check login
-        if (!checkLogin()) {
-            localStorage.setItem('beforeLoginPage', 'Ship');
-            router.push({ name: 'Login' });
             return;
         }
 

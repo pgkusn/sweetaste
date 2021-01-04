@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { checkLogin } from '@/checkLogin.js';
 import Home from '../views/Home.vue';
 import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';
@@ -31,6 +32,7 @@ const routes = [
         path: '/checkout',
         name: 'Checkout',
         component: Checkout,
+        meta: { requiresAuth: true },
         children: [
             {
                 path: '',
@@ -52,7 +54,8 @@ const routes = [
     {
         path: '/success',
         name: 'Success',
-        component: Success
+        component: Success,
+        meta: { requiresAuth: true }
     },
     {
         path: '/:pathMatch(.*)*',
@@ -65,6 +68,18 @@ const router = createRouter({
     routes,
     scrollBehavior (to, from, savedPosition) {
         return { top: 0 };
+    }
+});
+
+router.beforeEach((to, from, next) => {
+    // check login
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    if (requiresAuth && to.name !== 'Login' && !checkLogin()) {
+        localStorage.setItem('beforeLoginPage', 'Ship');
+        next({ name: 'Login' });
+    }
+    else {
+        next();
     }
 });
 

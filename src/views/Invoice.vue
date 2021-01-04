@@ -69,7 +69,6 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import Progress from '@/components/Progress.vue';
 import CitySelector from '@/components/CitySelector.vue';
-import { checkLogin } from '@/checkLogin.js';
 
 export default {
     name: 'Invoice',
@@ -81,11 +80,6 @@ export default {
         const router = useRouter();
         const store = useStore();
         const order = async () => {
-            if (!checkLogin()) {
-                localStorage.setItem('beforeLoginPage', 'Ship');
-                router.push({ name: 'Login' });
-                return;
-            }
             const cartList = computed(() => store.state.cartList);
             const result = await store.dispatch('order', cartList.value);
             if (result) {
