@@ -311,7 +311,7 @@ export default {
             display: flex;
             flex-wrap: wrap;
             > dt {
-                width: 40px;
+                width: 42px;
                 &:first-of-type {
                     margin: 1rem 0 8px;
                 }
@@ -321,7 +321,7 @@ export default {
                 }
             }
             > dd {
-                width: calc(100% - 40px);
+                width: calc(100% - 42px);
                 text-align: right;
                 &:first-of-type {
                     margin: 1rem 0 8px;

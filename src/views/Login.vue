@@ -312,6 +312,7 @@ export default {
                 width: 16px;
                 height: 16px;
                 border: none;
+                background-color: #fff;
             }
         }
         &--submit {

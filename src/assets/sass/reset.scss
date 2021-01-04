@@ -67,6 +67,7 @@ a {
 	text-decoration: none;
 }
 button {
+	margin: 0;
     padding: 0;
     outline: none;
     border: none;
@@ -75,5 +76,13 @@ button {
     background-size: contain;
     background-repeat: no-repeat;
     cursor: pointer;
-    appearance: none;
+	appearance: none;
+}
+input {
+	margin: 0;
+	border-radius: 0;
+	appearance: none;
+}
+select {
+	border-radius: 0;
 }

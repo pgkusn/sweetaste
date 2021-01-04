@@ -96,15 +96,13 @@ export default {
             store.commit('setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-            history.replaceState({}, '', process.env.NODE_ENV === 'prod' ? '/sweetaste/#/' : '/#/');
+            history.replaceState({}, '', location.href.split(/[?#]/)[0]); // remove queryString
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
             localStorage.removeItem('beforeLoginPage');
         })();
 
-        // ===============================================================
         // showcase
-        // ===============================================================
         const categoryList = computed(() => store.getters.productCategoryList);
         const productList = computed(() => { // 隨機取三個商品
             const all = cloneDeep(store.state.productList);
