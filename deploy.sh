@@ -4,6 +4,7 @@
 set -e
 
 # 打包
+sudo rm -r dist
 npm run build
 
 # cd 到打包完的目錄下

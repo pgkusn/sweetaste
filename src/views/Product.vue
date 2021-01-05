@@ -51,7 +51,7 @@
 <script>
 import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
 
 export default {
@@ -59,15 +59,20 @@ export default {
     components: {
         Card
     },
-    setup () {
+    props: {
+        cate: {
+            type: String,
+            default: ''
+        }
+    },
+    setup (props) {
         const store = useStore();
-        const route = useRoute();
         const router = useRouter();
 
         const tabletWidth = computed(() => store.state.tabletWidth);
         const contentRef = ref(null);
         const categoryList = computed(() => store.getters.productCategoryList);
-        const showList = ref(route.query.cate || 'all');
+        const showList = ref(props.cate || 'all');
         router.replace({ name: 'Product' }); // remove queryString from home
         const productList = computed(() => getCategoryList(showList.value));
         const getCategoryList = category => (category === 'all' ? store.state.productList : store.state.productList.filter(value => value.category === category));

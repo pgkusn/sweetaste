@@ -17,7 +17,8 @@ const routes = [
     {
         path: '/product',
         name: 'Product',
-        component: Product
+        component: Product,
+        props: route => ({ cate: route.query.cate })
     },
     {
         path: '/login',
