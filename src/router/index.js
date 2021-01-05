@@ -3,6 +3,7 @@ import { checkLogin } from '@/checkLogin.js';
 import Home from '../views/Home.vue';
 import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';
+import SignUp from '../views/SignUp.vue';
 import Cart from '../views/Cart.vue';
 import Checkout from '../views/Checkout.vue';
 import Success from '../views/Success.vue';
@@ -21,7 +22,20 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        component: Login
+        component: Login,
+        beforeEnter (to, from, next) {
+            if (checkLogin()) {
+                next({ name: 'Home' });
+            }
+            else {
+                next();
+            }
+        }
+    },
+    {
+        path: '/signup',
+        name: 'SignUp',
+        component: SignUp
     },
     {
         path: '/cart',

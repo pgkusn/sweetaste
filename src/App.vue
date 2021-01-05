@@ -8,13 +8,14 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import MobileDetect from 'mobile-detect';
+import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
 import PageFooter from '@/components/PageFooter.vue';
-import firebase from 'firebase/app';
 
 export default {
     name: 'App',
@@ -43,7 +44,6 @@ export default {
             }
 
             // init fb
-            // eslint-disable-next-line no-undef
             FB.init({
                 appId: '512477409242587',
                 autoLogAppEvents: true,
@@ -90,5 +90,8 @@ body {
     @media (min-width: #{$tablet-width + 1}px) {
         padding: 0 42px;
     }
+}
+.alertify-notifier {
+    color: #fff;
 }
 </style>

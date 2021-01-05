@@ -67,10 +67,14 @@ export default createStore({
                     url: 'https://api.line.me/oauth2/v2.1/token',
                     data
                 });
-                return result.data.access_token;
+                return result.data;
             }
             catch (error) {
-                alert(error.message);
+                console.error(error.message);
+                return {
+                    status: 'error',
+                    message: '登入失敗'
+                };
             }
         },
         async getLineProfile (context, token) {
@@ -83,7 +87,11 @@ export default createStore({
                 return data;
             }
             catch (error) {
-                alert(error.message);
+                console.error(error.message);
+                return {
+                    status: 'error',
+                    message: '登入失敗'
+                };
             }
         },
         async userLogin (context, payload) {
@@ -91,8 +99,8 @@ export default createStore({
             try {
                 const { data } = await axios({
                     method: process.env.NODE_ENV === 'prod' ? 'post' : 'get',
-                    url: `${process.env.VUE_APP_GOOGLE_API_URL}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
-                    baseURL: '/',
+                    url: `${API.userLogin.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
+                    baseURL: process.env.VUE_APP_GOOGLE_API_URL,
                     data: {
                         ...payload,
                         returnSecureToken: true
@@ -101,19 +109,61 @@ export default createStore({
                 return data;
             }
             catch (error) {
-                const msg = error.response.data.error.message;
-                switch (msg) {
+                console.error(error.message);
+
+                let message = '';
+                switch (error.response.data.error?.message) {
                 case 'EMAIL_NOT_FOUND':
-                    alert('Email 不存在');
+                    message = 'Email 不存在';
                     break;
                 case 'INVALID_PASSWORD':
-                    alert('密碼錯誤');
+                    message = '密碼錯誤';
                     break;
                 default:
-                    alert('登入失敗');
+                    message = '登入失敗';
                     break;
                 }
-                console.error(msg);
+
+                return {
+                    status: 'error',
+                    message
+                };
+            }
+        },
+        async userSignUp (context, payload) {
+            // doc：https://firebase.google.com/docs/reference/rest/auth
+            try {
+                const { data } = await axios({
+                    method: process.env.NODE_ENV === 'prod' ? 'post' : 'get',
+                    url: `${API.userSignUp.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
+                    baseURL: process.env.VUE_APP_GOOGLE_API_URL,
+                    data: {
+                        ...payload,
+                        returnSecureToken: true
+                    }
+                });
+                return data;
+            }
+            catch (error) {
+                console.error(error.message);
+
+                let message = '';
+                switch (error.response.data.error?.message) {
+                case 'EMAIL_EXISTS':
+                    message = 'Email 重複';
+                    break;
+                case 'INVALID_EMAIL",':
+                    message = 'Email 格式錯誤';
+                    break;
+                default:
+                    message = '註冊失敗';
+                    break;
+                }
+
+                return {
+                    status: 'error',
+                    message
+                };
             }
         },
         getCartList ({ commit }) {
@@ -135,7 +185,7 @@ export default createStore({
                 return data;
             }
             catch (error) {
-                alert(error.message);
+                console.error(error.message);
             }
         },
         async order (context, payload) {
@@ -148,7 +198,11 @@ export default createStore({
                 return result;
             }
             catch (error) {
-                alert(error.message);
+                console.error(error.message);
+                return {
+                    status: 'error',
+                    message: '網路錯誤 請稍後再試'
+                };
             }
         }
     },

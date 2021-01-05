@@ -37,7 +37,17 @@
                         required
                     >
                 </div>
-                <label class="login__user--remember"><input v-model="rememberMe" type="checkbox">記住我</label>
+                <div class="login__user--remember">
+                    <div class="pretty p-default">
+                        <input v-model="rememberMe" type="checkbox">
+                        <div class="state">
+                            <label>記住我</label>
+                        </div>
+                    </div>
+                    <router-link :to="{ name: 'SignUp' }">
+                        註冊帳號
+                    </router-link>
+                </div>
             </div>
             <input type="submit" class="login__user--submit" value="登入帳號">
         </form>
@@ -49,6 +59,8 @@ import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.min.css';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -57,11 +69,6 @@ export default {
     setup () {
         const store = useStore();
         const router = useRouter();
-
-        // check login
-        if (store.state.userProfile) {
-            router.push({ name: 'Home' });
-        }
 
         // =============================================================================
         // google login
@@ -150,7 +157,10 @@ export default {
                 password: password.value.trim()
             });
 
-            if (!data) return;
+            if (data.status === 'error') {
+                alertify.error(data.message);
+                return;
+            }
 
             // 記住我
             if (rememberMe.value) {
@@ -183,6 +193,8 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/sass/common.scss';
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+
 .login {
     display: grid;
     margin: 0 auto;
@@ -190,15 +202,15 @@ export default {
     grid-template: 'title'
     'social'
     'user';
-    grid-template-rows: repeat(auto, 4);
-    grid-template-columns: repeat(auto, 4);
+    grid-template-rows: repeat(4, auto);
+    grid-template-columns: auto;
     @media (min-width: #{$tablet-width + 1}px) {
         margin-top: 46px;
         margin-bottom: 60px;
         grid-template: 'title social'
         'user social';
-        grid-template-rows: repeat(auto, 2);
-        grid-template-columns: repeat(1fr, 2);
+        grid-template-rows: repeat(2, auto);
+        grid-template-columns: repeat(2, 1fr);
     }
     &__title {
         background-color: $dark-color;
@@ -272,6 +284,7 @@ export default {
             display: flex;
             flex-direction: column;
             padding: 30px;
+            align-items: flex-start;
             @media (min-width: #{$tablet-width + 1}px) {
                 padding: 0 30px 25px;
             }
@@ -279,6 +292,7 @@ export default {
         &--email,
         &--password {
             position: relative;
+            width: 100%;
             background-color: $light-color;
             > span {
                 position: absolute;
@@ -307,12 +321,8 @@ export default {
             margin-top: 16px;
             color: #fff;
             align-items: center;
-            > [type=checkbox] {
-                margin: 0 8px 0 0;
-                width: 16px;
-                height: 16px;
-                border: none;
-                background-color: #fff;
+            > a {
+                color: #fff;
             }
         }
         &--submit {
@@ -323,6 +333,7 @@ export default {
             text-align: center;
             font-size: 24px;
             line-height: 65px;
+            cursor: pointer;
         }
     }
 }

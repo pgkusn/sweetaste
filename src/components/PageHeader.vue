@@ -16,14 +16,15 @@
                 shopping_cart
             </router-link>
         </div>
-        <input id="toggler-input" type="checkbox">
+        <input id="toggler-input" v-model="showNav" type="checkbox">
         <PageNav v-if="!tabletWidth" />
     </header>
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import PageNav from '@/components/PageNav.vue';
 
 export default {
@@ -33,11 +34,23 @@ export default {
     },
     setup () {
         const store = useStore();
+        const route = useRoute();
+
         const tabletWidth = computed(() => store.state.tabletWidth);
         const avatarSrc = computed(() => store.state.userProfile?.photoURL);
+
+        // hide nav after change page
+        const showNav = ref(false);
+        watch(() => route.name, () => {
+            if (showNav.value) {
+                showNav.value = false;
+            }
+        });
+
         return {
             tabletWidth,
-            avatarSrc
+            avatarSrc,
+            showNav
         };
     }
 };

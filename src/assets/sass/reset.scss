@@ -78,7 +78,7 @@ button {
     cursor: pointer;
 	appearance: none;
 }
-input {
+input:not([type=checkbox]) {
 	margin: 0;
 	border-radius: 0;
 	appearance: none;

@@ -36,7 +36,7 @@
                 </div>
             </div>
         </article>
-        <div class="showcase">
+        <div v-if="productList.length" class="showcase">
             <div class="container">
                 <div class="showcase__title">
                     想吃甜點——<br>是不需要理由的。
@@ -54,6 +54,8 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import cloneDeep from 'lodash/cloneDeep';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.min.css';
 import Card from '@/components/Card.vue';
 
 export default {
@@ -67,6 +69,10 @@ export default {
 
         // 檢查是否從 LINE 登入頁導回
         (async function () {
+            const removeQueryString = () => {
+                history.replaceState({}, '', location.href.split(/[?#]/)[0]);
+            };
+
             const { channelID, channelSecret, callbackURL, state: urlState } = store.getters.lineInfo;
 
             // 1. check url
@@ -82,21 +88,28 @@ export default {
             params.append('redirect_uri', callbackURL);
             params.append('client_id', channelID);
             params.append('client_secret', channelSecret);
-            const accessToken = await store.dispatch('getLineToken', params);
-            if (!accessToken) return;
+            const tokenData = await store.dispatch('getLineToken', params);
+            if (tokenData.status === 'error') {
+                alertify.error(tokenData.message);
+                removeQueryString();
+                return;
+            }
 
             // 3. get user profile
-            const lineProfile = await store.dispatch('getLineProfile', accessToken);
-            if (!lineProfile) return;
-            const { displayName, pictureUrl: photoURL } = lineProfile;
+            const profileData = await store.dispatch('getLineProfile', tokenData.access_token);
+            if (profileData.status === 'error') {
+                alertify.error(profileData.message);
+                removeQueryString();
+                return;
+            }
             const userProfile = {
-                displayName,
-                photoURL
+                displayName: profileData.displayName,
+                photoURL: profileData.pictureUrl
             };
             store.commit('setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-            history.replaceState({}, '', location.href.split(/[?#]/)[0]); // remove queryString
+            removeQueryString();
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
             localStorage.removeItem('beforeLoginPage');

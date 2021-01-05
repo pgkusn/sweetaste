@@ -1,5 +1,8 @@
 {
-  "userLogin": {
+  "accounts:signInWithPassword": {
+    "email": "test@gmail.com"
+  },
+  "accounts:signUp": {
     "email": "test@gmail.com"
   },
   "productList": [
@@ -148,17 +151,5 @@
       "stock": 10
     }
   ],
-  "order": [
-    [
-      {
-        "id": 1,
-        "category": "today",
-        "name": "焦糖馬卡龍",
-        "price": 450,
-        "url": "product-item1.jpeg",
-        "orderAmount": 1,
-        "stock": 10
-      }
-    ]
-  ]
+  "order": []
 }

@@ -67,6 +67,8 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.min.css';
 import Progress from '@/components/Progress.vue';
 import CitySelector from '@/components/CitySelector.vue';
 
@@ -82,10 +84,12 @@ export default {
         const order = async () => {
             const cartList = computed(() => store.state.cartList);
             const result = await store.dispatch('order', cartList.value);
-            if (result) {
-                store.dispatch('updateCartList', []);
-                router.replace({ name: 'Success' });
+            if (result.status === 'error') {
+                alertify.error(result.message);
+                return;
             }
+            store.dispatch('updateCartList', []);
+            router.replace({ name: 'Success' });
         };
         const invoiceType = ref('einvoice');
         return {
