@@ -2,7 +2,7 @@
     <main class="home">
         <div class="hero">
             <div class="container">
-                <div class="banner" />
+                <div class="banner" style="background-image: url(images/hero-home.jpeg)" />
                 <div class="nav">
                     <div v-for="(value, name) in categoryList" :key="name" class="nav__item">
                         <router-link :to="{ name: 'Product', query: { cate: name } }">
@@ -153,7 +153,8 @@ export default {
     }
 }
 .banner {
-    background: url('~@/assets/images/home/hero.jpeg') 50%/cover;
+    background-position: 50%;
+    background-size: cover;
     grid-row: 1 / 2;
     grid-column: 1 / 2;
     @media (min-width: #{$tablet-width + 1}px) {
@@ -197,7 +198,7 @@ export default {
                 font-size: 24px;
             }
             @at-root {
-                :not(.is-mobile) .nav__item > a:hover {
+                html:not(.mobile) .nav__item > a:hover {
                     background-color: rgba(#ffe180, .75);
                     color: $dark-color;
                 }

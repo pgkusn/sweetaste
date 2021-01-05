@@ -24,7 +24,6 @@ axios.interceptors.response.use(function (response) {
 export default createStore({
     state: {
         tabletWidth: false,
-        mobileDevice: null,
         productList: [],
         cartList: [],
         userProfile: null
@@ -45,9 +44,6 @@ export default createStore({
     mutations: {
         setDeviceWidth (state, payload) {
             state[payload.deviceType + 'Width'] = payload.value;
-        },
-        setMobileDevice (state, payload) {
-            state.mobileDevice = payload;
         },
         setProductList (state, payload) {
             state.productList = payload;

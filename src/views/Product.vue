@@ -5,7 +5,7 @@
                 <p class="hero__title">
                     想吃甜點——<br>是不需要理由的。
                 </p>
-                <img src="@/assets/images/product/hero.jpeg" alt="">
+                <img src="images/hero-product.jpeg" alt="">
             </div>
             <div ref="contentRef" class="content">
                 <div class="category">
@@ -68,7 +68,7 @@ export default {
         const contentRef = ref(null);
         const categoryList = computed(() => store.getters.productCategoryList);
         const showList = ref(route.query.cate || 'all');
-        router.replace({ name: 'Product' }); // remove url query
+        router.replace({ name: 'Product' }); // remove queryString from home
         const productList = computed(() => getCategoryList(showList.value));
         const getCategoryList = category => (category === 'all' ? store.state.productList : store.state.productList.filter(value => value.category === category));
         const changeCategory = category => {
@@ -183,7 +183,7 @@ export default {
             border-left: 1px solid #eaf0ed;
         }
         @at-root {
-            :not(.is-mobile) .category__item:hover {
+            html:not(.mobile) .category__item:hover {
                 background-color: $light-color;
             }
         }
@@ -232,7 +232,7 @@ export default {
             color: $light-color;
         }
         @at-root {
-            :not(.is-mobile) .pagination > button:not(.active):hover {
+            html:not(.mobile) .pagination > button:not(.active):hover {
                 background-color: $light-color;
             }
         }

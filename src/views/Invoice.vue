@@ -1,5 +1,5 @@
 <template>
-    <div class="invoice">
+    <main class="invoice">
         <div class="content">
             <table>
                 <thead>
@@ -60,7 +60,7 @@
         <button class="next" @click="order">
             確認結帳
         </button>
-    </div>
+    </main>
 </template>
 
 <script>

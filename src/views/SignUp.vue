@@ -1,5 +1,5 @@
 <template>
-    <div class="signup">
+    <main class="signup">
         <h2 class="signup__title">
             會員註冊
         </h2>
@@ -35,7 +35,7 @@
             </div>
             <input type="submit" class="signup__user--submit" value="註冊帳號">
         </form>
-    </div>
+    </main>
 </template>
 
 <script>

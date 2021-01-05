@@ -1,7 +1,7 @@
 <template>
-    <div class="success">
+    <main class="success">
         <div class="container">
-            <div class="content">
+            <div class="content" style="background-image: url(images/hero-success.jpeg)">
                 <Progress :now="4" />
                 <h2>付款成功</h2>
             </div>
@@ -9,7 +9,7 @@
                 繼續逛逛
             </button>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -46,7 +46,8 @@ export default {
     display: flex;
     flex-direction: column;
     height: 518px;
-    background: url('~@/assets/images/success/hero.jpeg') 50%/cover;
+    background-position: 50%;
+    background-size: cover;
     justify-content: center;
     align-items: center;
     @media (min-width: #{$tablet-width + 1}px) {

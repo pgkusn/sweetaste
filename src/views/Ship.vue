@@ -1,5 +1,5 @@
 <template>
-    <div class="ship">
+    <main class="ship">
         <div class="content">
             <table>
                 <thead>
@@ -54,7 +54,7 @@
         <button class="next" @click="next">
             下一步
         </button>
-    </div>
+    </main>
 </template>
 
 <script>

@@ -127,7 +127,7 @@ export default {
             cursor: default;
         }
         @at-root {
-            :not(.is-mobile) .card__add:not(:disabled):hover {
+            html:not(.mobile) .card__add:not(:disabled):hover {
                 background-color: #d4e0da;
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <div class="checkout">
+    <main class="checkout">
         <div class="col">
             <router-view />
         </div>
@@ -34,7 +34,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>

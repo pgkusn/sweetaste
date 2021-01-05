@@ -1,9 +1,9 @@
 <template>
-    <div class="cart">
+    <main :class="['cart', { 'no-product': !cartList.length }]">
         <div class="container">
             <div class="col">
                 <h2 class="title">
-                    {{ cartList.length ? '您的購物車' : '無商品' }}
+                    {{ cartList.length ? '您的購物車' : '購物車內無商品' }}
                 </h2>
                 <div v-for="item in cartList" :key="item.id" class="list">
                     <div class="list__img">
@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 </template>
 
 <script>
@@ -142,6 +142,11 @@ export default {
         margin-top: 46px;
         padding-bottom: 60px;
     }
+    &.no-product {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 .container {
     display: flex;
@@ -152,6 +157,11 @@ export default {
         flex-direction: row;
         padding: 0 42px;
         align-items: flex-start;
+    }
+    @at-root {
+        .cart.no-product > .container {
+            width: 100%;
+        }
     }
 }
 .col {
@@ -171,7 +181,6 @@ export default {
     }
 }
 .title {
-    margin-bottom: 30px;
     background-color: $light-color;
     text-align: center;
     font-size: 24px;
@@ -180,6 +189,7 @@ export default {
 .list {
     $breakpoint: 1000;
     @extend %clearfix;
+    margin-top: 30px;
     padding: 0 30px;
     @media (min-width: #{$tablet-width + 1}px) {
         padding: 0;
@@ -242,7 +252,7 @@ export default {
         > button {
             color: $dark-color;
             @at-root {
-                :not(.is-mobile) .list__amount > button:hover {
+                html:not(.mobile) .list__amount > button:hover {
                     background-color: $light-color;
                 }
             }

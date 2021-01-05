@@ -1,17 +1,15 @@
 <template>
-    <div :class="{ 'is-mobile': isMobile }">
-        <PageHeader />
-        <router-view />
-        <Subscription />
-        <PageFooter />
-    </div>
+    <PageHeader />
+    <router-view />
+    <Subscription />
+    <PageFooter />
 </template>
 
 <script>
 /* eslint-disable no-undef */
-import { computed, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useStore } from 'vuex';
-import MobileDetect from 'mobile-detect';
+import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
@@ -33,10 +31,8 @@ export default {
             mm.addListener(resizeWidth);
             resizeWidth(mm);
         };
-        const isMobile = computed(() => store.state.mobileDevice);
         onMounted(async () => {
             mediaSensor(768, 'tablet');
-            store.commit('setMobileDevice', new MobileDetect(window.navigator.userAgent).mobile());
 
             const data = await store.dispatch('getProductList');
             if (data) {
@@ -63,9 +59,6 @@ export default {
             };
             firebase.initializeApp(firebaseConfig);
         });
-        return {
-            isMobile
-        };
     }
 };
 </script>
@@ -75,12 +68,20 @@ export default {
 @import '@/assets/sass/common';
 
 html,
-body,
-.app {
+body {
     height: 100%;
 }
 body {
     min-width: 375px;
+}
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+main {
+    width: 100%;
+    flex-grow: 1;
 }
 .container {
     margin: 0 auto;
