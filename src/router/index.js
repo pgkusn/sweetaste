@@ -6,7 +6,6 @@ import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Cart from '../views/Cart.vue';
 import Checkout from '../views/Checkout.vue';
-import Success from '../views/Success.vue';
 
 const routes = [
     {
@@ -47,30 +46,77 @@ const routes = [
         path: '/checkout',
         name: 'Checkout',
         component: Checkout,
-        meta: { requiresAuth: true },
         children: [
             {
                 path: '',
                 name: 'Ship',
-                component: () => import('@/views/Ship.vue')
+                component: () => import('@/views/Ship.vue'),
+                beforeEnter (to, from, next) {
+                    if (!checkLogin()) {
+                        localStorage.setItem('beforeLoginPage', 'Ship');
+                        next({ name: 'Login' });
+                    }
+                    else {
+                        next();
+                    }
+                }
             },
             {
                 path: 'payment',
                 name: 'Payment',
-                component: () => import('@/views/Payment.vue')
+                component: () => import('@/views/Payment.vue'),
+                beforeEnter (to, from, next) {
+                    if (from.name !== 'Ship') {
+                        next({ name: 'Ship' });
+                    }
+                    else {
+                        next();
+                    }
+                }
             },
             {
                 path: 'invoice',
                 name: 'Invoice',
-                component: () => import('@/views/Invoice.vue')
+                component: () => import('@/views/Invoice.vue'),
+                beforeEnter (to, from, next) {
+                    if (from.name !== 'Payment') {
+                        next({ name: 'Ship' });
+                    }
+                    else {
+                        next();
+                    }
+                }
             }
         ]
     },
     {
-        path: '/success',
+        path: '/success/:id',
         name: 'Success',
-        component: Success,
-        meta: { requiresAuth: true }
+        component: () => import('@/views/Success.vue'),
+        props: true,
+        beforeEnter (to, from, next) {
+            if (from.name !== 'Invoice') {
+                next({ name: 'Home' });
+            }
+            else {
+                next();
+            }
+        }
+    },
+    {
+        path: '/order/:id?',
+        name: 'Order',
+        component: () => import('@/views/Order.vue'),
+        props: true,
+        beforeEnter (to, from, next) {
+            if (!checkLogin()) {
+                localStorage.setItem('beforeLoginPage', 'Order');
+                next({ name: 'Login' });
+            }
+            else {
+                next();
+            }
+        }
     },
     {
         path: '/:pathMatch(.*)*',
@@ -83,18 +129,6 @@ const router = createRouter({
     routes,
     scrollBehavior (to, from, savedPosition) {
         return { top: 0 };
-    }
-});
-
-router.beforeEach((to, from, next) => {
-    // check login
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    if (requiresAuth && to.name !== 'Login' && !checkLogin()) {
-        localStorage.setItem('beforeLoginPage', 'Ship');
-        next({ name: 'Login' });
-    }
-    else {
-        next();
     }
 });
 

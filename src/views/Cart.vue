@@ -1,6 +1,6 @@
 <template>
-    <main :class="['cart', { 'no-product': !cartList.length }]">
-        <div class="container">
+    <main :class="['cart', { 'no-product': !cartList?.length }]">
+        <div v-if="cartList" class="container">
             <div class="col">
                 <h2 class="title">
                     {{ cartList.length ? '您的購物車' : '購物車內無商品' }}
@@ -72,8 +72,8 @@ export default {
         const cartList = computed(() => store.state.cartList);
 
         // 訂單摘要
-        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const shipping = 300;
+        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const total = computed(() => subtotal.value + shipping);
 
         const addCart = id => {
@@ -210,9 +210,11 @@ export default {
     &__img {
         float: left;
         margin-right: 1rem;
+        margin-bottom: 10px;
         @media (min-width: #{$breakpoint + 1}px) {
             float: none;
             margin-right: 0;
+            margin-bottom: 0;
         }
     }
     img {
@@ -268,7 +270,6 @@ export default {
     }
     &__total {
         clear: both;
-        margin-top: 10px;
         border-width: 1px 0;
         border-style: solid;
         border-color: $light-color;
@@ -276,7 +277,6 @@ export default {
         font-size: 20px;
         line-height: 45px;
         @media (min-width: #{$breakpoint + 1}px) {
-            margin-top: 0;
             border-width: 0;
         }
     }

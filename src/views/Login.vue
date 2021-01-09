@@ -66,6 +66,10 @@ import 'firebase/auth';
 
 export default {
     name: 'Login',
+    beforeRouteLeave (to, from, next) {
+        localStorage.removeItem('beforeLoginPage');
+        next();
+    },
     setup () {
         const store = useStore();
         const router = useRouter();
@@ -77,9 +81,9 @@ export default {
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider)
                 .then(result => {
-                    console.dir(result);
-                    const { displayName, email, photoURL } = result.user;
+                    const { uid, displayName, email, photoURL } = result.user;
                     const userProfile = {
+                        uid,
                         displayName,
                         email,
                         photoURL
@@ -107,6 +111,7 @@ export default {
                 // get user profile
                 FB.api('/me', 'GET', { fields: ['picture', 'name', 'email'] }, res => {
                     const userProfile = {
+                        uid: res.id,
                         displayName: res.name,
                         email: res.email,
                         photoURL: res.picture.data.url

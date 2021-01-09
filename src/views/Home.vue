@@ -103,6 +103,7 @@ export default {
                 return;
             }
             const userProfile = {
+                uid: profileData.userId,
                 displayName: profileData.displayName,
                 photoURL: profileData.pictureUrl
             };

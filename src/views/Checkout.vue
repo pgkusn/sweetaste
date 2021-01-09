@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -50,14 +50,27 @@ export default {
         const cartList = computed(() => store.state.cartList);
 
         // check cart
-        if (!cartList.value.length) {
+        if (!cartList.value?.length) {
             router.push({ name: 'Home' });
             return;
         }
 
-        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
+        // 訂單摘要
         const shipping = 300;
+        const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const total = computed(() => subtotal.value + shipping);
+
+        // 離開頁面提示框
+        const beforeunloadHandler = () => {
+            event.preventDefault();
+            event.returnValue = '';
+        };
+        onMounted(() => {
+            window.addEventListener('beforeunload', beforeunloadHandler);
+        });
+        onBeforeUnmount(() => {
+            window.removeEventListener('beforeunload', beforeunloadHandler);
+        });
 
         return {
             cartList,
@@ -164,11 +177,11 @@ $font-color: #8da291;
 .ship,
 .payment,
 .invoice {
-    background-color: $dark-color;
     color: $light-color;
     /deep/  {
         .content {
             padding: 30px;
+            background-color: $dark-color;
         }
         table {
             width: 100%;

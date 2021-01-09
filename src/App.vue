@@ -1,6 +1,8 @@
 <template>
     <PageHeader />
-    <router-view />
+    <transition name="fade" mode="out-in">
+        <router-view />
+    </transition>
     <Subscription />
     <PageFooter />
 </template>
@@ -9,7 +11,6 @@
 /* eslint-disable no-undef */
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
-import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
@@ -91,6 +92,15 @@ main {
     @media (min-width: #{$tablet-width + 1}px) {
         padding: 0 42px;
     }
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity .3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 .alertify-notifier {
     color: #fff;

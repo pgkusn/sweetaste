@@ -28,10 +28,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="w-50 pr-10">
+                        <td class="w-50 pr-5">
                             <input type="text">
                         </td>
-                        <td class="w-50">
+                        <td class="w-50 pl-5">
                             <input type="text">
                         </td>
                     </tr>

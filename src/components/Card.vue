@@ -40,7 +40,7 @@ export default {
         const store = useStore();
         const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
         const cartList = computed(() => store.state.cartList);
-        const checkCart = computed(() => cartList.value.find(value => value.id === props.info.id));
+        const checkCart = computed(() => cartList.value?.find(value => value.id === props.info.id));
         const addCart = () => {
             const newCartList = cloneDeep(cartList.value);
             newCartList.push({

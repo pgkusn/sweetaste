@@ -6,7 +6,7 @@
                 <h2>付款成功</h2>
             </div>
             <button class="next" @click="next">
-                繼續逛逛
+                查看訂單
             </button>
         </div>
     </main>
@@ -21,10 +21,16 @@ export default {
     components: {
         Progress
     },
-    setup () {
+    props: {
+        id: {
+            type: String,
+            default: ''
+        }
+    },
+    setup (props) {
         const router = useRouter();
         const next = () => {
-            router.replace({ name: 'Home' });
+            router.replace({ name: 'Order', params: { id: props.id } });
         };
         return {
             next
