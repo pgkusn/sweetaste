@@ -124,7 +124,7 @@ $font-color: #8da291;
     color: $font-color;
     flex-wrap: wrap;
     > dt {
-        width: 40px;
+        width: 41px;
         &:first-of-type {
             margin: 1rem 0 8px;
         }
@@ -134,7 +134,7 @@ $font-color: #8da291;
         }
     }
     > dd {
-        width: calc(100% - 40px);
+        width: calc(100% - 41px);
         text-align: right;
         &:first-of-type {
             margin: 1rem 0 8px;

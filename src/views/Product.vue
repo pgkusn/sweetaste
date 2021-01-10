@@ -149,7 +149,7 @@ export default {
             top: 40px;
             right: 82px;
             bottom: auto;
-            height: 330px;
+            height: 333px;
             font-size: 36px;
         }
     }

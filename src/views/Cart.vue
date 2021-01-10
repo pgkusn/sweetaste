@@ -191,6 +191,7 @@ export default {
 .list {
     $breakpoint: 1000;
     @extend %clearfix;
+    position: relative;
     margin-top: 30px;
     padding: 0 30px;
     @media (min-width: #{$tablet-width + 1}px) {
@@ -283,11 +284,15 @@ export default {
         }
     }
     &__delete {
-        position: relative;
-        display: none;
+        position: absolute;
+        top: 0;
+        right: 30px;
+        color: $dark-color;
+        @media (min-width: #{$tablet-width + 1}px) {
+            right: 0;
+        }
         @media (min-width: #{$breakpoint + 1}px) {
-            display: block;
-            color: $dark-color;
+            position: relative;
         }
         &::before {
             @include clickable-area(24px, 24px);
