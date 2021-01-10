@@ -104,27 +104,25 @@ export default {
         const fbLogin = () => {
             /* eslint-disable no-undef */
             const getStatus = res => {
-                if (res.status !== 'connected') {
-                    FB.login(getStatus);
-                    return;
-                }
-                // get user profile
-                FB.api('/me', 'GET', { fields: ['picture', 'name', 'email'] }, res => {
-                    const userProfile = {
-                        uid: res.id,
-                        displayName: res.name,
-                        email: res.email,
-                        photoURL: res.picture.data.url
-                    };
-                    store.commit('setUserProfile', userProfile);
-                    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                if (res.status === 'connected') {
+                    // get user profile
+                    FB.api('/me', 'GET', { fields: ['picture', 'name', 'email'] }, res => {
+                        const userProfile = {
+                            uid: res.id,
+                            displayName: res.name,
+                            email: res.email,
+                            photoURL: res.picture.data.url
+                        };
+                        store.commit('setUserProfile', userProfile);
+                        localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-                    const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
-                    router.push({ name: beforeLoginPage });
-                    localStorage.removeItem('beforeLoginPage');
-                });
+                        const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+                        router.push({ name: beforeLoginPage });
+                        localStorage.removeItem('beforeLoginPage');
+                    });
+                }
             };
-            FB.getLoginStatus(getStatus);
+            FB.login(getStatus);
         };
 
         // =============================================================================

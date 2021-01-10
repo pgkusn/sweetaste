@@ -86,10 +86,10 @@ export default {
 @import '@/assets/sass/common.scss';
 $font-color: #8da291;
 .checkout {
-    display: flex;
-    justify-content: center;
     @media (min-width: #{$tablet-width + 1}px) {
+        display: flex;
         margin: 46px 0 65px;
+        justify-content: center;
     }
 }
 .col {

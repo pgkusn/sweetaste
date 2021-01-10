@@ -143,9 +143,11 @@ export default {
         padding-bottom: 60px;
     }
     &.no-product {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @media (min-width: #{$tablet-width + 1}px) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
 .container {

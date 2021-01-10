@@ -11,6 +11,7 @@
 /* eslint-disable no-undef */
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
+import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import Subscription from '@/components/Subscription.vue';
