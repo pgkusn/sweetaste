@@ -39,6 +39,7 @@ export default {
             const data = await store.dispatch('getProductList');
             if (data) {
                 store.dispatch('getCartList');
+                store.dispatch('getFavoriteList');
             }
 
             // init fb

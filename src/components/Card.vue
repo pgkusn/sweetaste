@@ -5,8 +5,8 @@
             <div class="card__tag">
                 {{ showCategory }}
             </div>
-            <button class="card__favorite">
-                <span class="material-icons">favorite_border</span>
+            <button class="card__favorite" @click="changeFavorite">
+                <span class="material-icons">{{ favoriteIcon }}</span>
             </button>
         </div>
         <div class="card__text">
@@ -38,6 +38,7 @@ export default {
     },
     setup (props) {
         const store = useStore();
+
         const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
         const cartList = computed(() => store.state.cartList);
         const checkCart = computed(() => cartList.value?.find(value => value.id === props.info.id));
@@ -54,11 +55,31 @@ export default {
             });
             store.dispatch('updateCartList', newCartList);
         };
+
+        // 我的最愛
+        const favoriteList = computed(() => store.state.favoriteList);
+        const favoriteIndex = computed(() => favoriteList.value?.findIndex(item => item === props.info.id));
+        const favoriteIcon = computed(() => favoriteIndex.value === -1 ? 'favorite_border' : 'favorite');
+        const changeFavorite = () => {
+            const newFavoriteList = cloneDeep(favoriteList.value);
+            if (favoriteIndex.value === -1) {
+                newFavoriteList.push(props.info.id);
+            }
+            else {
+                newFavoriteList.splice(favoriteIndex.value, 1);
+            }
+            store.dispatch('updateFavoriteList', newFavoriteList);
+        };
+
         return {
             props,
             showCategory,
             checkCart,
-            addCart
+            addCart,
+            favoriteList,
+            favoriteIndex,
+            favoriteIcon,
+            changeFavorite
         };
     }
 };

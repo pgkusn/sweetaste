@@ -12,16 +12,19 @@
                     <div class="category__title">
                         甜點類別
                     </div>
-                    <div :class="['category__item', { active: showList === 'all' }]" @click="changeCategory('all')">
-                        所有甜點 ({{ getCategoryList('all').length }})
+                    <div :class="['category__item', { active: showList === 'all' && !showFavorite }]" @click="changeCategory('all', false)">
+                        所有甜點 ({{ total }})
                     </div>
                     <div
                         v-for="(value, name) in categoryList"
                         :key="name"
                         :class="['category__item', { active: showList === name }]"
-                        @click="changeCategory(name)"
+                        @click="changeCategory(name, false)"
                     >
                         {{ value }} ({{ getCategoryList(name).length }})
+                    </div>
+                    <div :class="['category__item', { active: showFavorite }]" @click="changeCategory('all', true)">
+                        我的最愛 ({{ favoriteList?.length }})
                     </div>
                 </div>
                 <div class="list">
@@ -74,11 +77,31 @@ export default {
         const categoryList = computed(() => store.getters.productCategoryList);
         const showList = ref(props.cate || 'all');
         router.replace({ name: 'Product' }); // remove queryString from home
+        const total = computed(() => store.state.productList.length);
         const productList = computed(() => getCategoryList(showList.value));
-        const getCategoryList = category => (category === 'all' ? store.state.productList : store.state.productList.filter(value => value.category === category));
-        const changeCategory = category => {
+        const favoriteList = computed(() => store.state.favoriteList);
+        const showFavorite = ref(false);
+        const getCategoryList = category => {
+            if (category === 'all' && showFavorite.value) {
+                const showList = [];
+                if (favoriteList.value) {
+                    favoriteList.value.forEach(item => {
+                        showList.push(store.state.productList.find(product => product.id === item));
+                    });
+                }
+                return showList;
+            }
+            else if (category === 'all') {
+                return store.state.productList;
+            }
+            else {
+                return store.state.productList.filter(value => value.category === category);
+            }
+        };
+        const changeCategory = (category, showFavoriteVal) => {
             currentPage.value = 1;
             showList.value = category;
+            showFavorite.value = showFavoriteVal;
         };
 
         // 分頁顯示
@@ -97,7 +120,6 @@ export default {
             }
             return list;
         });
-
         watch(currentPage, value => {
             if (!tabletWidth.value) {
                 const contentRefTop = contentRef.value.offsetTop;
@@ -109,7 +131,10 @@ export default {
             contentRef,
             categoryList,
             showList,
+            total,
             productList,
+            favoriteList,
+            showFavorite,
             getCategoryList,
             changeCategory,
             currentPage,

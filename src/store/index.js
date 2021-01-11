@@ -24,8 +24,9 @@ axios.interceptors.response.use(function (response) {
 export default createStore({
     state: {
         tabletWidth: false,
-        productList: [],
         cartList: null,
+        favoriteList: null,
+        productList: [],
         userProfile: null
     },
     getters: {
@@ -45,17 +46,38 @@ export default createStore({
         setDeviceWidth (state, payload) {
             state[payload.deviceType + 'Width'] = payload.value;
         },
-        setProductList (state, payload) {
-            state.productList = payload;
-        },
         setCartList (state, payload) {
             state.cartList = payload;
+        },
+        setFavoriteList (state, payload) {
+            state.favoriteList = payload;
+        },
+        setProductList (state, payload) {
+            state.productList = payload;
         },
         setUserProfile (state, payload) {
             state.userProfile = payload;
         }
     },
     actions: {
+        getCartList ({ commit }) {
+            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
+            commit('setCartList', cartList);
+        },
+        updateCartList ({ dispatch }, payload) {
+            const cartList = JSON.stringify(payload);
+            localStorage.setItem('cartList', cartList);
+            dispatch('getCartList');
+        },
+        getFavoriteList ({ commit }) {
+            const favoriteList = JSON.parse(localStorage.getItem('favoriteList') || '[]');
+            commit('setFavoriteList', favoriteList);
+        },
+        updateFavoriteList ({ dispatch }, payload) {
+            const favoriteList = JSON.stringify(payload);
+            localStorage.setItem('favoriteList', favoriteList);
+            dispatch('getFavoriteList');
+        },
         async getLineToken (context, data) {
             try {
                 const result = await axios({
@@ -161,15 +183,6 @@ export default createStore({
                     message
                 };
             }
-        },
-        getCartList ({ commit }) {
-            const cartList = JSON.parse(localStorage.getItem('cartList') || '[]');
-            commit('setCartList', cartList);
-        },
-        updateCartList ({ dispatch }, payload) {
-            const cartList = JSON.stringify(payload);
-            localStorage.setItem('cartList', cartList);
-            dispatch('getCartList');
         },
         async getProductList ({ commit }) {
             try {
