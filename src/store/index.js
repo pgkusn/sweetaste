@@ -43,8 +43,8 @@ export default createStore({
         })
     },
     mutations: {
-        setDeviceWidth (state, payload) {
-            state[payload.deviceType + 'Width'] = payload.value;
+        setMediaWidth (state, payload) {
+            state[payload.mediaType + 'Width'] = payload.value;
         },
         setCartList (state, payload) {
             state.cartList = payload;
