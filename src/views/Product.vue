@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="list">
-                    <Card v-for="item in currentList" :key="item.id" :info="item" />
+                    <Card v-for="item in filterList[currentPage - 1]" :key="item.id" :info="item" />
                 </div>
                 <div v-if="totalPage > 1" class="pagination">
                     <button v-if="currentPage > 1" @click="currentPage--">
@@ -108,17 +108,16 @@ export default {
         const perPage = 4;
         const currentPage = ref(1);
         const totalPage = computed(() => Math.ceil(productList.value.length / perPage));
-        const currentList = computed(() => {
-            const list = [];
-            if (productList.value.length) {
-                const start = currentPage.value * perPage - perPage;
-                let end = currentPage.value * perPage - 1;
-                end = end < productList.value.length ? end : productList.value.length - 1;
-                for (let i = start; i <= end; i++) {
-                    list.push(productList.value[i]);
+        const filterList = computed(() => {
+            const newList = [];
+            productList.value.forEach((item, i) => {
+                if (i % perPage === 0) {
+                    newList.push([]);
                 }
-            }
-            return list;
+                const page = parseInt(i / perPage);
+                newList[page].push(item);
+            });
+            return newList;
         });
         watch(currentPage, value => {
             if (!tabletWidth.value) {
@@ -132,14 +131,13 @@ export default {
             categoryList,
             showList,
             total,
-            productList,
             favoriteList,
             showFavorite,
             getCategoryList,
             changeCategory,
             currentPage,
             totalPage,
-            currentList
+            filterList
         };
     }
 };

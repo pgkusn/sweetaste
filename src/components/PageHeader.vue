@@ -8,7 +8,7 @@
                     <img src="@/assets/images/logo-m.svg" alt="Sweetaste">
                 </picture>
             </h1>
-            <PageNav v-if="tabletWidth" />
+            <PageNav v-if="!tabletWidth" />
             <div v-show="tabletWidth && avatarSrc" class="avatar">
                 <img :src="avatarSrc" alt="">
             </div>
@@ -17,7 +17,7 @@
             </router-link>
         </div>
         <input id="toggler-input" v-model="showNav" type="checkbox">
-        <PageNav v-if="!tabletWidth" />
+        <PageNav v-if="tabletWidth" />
     </header>
 </template>
 

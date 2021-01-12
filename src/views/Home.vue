@@ -214,7 +214,7 @@ export default {
 }
 .intro {
     @media (min-width: #{$tablet-width + 1}px) {
-        margin-top: 60px;
+        margin: 60px 0;
         background-image: linear-gradient(transparent 5%, #{$light-color} 0, #{$light-color} 95%, transparent 0);
     }
     > .container {
@@ -312,7 +312,7 @@ export default {
         line-height: 1.5;
         @media (min-width: #{$tablet-width + 1}px) {
             margin: 0 auto;
-            padding: 80px 0;
+            padding: 20px 0 80px;
             text-align: left;
             text-indent: -.5em;
             font-size: 36px;
