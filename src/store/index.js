@@ -25,8 +25,8 @@ export default createStore({
     state: {
         tabletWidth: false,
         cartList: null,
-        favoriteList: null,
         productList: [],
+        favoriteProducts: [],
         userProfile: null
     },
     getters: {
@@ -49,8 +49,8 @@ export default createStore({
         setCartList (state, payload) {
             state.cartList = payload;
         },
-        setFavoriteList (state, payload) {
-            state.favoriteList = payload;
+        setFavoriteProducts (state, payload) {
+            state.favoriteProducts = payload;
         },
         setProductList (state, payload) {
             state.productList = payload;
@@ -69,14 +69,14 @@ export default createStore({
             localStorage.setItem('cartList', cartList);
             dispatch('getCartList');
         },
-        getFavoriteList ({ commit }) {
-            const favoriteList = JSON.parse(localStorage.getItem('favoriteList') || '[]');
-            commit('setFavoriteList', favoriteList);
+        getFavoriteProducts ({ commit }) {
+            const favoriteProducts = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
+            commit('setFavoriteProducts', favoriteProducts);
         },
-        updateFavoriteList ({ dispatch }, payload) {
-            const favoriteList = JSON.stringify(payload);
-            localStorage.setItem('favoriteList', favoriteList);
-            dispatch('getFavoriteList');
+        updateFavoriteProducts ({ dispatch }, payload) {
+            const favoriteProducts = JSON.stringify(payload);
+            localStorage.setItem('favoriteProducts', favoriteProducts);
+            dispatch('getFavoriteProducts');
         },
         async getLineToken (context, payload) {
             try {

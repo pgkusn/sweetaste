@@ -7,29 +7,32 @@
                 </p>
                 <img src="images/hero-product.jpeg" alt="">
             </div>
+
             <div ref="contentRef" class="content">
                 <div class="category">
                     <div class="category__title">
                         甜點類別
                     </div>
-                    <div :class="['category__item', { active: showList === 'all' && !showFavorite }]" @click="changeCategory('all', false)">
-                        所有甜點 ({{ total }})
+                    <div :class="['category__item', { active: currentCategory === 'all' && !showFavorite }]" @click="changeCategory('all', false)">
+                        所有甜點 ({{ productList.length }})
                     </div>
                     <div
                         v-for="(value, name) in categoryList"
                         :key="name"
-                        :class="['category__item', { active: showList === name }]"
-                        @click="changeCategory(name, false)"
+                        :class="['category__item', { active: currentCategory === name && !showFavorite }]"
+                        @click="changeCategory(name)"
                     >
-                        {{ value }} ({{ getCategoryList(name).length }})
+                        {{ value }} ({{ getCategoryCount(name) }})
                     </div>
-                    <div :class="['category__item', { active: showFavorite }]" @click="changeCategory('all', true)">
-                        我的最愛 ({{ favoriteList?.length }})
+                    <div v-if="favoriteProducts?.length" :class="['category__item', { active: showFavorite }]" @click="showFavorite = true">
+                        我的最愛 ({{ favoriteProducts.length }})
                     </div>
                 </div>
+
                 <div class="list">
-                    <Card v-for="item in filterList[currentPage - 1]" :key="item.id" :info="item" />
+                    <Card v-for="item in showList[currentPage - 1]" :key="item.id" :info="item" />
                 </div>
+
                 <div v-if="totalPage > 1" class="pagination">
                     <button v-if="currentPage > 1" @click="currentPage--">
                         <span class="material-icons">arrow_left</span>
@@ -72,45 +75,58 @@ export default {
         const store = useStore();
         const router = useRouter();
 
-        const tabletWidth = computed(() => store.state.tabletWidth);
+        router.replace({ name: 'Product' }); // remove query string from home
+
         const contentRef = ref(null);
+        const tabletWidth = computed(() => store.state.tabletWidth);
+        const productList = computed(() => store.state.productList);
+
+        // 類別
         const categoryList = computed(() => store.getters.productCategoryList);
-        const showList = ref(props.cate || 'all');
-        router.replace({ name: 'Product' }); // remove queryString from home
-        const total = computed(() => store.state.productList.length);
-        const productList = computed(() => getCategoryList(showList.value));
-        const favoriteList = computed(() => store.state.favoriteList);
-        const showFavorite = ref(false);
-        const getCategoryList = category => {
-            if (category === 'all' && showFavorite.value) {
-                const showList = [];
-                if (favoriteList.value) {
-                    favoriteList.value.forEach(item => {
-                        showList.push(store.state.productList.find(product => product.id === item));
-                    });
-                }
-                return showList;
+        const currentCategory = ref(props.cate || 'all');
+        const currentCategoryList = computed(() => {
+            if (showFavorite.value) {
+                return favoriteList.value;
             }
-            else if (category === 'all') {
-                return store.state.productList;
+            else if (currentCategory.value === 'all') {
+                return productList.value;
             }
             else {
-                return store.state.productList.filter(value => value.category === category);
+                return productList.value.filter(item => item.category === currentCategory.value);
             }
+        });
+        const getCategoryCount = name => {
+            return productList.value.filter(item => item.category === name).length;
         };
-        const changeCategory = (category, showFavoriteVal) => {
-            currentPage.value = 1;
-            showList.value = category;
-            showFavorite.value = showFavoriteVal;
+        const changeCategory = category => {
+            currentCategory.value = category;
+            showFavorite.value = false;
         };
 
-        // 分頁顯示
+        // 我的最愛
+        const showFavorite = ref(false);
+        const favoriteProducts = computed(() => store.state.favoriteProducts);
+        const favoriteList = computed(() => {
+            const newList = [];
+            favoriteProducts.value.forEach(item => {
+                newList.push(productList.value.find(product => product.id === item));
+            });
+            return newList;
+        });
+        watch(favoriteProducts, value => {
+            if (!value.length) {
+                showFavorite.value = false;
+                currentCategory.value = 'all';
+            }
+        });
+
+        // 分頁資料
         const perPage = 4;
         const currentPage = ref(1);
-        const totalPage = computed(() => Math.ceil(productList.value.length / perPage));
-        const filterList = computed(() => {
+        const totalPage = computed(() => showList.value.length);
+        const showList = computed(() => {
             const newList = [];
-            productList.value.forEach((item, i) => {
+            currentCategoryList.value.forEach((item, i) => {
                 if (i % perPage === 0) {
                     newList.push([]);
                 }
@@ -118,6 +134,9 @@ export default {
                 newList[page].push(item);
             });
             return newList;
+        });
+        watch(showList, () => {
+            currentPage.value = 1;
         });
         watch(currentPage, value => {
             if (tabletWidth.value) {
@@ -128,16 +147,17 @@ export default {
 
         return {
             contentRef,
+            productList,
             categoryList,
-            showList,
-            total,
-            favoriteList,
-            showFavorite,
-            getCategoryList,
+            currentCategory,
+            currentCategoryList,
+            getCategoryCount,
             changeCategory,
+            showFavorite,
+            favoriteProducts,
             currentPage,
             totalPage,
-            filterList
+            showList
         };
     }
 };

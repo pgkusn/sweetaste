@@ -57,18 +57,18 @@ export default {
         };
 
         // 我的最愛
-        const favoriteList = computed(() => store.state.favoriteList);
-        const favoriteIndex = computed(() => favoriteList.value?.findIndex(item => item === props.info.id));
+        const favoriteProducts = computed(() => store.state.favoriteProducts);
+        const favoriteIndex = computed(() => favoriteProducts.value?.findIndex(item => item === props.info.id));
         const favoriteIcon = computed(() => favoriteIndex.value === -1 ? 'favorite_border' : 'favorite');
         const changeFavorite = () => {
-            const newFavoriteList = cloneDeep(favoriteList.value);
+            const newFavoriteProducts = cloneDeep(favoriteProducts.value);
             if (favoriteIndex.value === -1) {
-                newFavoriteList.push(props.info.id);
+                newFavoriteProducts.push(props.info.id);
             }
             else {
-                newFavoriteList.splice(favoriteIndex.value, 1);
+                newFavoriteProducts.splice(favoriteIndex.value, 1);
             }
-            store.dispatch('updateFavoriteList', newFavoriteList);
+            store.dispatch('updateFavoriteProducts', newFavoriteProducts);
         };
 
         return {
@@ -76,7 +76,7 @@ export default {
             showCategory,
             checkCart,
             addCart,
-            favoriteList,
+            favoriteProducts,
             favoriteIndex,
             favoriteIcon,
             changeFavorite

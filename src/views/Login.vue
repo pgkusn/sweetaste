@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <router-link :to="{ name: 'SignUp' }">
-                        註冊帳號
+                        註冊
                     </router-link>
                 </div>
             </div>
