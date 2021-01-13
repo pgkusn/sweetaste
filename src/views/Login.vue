@@ -22,7 +22,7 @@
                 <div class="login__user--email">
                     <span class="material-icons">person</span>
                     <input
-                        v-model="email"
+                        v-model="loginInfo.email"
                         type="text"
                         placeholder="電子信箱/手機號碼"
                         required
@@ -31,7 +31,7 @@
                 <div class="login__user--password">
                     <span class="material-icons">vpn_key</span>
                     <input
-                        v-model="password"
+                        v-model="loginInfo.password"
                         type="password"
                         placeholder="請輸入使用者密碼"
                         required
@@ -39,7 +39,7 @@
                 </div>
                 <div class="login__user--remember">
                     <div class="pretty p-default">
-                        <input v-model="rememberMe" type="checkbox">
+                        <input v-model="loginInfo.rememberMe" type="checkbox">
                         <div class="state">
                             <label>記住我</label>
                         </div>
@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';
@@ -142,39 +142,49 @@ export default {
         // =============================================================================
         // user login
         // =============================================================================
-        const email = ref('');
-        const password = ref('');
-        const rememberMe = ref(false);
+        const loginInfo = reactive({
+            email: '',
+            password: '',
+            rememberMe: false
+        });
 
         // 記住我
         if (Cookies.get('userLoginInfo')) {
             const userLoginInfo = JSON.parse(Cookies.get('userLoginInfo'));
-            email.value = userLoginInfo.email;
-            password.value = userLoginInfo.password;
-            rememberMe.value = true;
+            loginInfo.email = userLoginInfo.email;
+            loginInfo.password = userLoginInfo.password;
+            loginInfo.rememberMe = true;
         }
 
         const userLogin = async () => {
             const data = await store.dispatch('userLogin', {
-                email: email.value.trim(),
-                password: password.value.trim()
+                email: loginInfo.email.trim(),
+                password: loginInfo.password.trim()
             });
 
-            if (data.status === 'error') {
+            if (!data.success) {
                 alertify.error(data.message);
                 return;
             }
 
+            alertify.success('登入成功');
+
             // 記住我
-            if (rememberMe.value) {
-                Cookies.set('userLoginInfo', JSON.stringify({ email: email.value, password: password.value }, { expires: 7 }));
+            if (loginInfo.rememberMe) {
+                Cookies.set('userLoginInfo', JSON.stringify({ email: loginInfo.email, password: loginInfo.password }, { expires: 7 }));
             }
             else {
                 Cookies.remove('userLoginInfo');
             }
 
-            store.commit('setUserProfile', { email: data.email });
-            localStorage.setItem('userProfile', JSON.stringify(data.email));
+            const { localId: uid, displayName, email } = data;
+            const userProfile = {
+                uid,
+                displayName,
+                email
+            };
+            store.commit('setUserProfile', userProfile);
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
@@ -185,9 +195,7 @@ export default {
             googleLogin,
             fbLogin,
             lineLogin,
-            email,
-            password,
-            rememberMe,
+            loginInfo,
             userLogin
         };
     }

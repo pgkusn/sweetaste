@@ -67,7 +67,7 @@ export default {
                 email: email.value,
                 password: password.value
             });
-            if (data.status === 'error') {
+            if (!data.success) {
                 alertify.error(data.message);
             }
             else {

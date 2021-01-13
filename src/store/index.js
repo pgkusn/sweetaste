@@ -78,19 +78,22 @@ export default createStore({
             localStorage.setItem('favoriteList', favoriteList);
             dispatch('getFavoriteList');
         },
-        async getLineToken (context, data) {
+        async getLineToken (context, payload) {
             try {
-                const result = await axios({
+                const { data } = await axios({
                     method: 'post',
                     url: 'https://api.line.me/oauth2/v2.1/token',
-                    data
+                    data: payload
                 });
-                return result.data;
+                return {
+                    success: true,
+                    ...data
+                };
             }
             catch (error) {
                 console.error(error.message);
                 return {
-                    status: 'error',
+                    success: false,
                     message: '登入失敗'
                 };
             }
@@ -102,12 +105,15 @@ export default createStore({
                     url: 'https://api.line.me/v2/profile',
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                return data;
+                return {
+                    success: true,
+                    ...data
+                };
             }
             catch (error) {
                 console.error(error.message);
                 return {
-                    status: 'error',
+                    success: false,
                     message: '登入失敗'
                 };
             }
@@ -124,7 +130,10 @@ export default createStore({
                         returnSecureToken: true
                     }
                 });
-                return data;
+                return {
+                    success: true,
+                    ...data
+                };
             }
             catch (error) {
                 console.error(error.message);
@@ -143,7 +152,7 @@ export default createStore({
                 }
 
                 return {
-                    status: 'error',
+                    success: false,
                     message
                 };
             }
@@ -160,7 +169,10 @@ export default createStore({
                         returnSecureToken: true
                     }
                 });
-                return data;
+                return {
+                    success: true,
+                    ...data
+                };
             }
             catch (error) {
                 console.error(error.message);
@@ -179,7 +191,7 @@ export default createStore({
                 }
 
                 return {
-                    status: 'error',
+                    success: false,
                     message
                 };
             }
@@ -204,12 +216,15 @@ export default createStore({
                     url: `${API.orderList.url}/${uid}`,
                     baseURL: 'https://kenge-mock-api.herokuapp.com'
                 });
-                return data || [];
+                return {
+                    success: true,
+                    list: data || []
+                };
             }
             catch (error) {
                 console.error(error.message);
                 return {
-                    status: 'error',
+                    success: false,
                     message: '網路錯誤 請稍後再試'
                 };
             }

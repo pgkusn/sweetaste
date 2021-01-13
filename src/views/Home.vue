@@ -89,7 +89,7 @@ export default {
             params.append('client_id', channelID);
             params.append('client_secret', channelSecret);
             const tokenData = await store.dispatch('getLineToken', params);
-            if (tokenData.status === 'error') {
+            if (!tokenData.success) {
                 alertify.error(tokenData.message);
                 removeQueryString();
                 return;
@@ -97,7 +97,7 @@ export default {
 
             // 3. get user profile
             const profileData = await store.dispatch('getLineProfile', tokenData.access_token);
-            if (profileData.status === 'error') {
+            if (!profileData.success) {
                 alertify.error(profileData.message);
                 removeQueryString();
                 return;

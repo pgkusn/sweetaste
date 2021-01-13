@@ -13,7 +13,7 @@
                     >
                         <template #title>
                             <ul class="item-title">
-                                <li>訂單編號&emsp;&emsp;{{ order.id }}</li>
+                                <li>【訂單編號】{{ order.id }}</li>
                                 <li>{{ formatTime(order.time) }}</li>
                             </ul>
                         </template>
@@ -90,16 +90,16 @@ export default {
         const formatTime = time => dayjs(time).format('YYYY-MM-DD HH:mm:ss');
         onMounted(async () => {
             const data = await store.dispatch('getOrderList', uid.value);
-            if (data.status === 'error') {
+            if (!data.success) {
                 alertify.error(data.message);
                 return;
             }
 
             // set active names
-            const index = Object.keys(data).findIndex(value => value === props.id);
+            const index = Object.keys(data.list).findIndex(value => value === props.id);
             activeNames.value = [index === -1 ? 0 : index];
 
-            orderList.value = data;
+            orderList.value = data.list;
         });
 
         return {
@@ -116,8 +116,10 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/sass/common.scss';
 .order {
-    margin-top: 46px;
     padding-bottom: 60px;
+    @media (min-width: #{$tablet-width + 1}px) {
+        margin-top: 46px;
+    }
     &.no-order {
         display: flex;
         flex-direction: column;
@@ -174,6 +176,15 @@ export default {
         flex-direction: row;
         width: calc(100% - 50px);
         justify-content: space-between;
+    }
+    > li:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 280px;
+        @media (min-width: #{$tablet-width + 1}px) {
+            width: auto;
+        }
     }
 }
 .col {
