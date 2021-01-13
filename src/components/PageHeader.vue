@@ -9,7 +9,7 @@
                 </picture>
             </h1>
             <PageNav v-if="!tabletWidth" />
-            <div v-show="tabletWidth && avatarSrc" class="avatar">
+            <div v-show="!tabletWidth && avatarSrc" class="avatar">
                 <img :src="avatarSrc" alt="">
             </div>
             <router-link :to="{ name: 'Cart' }" class="material-icons cart">

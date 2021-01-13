@@ -120,7 +120,7 @@ export default {
             return newList;
         });
         watch(currentPage, value => {
-            if (!tabletWidth.value) {
+            if (tabletWidth.value) {
                 const contentRefTop = contentRef.value.offsetTop;
                 window.scrollTo(0, contentRefTop);
             }
