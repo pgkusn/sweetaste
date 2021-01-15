@@ -178,7 +178,7 @@ $font-color: #8da291;
 .payment,
 .invoice {
     color: $light-color;
-    /deep/  {
+    :deep()  {
         .content {
             padding: 30px;
             background-color: $dark-color;

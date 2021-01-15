@@ -145,7 +145,7 @@ export default {
 .container {
     width: 100%;
 }
-/deep/ .el-collapse-item__content {
+:deep(.el-collapse-item__content) {
     display: flex;
     flex-direction: column;
     padding-top: 25px;
@@ -155,13 +155,13 @@ export default {
         align-items: flex-start;
     }
 }
-/deep/ .el-collapse-item__header,
-/deep/ .el-collapse-item__content {
+:deep(.el-collapse-item__header),
+:deep(.el-collapse-item__content) {
     color: $dark-color;
     font-size: 16px;
     line-height: 1;
 }
-/deep/ .el-collapse-item__header {
+:deep(.el-collapse-item__header) {
     height: 65px;
     line-height: 1.5;
     @media (min-width: #{$tablet-width + 1}px) {
