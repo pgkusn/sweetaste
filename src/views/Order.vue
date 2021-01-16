@@ -86,10 +86,10 @@ export default {
 
         const activeNames = ref([0]);
         const orderList = ref(null);
-        const uid = computed(() => store.state.userProfile?.uid);
+        const uid = computed(() => store.state.login.userProfile?.uid);
         const formatTime = time => dayjs(time).format('YYYY-MM-DD HH:mm:ss');
         onMounted(async () => {
-            const data = await store.dispatch('getOrderList', uid.value);
+            const data = await store.dispatch('order/getOrderList', uid.value);
             if (!data.success) {
                 alertify.error(data.message);
                 return;

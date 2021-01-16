@@ -69,7 +69,7 @@ export default {
     setup () {
         const store = useStore();
         const router = useRouter();
-        const cartList = computed(() => store.state.cartList);
+        const cartList = computed(() => store.state.cart.cartList);
 
         // 訂單摘要
         const shipping = 300;
@@ -105,14 +105,14 @@ export default {
                 orderAmount: value.id === id ? num : value.orderAmount,
                 stock: value.stock
             }));
-            store.dispatch('updateCartList', newCartList);
+            store.dispatch('cart/updateCartList', newCartList);
         };
 
         const removeCart = id => {
             const index = cartList.value.findIndex(value => value.id === id);
             const newCartList = cloneDeep(cartList.value);
             newCartList.splice(index, 1);
-            store.dispatch('updateCartList', newCartList);
+            store.dispatch('cart/updateCartList', newCartList);
         };
 
         const checkout = () => {

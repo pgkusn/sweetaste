@@ -57,10 +57,10 @@ export default {
         firebase.initializeApp(firebaseConfig);
 
         onMounted(async () => {
-            const data = await store.dispatch('getProductList');
+            const data = await store.dispatch('product/getProductList');
             if (data) {
-                store.dispatch('getCartList');
-                store.dispatch('getFavoriteProducts');
+                store.dispatch('cart/getCartList');
+                store.dispatch('favorite/getFavoriteProducts');
             }
         });
     }

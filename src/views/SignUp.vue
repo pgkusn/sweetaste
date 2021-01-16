@@ -63,7 +63,7 @@ export default {
                 return;
             }
 
-            const data = await store.dispatch('userSignUp', {
+            const data = await store.dispatch('login/userSignUp', {
                 email: email.value,
                 password: password.value
             });

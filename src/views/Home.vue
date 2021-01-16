@@ -73,7 +73,7 @@ export default {
                 history.replaceState({}, '', location.href.split(/[?#]/)[0]);
             };
 
-            const { channelID, channelSecret, callbackURL, state: urlState } = store.getters.lineInfo;
+            const { channelID, channelSecret, callbackURL, state: urlState } = store.getters['login/lineInfo'];
 
             // 1. check url
             const searchParams = (new URL(document.location)).searchParams;
@@ -88,7 +88,7 @@ export default {
             params.append('redirect_uri', callbackURL);
             params.append('client_id', channelID);
             params.append('client_secret', channelSecret);
-            const tokenData = await store.dispatch('getLineToken', params);
+            const tokenData = await store.dispatch('login/getLineToken', params);
             if (!tokenData.success) {
                 alertify.error(tokenData.message);
                 removeQueryString();
@@ -96,7 +96,7 @@ export default {
             }
 
             // 3. get user profile
-            const profileData = await store.dispatch('getLineProfile', tokenData.access_token);
+            const profileData = await store.dispatch('login/getLineProfile', tokenData.access_token);
             if (!profileData.success) {
                 alertify.error(profileData.message);
                 removeQueryString();
@@ -107,7 +107,7 @@ export default {
                 displayName: profileData.displayName,
                 photoURL: profileData.pictureUrl
             };
-            store.commit('setUserProfile', userProfile);
+            store.commit('login/setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
             removeQueryString();
@@ -117,9 +117,9 @@ export default {
         })();
 
         // showcase
-        const categoryList = computed(() => store.getters.productCategoryList);
+        const categoryList = computed(() => store.getters['product/productCategoryList']);
         const productList = computed(() => { // 隨機取三個商品
-            const all = cloneDeep(store.state.productList);
+            const all = cloneDeep(store.state.product.productList);
             const randomList = [];
             if (all.length) {
                 for (let i = 0; i < 3; i++) {

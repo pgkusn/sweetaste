@@ -30,14 +30,14 @@ export default {
         // check login
         const userProfile = localStorage.getItem('userProfile');
         if (userProfile) {
-            store.commit('setUserProfile', JSON.parse(userProfile));
+            store.commit('login/setUserProfile', JSON.parse(userProfile));
         }
-        const isLogin = computed(() => store.state.userProfile);
+        const isLogin = computed(() => store.state.login.userProfile);
 
         // logout
         const logout = () => {
-            if (store.state.userProfile) {
-                store.commit('setUserProfile', null);
+            if (store.state.login.userProfile) {
+                store.commit('login/setUserProfile', null);
                 localStorage.removeItem('userProfile');
 
                 if (route.fullPath.split('/').includes('checkout') || route.name === 'Success' || route.name === 'Order') {

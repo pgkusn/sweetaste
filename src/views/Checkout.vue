@@ -47,7 +47,7 @@ export default {
     setup () {
         const store = useStore();
         const router = useRouter();
-        const cartList = computed(() => store.state.cartList);
+        const cartList = computed(() => store.state.cart.cartList);
 
         // check cart
         if (!cartList.value?.length) {

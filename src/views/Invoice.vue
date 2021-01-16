@@ -83,12 +83,12 @@ export default {
         const store = useStore();
 
         const invoiceType = ref('einvoice');
-        const uid = computed(() => store.state.userProfile?.uid);
-        const cartList = computed(() => store.state.cartList);
+        const uid = computed(() => store.state.login.userProfile?.uid);
+        const cartList = computed(() => store.state.cart.cartList);
         const isLoading = ref(false);
         const order = async () => {
             isLoading.value = true;
-            const data = await store.dispatch('order', {
+            const data = await store.dispatch('order/order', {
                 uid: uid.value,
                 content: cartList.value
             });
@@ -97,7 +97,7 @@ export default {
                 alertify.error(data.message);
                 return;
             }
-            store.dispatch('updateCartList', []);
+            store.dispatch('cart/updateCartList', []);
             router.replace({ name: 'Success', params: { id: data.key } });
         };
 

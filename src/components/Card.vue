@@ -39,8 +39,8 @@ export default {
     setup (props) {
         const store = useStore();
 
-        const showCategory = computed(() => store.getters.productCategoryList[props.info.category]);
-        const cartList = computed(() => store.state.cartList);
+        const showCategory = computed(() => store.getters['product/productCategoryList'][props.info.category]);
+        const cartList = computed(() => store.state.cart.cartList);
         const checkCart = computed(() => cartList.value?.find(value => value.id === props.info.id));
         const addCart = () => {
             const newCartList = cloneDeep(cartList.value);
@@ -53,11 +53,11 @@ export default {
                 orderAmount: 1,
                 stock: props.info.stock
             });
-            store.dispatch('updateCartList', newCartList);
+            store.dispatch('cart/updateCartList', newCartList);
         };
 
         // 我的最愛
-        const favoriteProducts = computed(() => store.state.favoriteProducts);
+        const favoriteProducts = computed(() => store.state.favorite.favoriteProducts);
         const favoriteIndex = computed(() => favoriteProducts.value?.findIndex(item => item === props.info.id));
         const favoriteIcon = computed(() => favoriteIndex.value === -1 ? 'favorite_border' : 'favorite');
         const changeFavorite = () => {
@@ -68,7 +68,7 @@ export default {
             else {
                 newFavoriteProducts.splice(favoriteIndex.value, 1);
             }
-            store.dispatch('updateFavoriteProducts', newFavoriteProducts);
+            store.dispatch('favorite/updateFavoriteProducts', newFavoriteProducts);
         };
 
         return {

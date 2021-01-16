@@ -37,7 +37,7 @@ export default {
         const route = useRoute();
 
         const tabletWidth = computed(() => store.state.tabletWidth);
-        const avatarSrc = computed(() => store.state.userProfile?.photoURL);
+        const avatarSrc = computed(() => store.state.login.userProfile?.photoURL);
 
         // hide nav after change page
         const showNav = ref(false);

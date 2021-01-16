@@ -88,7 +88,7 @@ export default {
                         email,
                         photoURL
                     };
-                    store.commit('setUserProfile', userProfile);
+                    store.commit('login/setUserProfile', userProfile);
                     localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
                     const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
@@ -113,7 +113,7 @@ export default {
                             email: res.email,
                             photoURL: res.picture.data.url
                         };
-                        store.commit('setUserProfile', userProfile);
+                        store.commit('login/setUserProfile', userProfile);
                         localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
                         const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
@@ -129,7 +129,7 @@ export default {
         // line login
         // =============================================================================
         const lineLogin = () => {
-            const { channelID, callbackURL, state } = store.getters.lineInfo;
+            const { channelID, callbackURL, state } = store.getters['login/lineInfo'];
             let url = 'https://access.line.me/oauth2/v2.1/authorize?';
             url += 'response_type=code';
             url += '&client_id=' + channelID;
@@ -157,7 +157,7 @@ export default {
         }
 
         const userLogin = async () => {
-            const data = await store.dispatch('userLogin', {
+            const data = await store.dispatch('login/userLogin', {
                 email: loginInfo.email.trim(),
                 password: loginInfo.password.trim()
             });
@@ -183,7 +183,7 @@ export default {
                 displayName,
                 email
             };
-            store.commit('setUserProfile', userProfile);
+            store.commit('login/setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
             const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';

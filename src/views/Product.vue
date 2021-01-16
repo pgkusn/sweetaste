@@ -79,10 +79,10 @@ export default {
 
         const contentRef = ref(null);
         const tabletWidth = computed(() => store.state.tabletWidth);
-        const productList = computed(() => store.state.productList);
+        const productList = computed(() => store.state.product.productList);
 
         // 類別
-        const categoryList = computed(() => store.getters.productCategoryList);
+        const categoryList = computed(() => store.getters['product/productCategoryList']);
         const currentCategory = ref(props.cate || 'all');
         const currentCategoryList = computed(() => {
             if (showFavorite.value) {
@@ -105,7 +105,7 @@ export default {
 
         // 我的最愛
         const showFavorite = ref(false);
-        const favoriteProducts = computed(() => store.state.favoriteProducts);
+        const favoriteProducts = computed(() => store.state.favorite.favoriteProducts);
         const favoriteList = computed(() => {
             const newList = [];
             favoriteProducts.value.forEach(item => {
