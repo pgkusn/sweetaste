@@ -111,9 +111,9 @@ export default {
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
             removeQueryString();
-            const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+            const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
-            localStorage.removeItem('beforeLoginPage');
+            sessionStorage.removeItem('beforeLoginPage');
         })();
 
         // showcase

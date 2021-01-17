@@ -67,7 +67,7 @@ import 'firebase/auth';
 export default {
     name: 'Login',
     beforeRouteLeave (to, from, next) {
-        localStorage.removeItem('beforeLoginPage');
+        sessionStorage.removeItem('beforeLoginPage');
         next();
     },
     setup () {
@@ -91,9 +91,9 @@ export default {
                     store.commit('login/setUserProfile', userProfile);
                     localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-                    const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+                    const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
                     router.push({ name: beforeLoginPage });
-                    localStorage.removeItem('beforeLoginPage');
+                    sessionStorage.removeItem('beforeLoginPage');
                 })
                 .catch(error => console.error(error.message));
         };
@@ -116,9 +116,9 @@ export default {
                         store.commit('login/setUserProfile', userProfile);
                         localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-                        const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+                        const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
                         router.push({ name: beforeLoginPage });
-                        localStorage.removeItem('beforeLoginPage');
+                        sessionStorage.removeItem('beforeLoginPage');
                     });
                 }
             };
@@ -186,9 +186,9 @@ export default {
             store.commit('login/setUserProfile', userProfile);
             localStorage.setItem('userProfile', JSON.stringify(userProfile));
 
-            const beforeLoginPage = localStorage.getItem('beforeLoginPage') || 'Home';
+            const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
             router.push({ name: beforeLoginPage });
-            localStorage.removeItem('beforeLoginPage');
+            sessionStorage.removeItem('beforeLoginPage');
         };
 
         return {

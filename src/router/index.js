@@ -53,7 +53,7 @@ const routes = [
                 component: () => import('@/views/Ship.vue'),
                 beforeEnter (to, from, next) {
                     if (!checkLogin()) {
-                        localStorage.setItem('beforeLoginPage', 'Ship');
+                        sessionStorage.setItem('beforeLoginPage', 'Ship');
                         next({ name: 'Login' });
                     }
                     else {
@@ -110,7 +110,7 @@ const routes = [
         props: true,
         beforeEnter (to, from, next) {
             if (!checkLogin()) {
-                localStorage.setItem('beforeLoginPage', 'Order');
+                sessionStorage.setItem('beforeLoginPage', 'Order');
                 next({ name: 'Login' });
             }
             else {
