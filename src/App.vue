@@ -3,7 +3,7 @@
     <transition name="fade" mode="out-in">
         <router-view />
     </transition>
-    <Subscription />
+    <!-- <Subscription /> -->
     <PageFooter />
 </template>
 
@@ -14,14 +14,14 @@ import { useStore } from 'vuex';
 import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
-import Subscription from '@/components/Subscription.vue';
+// import Subscription from '@/components/Subscription.vue';
 import PageFooter from '@/components/PageFooter.vue';
 
 export default {
     name: 'App',
     components: {
         PageHeader,
-        Subscription,
+        // Subscription,
         PageFooter
     },
     setup () {

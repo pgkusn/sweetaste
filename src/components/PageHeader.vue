@@ -12,8 +12,9 @@
             <div v-show="!tabletWidth && avatarSrc" class="avatar">
                 <img :src="avatarSrc" alt="">
             </div>
-            <router-link :to="{ name: 'Cart' }" class="material-icons cart">
-                shopping_cart
+            <router-link :to="{ name: 'Cart' }" class="cart">
+                <span class="material-icons">shopping_cart</span>
+                <span v-show="cartTotal" class="cart__total">{{ cartTotal }}</span>
             </router-link>
         </div>
         <input id="toggler-input" v-model="showNav" type="checkbox">
@@ -38,6 +39,10 @@ export default {
 
         const tabletWidth = computed(() => store.state.tabletWidth);
         const avatarSrc = computed(() => store.state.login.userProfile?.photoURL);
+        const cartTotal = computed(() => {
+            const total = store.state.cart.cartList?.length;
+            return total > 99 ? '99+' : total;
+        });
 
         // hide nav after change page
         const showNav = ref(false);
@@ -50,7 +55,8 @@ export default {
         return {
             tabletWidth,
             avatarSrc,
-            showNav
+            showNav,
+            cartTotal
         };
     }
 };
@@ -101,6 +107,19 @@ h1 {
     &::before {
         @include clickable-area(24, 24);
         content: '';
+    }
+    &__total {
+        position: absolute;
+        top: -50%;
+        left: 100%;
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        background-color: #f00;
+        color: #fff;
+        text-align: center;
+        font-size: 12px;
+        line-height: 2em;
     }
 }
 </style>
