@@ -14,10 +14,10 @@
                 <a href=""><img src="@/assets/images/ic-line.svg" alt=""></a>
             </div>
             <div class="copyright">
-                © 2018 Sweetaste* All Rights Reserved
+                © {{ new Date().getFullYear() }} Sweetaste* All Rights Reserved
             </div>
             <div class="subtitle">
-                今天是個——<br>吃甜點的好日子。
+                今天是個——<br>吃水果的好日子。
             </div>
         </div>
     </footer>

@@ -5,7 +5,7 @@
                 首頁
             </router-link>
             <router-link :to="{ name: 'Product' }">
-                甜點
+                商品
             </router-link>
             <router-link v-if="!isLogin" :to="{ name: 'Login' }">
                 登入

@@ -14,7 +14,7 @@
         </div>
         <article class="intro">
             <div class="container">
-                <h1>為什麼——<br>選擇了做甜點？</h1>
+                <h1>為什麼——<br>選擇了賣水果？</h1>
                 <div class="intro__illust">
                     <img src="@/assets/images/home/article1.jpeg" alt="">
                 </div>
@@ -26,7 +26,7 @@
         </article>
         <article class="intro">
             <div class="container">
-                <h1>為什麼——<br>一定要吃甜點？</h1>
+                <h1>為什麼——<br>一定要吃水果？</h1>
                 <div class="intro__illust">
                     <img src="@/assets/images/home/article2.jpeg" alt="">
                 </div>
@@ -39,7 +39,7 @@
         <div v-if="productList.length" class="showcase">
             <div class="container">
                 <div class="showcase__title">
-                    想吃甜點——<br>是不需要理由的。
+                    想吃水果——<br>是不需要理由的。
                 </div>
                 <div class="showcase__cards">
                     <Card v-for="item in productList" :key="item.id" :info="item" />

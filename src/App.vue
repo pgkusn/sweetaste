@@ -14,15 +14,15 @@ import { useStore } from 'vuex';
 import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
-// import Subscription from '@/components/Subscription.vue';
 import PageFooter from '@/components/PageFooter.vue';
+// import Subscription from '@/components/Subscription.vue';
 
 export default {
     name: 'App',
     components: {
         PageHeader,
-        // Subscription,
         PageFooter
+        // Subscription
     },
     setup () {
         const store = useStore();

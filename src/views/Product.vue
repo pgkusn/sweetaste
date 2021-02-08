@@ -3,7 +3,7 @@
         <div class="container">
             <div class="hero">
                 <p class="hero__title">
-                    想吃甜點——<br>是不需要理由的。
+                    想吃水果——<br>是不需要理由的。
                 </p>
                 <img src="images/hero-product.jpeg" alt="">
             </div>
@@ -11,10 +11,10 @@
             <div ref="contentRef" class="content">
                 <div class="category">
                     <div class="category__title">
-                        甜點類別
+                        水果類別
                     </div>
                     <div :class="['category__item', { active: currentCategory === 'all' && !showFavorite }]" @click="changeCategory('all', false)">
-                        所有甜點 ({{ productList.length }})
+                        所有水果 ({{ productList.length }})
                     </div>
                     <div
                         v-for="(value, name) in categoryList"
