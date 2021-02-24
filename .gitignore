@@ -3,6 +3,7 @@ node_modules
 /dist
 localhost-key.pem
 localhost.pem
+.firebase
 
 # local env files
 .env.local
