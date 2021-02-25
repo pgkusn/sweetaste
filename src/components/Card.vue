@@ -26,7 +26,6 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'Card',
@@ -43,8 +42,7 @@ export default {
         const cartList = computed(() => store.state.cart.cartList);
         const checkCart = computed(() => cartList.value?.find(value => value.id === props.info.id));
         const addCart = () => {
-            const newCartList = cloneDeep(cartList.value);
-            newCartList.push({
+            store.dispatch('cart/addCartList', {
                 id: props.info.id,
                 category: props.info.category,
                 name: props.info.name,
@@ -53,7 +51,6 @@ export default {
                 orderAmount: 1,
                 stock: props.info.stock
             });
-            store.dispatch('cart/updateCartList', newCartList);
         };
 
         // 我的最愛
@@ -61,14 +58,12 @@ export default {
         const favoriteIndex = computed(() => favoriteProducts.value?.findIndex(item => item === props.info.id));
         const favoriteIcon = computed(() => favoriteIndex.value === -1 ? 'favorite_border' : 'favorite');
         const changeFavorite = () => {
-            const newFavoriteProducts = cloneDeep(favoriteProducts.value);
             if (favoriteIndex.value === -1) {
-                newFavoriteProducts.push(props.info.id);
+                store.dispatch('favorite/addFavoriteProducts', props.info.id);
             }
             else {
-                newFavoriteProducts.splice(favoriteIndex.value, 1);
+                store.dispatch('favorite/removeFavoriteProducts', favoriteIndex.value);
             }
-            store.dispatch('favorite/updateFavoriteProducts', newFavoriteProducts);
         };
 
         return {

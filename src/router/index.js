@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { checkLogin } from '@/checkLogin.js';
+import { checkLogin } from '@/modules/CheckLogin.js';
 import Home from '../views/Home.vue';
 import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';
@@ -104,7 +104,7 @@ const routes = [
         }
     },
     {
-        path: '/order/:id?',
+        path: '/order/:id',
         name: 'Order',
         component: () => import('@/views/Order.vue'),
         props: true,

@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Cookies from 'js-cookie';

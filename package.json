@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "start": "npm run api | npm run serve_dev",
-    "api": "json-server --watch src/data/api-data.json --port 3001",
+    "api": "json-server --watch src/data/JsonServerData.json --port 3001",
     "serve_dev": "vue-cli-service serve",
     "serve_prod": "vue-cli-service serve --mode prod",
     "build": "vue-cli-service build --mode prod",
+    "deploy": "firebase deploy",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

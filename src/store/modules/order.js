@@ -9,7 +9,7 @@ export default {
                 const { data } = await axios({
                     method: API.orderList.method,
                     url: `${API.orderList.url}/${uid}`,
-                    baseURL: 'https://kenge-mock-api.herokuapp.com'
+                    baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
                 });
                 return {
                     success: true,
@@ -29,7 +29,7 @@ export default {
                 const { data } = await axios({
                     method: API.order.method,
                     url: API.order.url,
-                    baseURL: 'https://kenge-mock-api.herokuapp.com',
+                    baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste',
                     data: payload
                 });
                 return data;

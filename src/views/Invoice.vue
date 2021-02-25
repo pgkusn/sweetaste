@@ -97,7 +97,7 @@ export default {
                 alertify.error(data.message);
                 return;
             }
-            store.dispatch('cart/updateCartList', []);
+            store.dispatch('cart/clearCartList');
             router.replace({ name: 'Success', params: { id: data.key } });
         };
 

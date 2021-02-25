@@ -60,7 +60,7 @@ export default {
         const subtotal = computed(() => cartList.value.reduce((prev, current) => prev + current.price * current.orderAmount, 0));
         const total = computed(() => subtotal.value + shipping);
 
-        // 離開頁面提示框
+        // 離開頁面提示
         const beforeunloadHandler = () => {
             event.preventDefault();
             event.returnValue = '';

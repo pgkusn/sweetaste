@@ -1,3 +1,5 @@
+import LS from '@/modules/LocalStorage';
+
 export default {
     namespaced: true,
     state: {
@@ -10,13 +12,19 @@ export default {
     },
     actions: {
         getFavoriteProducts ({ commit }) {
-            const favoriteProducts = JSON.parse(localStorage.getItem('favoriteProducts') || '[]');
-            commit('setFavoriteProducts', favoriteProducts);
+            commit('setFavoriteProducts', LS.get('favoriteProducts'));
         },
-        updateFavoriteProducts ({ dispatch }, payload) {
-            const favoriteProducts = JSON.stringify(payload);
-            localStorage.setItem('favoriteProducts', favoriteProducts);
-            dispatch('getFavoriteProducts');
+        addFavoriteProducts ({ commit }, id) {
+            const products = LS.get('favoriteProducts');
+            products.push(id);
+            LS.set('favoriteProducts', products);
+            commit('setFavoriteProducts', products);
+        },
+        removeFavoriteProducts ({ commit }, index) {
+            const products = LS.get('favoriteProducts');
+            products.splice(index, 1);
+            LS.set('favoriteProducts', products);
+            commit('setFavoriteProducts', products);
         }
     }
 }

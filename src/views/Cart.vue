@@ -79,42 +79,24 @@ export default {
         const addCart = id => {
             const { orderAmount, stock } = cartList.value.find(value => value.id === id);
             if (orderAmount + 1 <= stock) {
-                setCart(id, orderAmount + 1);
+                store.dispatch('cart/updateCartList', { id, num: orderAmount + 1 });
             }
         };
         const minusCart = id => {
             const { orderAmount } = cartList.value.find(value => value.id === id);
             if (orderAmount - 1 > 0) {
-                setCart(id, orderAmount - 1);
+                store.dispatch('cart/updateCartList', { id, num: orderAmount - 1 });
             }
         };
         const changeCart = id => {
             const value = parseInt(event.target.value.trim(), 10);
             const { stock } = cartList.value.find(value => value.id === id);
             const num = value > 0 ? value <= stock ? value : stock : 1;
-            setCart(id, num);
+            store.dispatch('cart/updateCartList', { id, num });
         };
-
-        const setCart = async (id, num) => {
-            const newCartList = cartList.value.map(value => ({
-                id: value.id,
-                category: value.category,
-                name: value.name,
-                price: value.price,
-                url: value.url,
-                orderAmount: value.id === id ? num : value.orderAmount,
-                stock: value.stock
-            }));
-            store.dispatch('cart/updateCartList', newCartList);
-        };
-
         const removeCart = id => {
-            const index = cartList.value.findIndex(value => value.id === id);
-            const newCartList = cloneDeep(cartList.value);
-            newCartList.splice(index, 1);
-            store.dispatch('cart/updateCartList', newCartList);
+            store.dispatch('cart/removeCartList', id);
         };
-
         const checkout = () => {
             router.push({ name: 'Ship' });
         };

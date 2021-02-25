@@ -95,9 +95,7 @@ export default {
                 return productList.value.filter(item => item.category === currentCategory.value);
             }
         });
-        const getCategoryCount = name => {
-            return productList.value.filter(item => item.category === name).length;
-        };
+        const getCategoryCount = name => productList.value.filter(item => item.category === name).length;
         const changeCategory = category => {
             currentCategory.value = category;
             showFavorite.value = false;
