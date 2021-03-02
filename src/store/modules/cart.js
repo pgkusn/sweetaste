@@ -19,6 +19,7 @@ export default {
             cartList.push(item);
             LS.set('cartList', cartList);
             commit('setCartList', cartList);
+            return item;
         },
         updateCartList ({ commit }, { id, num }) {
             const cartList = LS.get('cartList');
@@ -29,17 +30,20 @@ export default {
             });
             LS.set('cartList', cartList);
             commit('setCartList', cartList);
+            return cartList;
         },
-        removeCartList ({ commit }, id) {
+        removeCartList ({ commit }, { id }) {
             const cartList = LS.get('cartList');
             const index = cartList.findIndex(value => value.id === id);
             cartList.splice(index, 1);
             LS.set('cartList', cartList);
             commit('setCartList', cartList);
+            return cartList;
         },
         clearCartList ({ commit }) {
             LS.set('cartList', []);
             commit('setCartList', []);
+            return [];
         }
     }
 };

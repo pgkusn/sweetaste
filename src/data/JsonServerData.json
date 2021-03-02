@@ -1,10 +1,4 @@
 {
-  "accounts:signInWithPassword": {
-    "email": "test@gmail.com"
-  },
-  "accounts:signUp": {
-    "email": "test@gmail.com"
-  },
   "productList": [
     {
       "id": 1,

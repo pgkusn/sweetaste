@@ -32,16 +32,18 @@ export default {
                     baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste',
                     data: payload
                 });
-                return data;
+                return {
+                    success: true,
+                    ...data
+                };
             }
             catch (error) {
                 console.error(error.message);
                 return {
-                    status: 'error',
+                    success: false,
                     message: '網路錯誤 請稍後再試'
                 };
             }
         }
     }
-}
-;
+};

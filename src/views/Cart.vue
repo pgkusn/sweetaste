@@ -95,7 +95,7 @@ export default {
             store.dispatch('cart/updateCartList', { id, num });
         };
         const removeCart = id => {
-            store.dispatch('cart/removeCartList', id);
+            store.dispatch('cart/removeCartList', { id });
         };
         const checkout = () => {
             router.push({ name: 'Ship' });

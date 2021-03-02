@@ -12,7 +12,6 @@
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import device from 'current-device';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';

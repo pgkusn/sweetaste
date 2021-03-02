@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import NProgress from 'nprogress';
-import 'nprogress/nprogress.css';
 import axios from 'axios';
 import login from './modules/login';
 import cart from './modules/cart';

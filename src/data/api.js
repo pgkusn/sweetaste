@@ -1,8 +1,10 @@
 const API = {
     userLogin: {
+        method: 'post',
         url: '/accounts:signInWithPassword'
     },
     userSignUp: {
+        method: 'post',
         url: '/accounts:signUp'
     },
     productList: {
@@ -18,4 +20,5 @@ const API = {
         url: '/order'
     }
 };
+
 module.exports = API;

@@ -14,7 +14,7 @@
                         <template #title>
                             <ul class="item-title">
                                 <li>【訂單編號】{{ order.id }}</li>
-                                <li>{{ formatTime(order.time) }}</li>
+                                <li>{{ formatTime(order.createTime) }}</li>
                             </ul>
                         </template>
                         <div class="col">

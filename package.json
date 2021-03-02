@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "npm run api | npm run serve_dev",
+    "start": "npm run api | npm run serve:dev",
     "api": "json-server --watch src/data/JsonServerData.json --port 3001",
-    "serve_dev": "vue-cli-service serve",
-    "serve_prod": "vue-cli-service serve --mode prod",
+    "serve:dev": "vue-cli-service serve",
+    "serve:prod": "vue-cli-service serve --mode prod",
     "build": "vue-cli-service build --mode prod",
     "deploy": "firebase deploy",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -31,6 +32,7 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-unit-jest": "^4.5.11",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
@@ -45,7 +47,8 @@
     "fs": "0.0.1-security",
     "node-sass": "^4.12.0",
     "path": "^0.12.7",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "vue-jest": "^3.0.7"
   },
   "eslintConfig": {
     "root": true,
@@ -81,12 +84,19 @@
         {
           "singleline": 3
         }
-      ]
+      ],
+      "eol-last": "off"
     }
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "jest": {
+    "preset": "@vue/cli-plugin-unit-jest",
+    "transform": {
+      "^.+\\.vue$": "vue-jest"
+    }
+  }
 }

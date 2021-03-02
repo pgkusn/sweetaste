@@ -64,7 +64,7 @@ export default {
             // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
                 const { data } = await axios({
-                    method: process.env.NODE_ENV === 'prod' ? 'post' : 'get',
+                    method: API.userLogin.method,
                     url: `${API.userLogin.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
                     baseURL: process.env.VUE_APP_GOOGLE_API_URL,
                     data: {
@@ -103,7 +103,7 @@ export default {
             // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
                 const { data } = await axios({
-                    method: process.env.NODE_ENV === 'prod' ? 'post' : 'get',
+                    method: API.userLogin.method,
                     url: `${API.userSignUp.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
                     baseURL: process.env.VUE_APP_GOOGLE_API_URL,
                     data: {
@@ -139,5 +139,4 @@ export default {
             }
         }
     }
-}
-;
+};

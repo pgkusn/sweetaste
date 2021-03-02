@@ -92,13 +92,13 @@ export default {
                 uid: uid.value,
                 content: cartList.value
             });
-            if (data.status === 'error') {
+            if (!data.success) {
                 isLoading.value = false;
                 alertify.error(data.message);
                 return;
             }
             store.dispatch('cart/clearCartList');
-            router.replace({ name: 'Success', params: { id: data.key } });
+            router.replace({ name: 'Success', params: { id: data.id } });
         };
 
         return {

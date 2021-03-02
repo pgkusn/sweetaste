@@ -59,10 +59,10 @@ export default {
         const favoriteIcon = computed(() => favoriteIndex.value === -1 ? 'favorite_border' : 'favorite');
         const changeFavorite = () => {
             if (favoriteIndex.value === -1) {
-                store.dispatch('favorite/addFavoriteProducts', props.info.id);
+                store.dispatch('favorite/addFavoriteProducts', { id: props.info.id });
             }
             else {
-                store.dispatch('favorite/removeFavoriteProducts', favoriteIndex.value);
+                store.dispatch('favorite/removeFavoriteProducts', { index: favoriteIndex.value });
             }
         };
 
