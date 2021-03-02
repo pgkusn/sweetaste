@@ -47,7 +47,7 @@ export default {
 
         // init firebase
         const firebaseConfig = {
-            apiKey: 'AIzaSyDvkKiZKyxVcN_PMi81IRpZWF16AgIjFQU',
+            apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
             authDomain: 'sweetaste-9013f.firebaseapp.com',
             databaseURL: 'https://sweetaste-9013f-default-rtdb.firebaseio.com',
             projectId: 'sweetaste-9013f',
