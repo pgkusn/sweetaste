@@ -5,9 +5,9 @@
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run JSON Server and Compiles
 ```
-npm run serve
+npm start
 ```
 
 ### Compiles and minifies for production
@@ -15,13 +15,15 @@ npm run serve
 npm run build
 ```
 
+### Deploy to Firebase Hosting
+```
+npm run deploy
+```
+
 ### Lints and fixes files
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Mockup
 https://pse.is/DBJGW

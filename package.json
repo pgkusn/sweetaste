@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm run api | npm run serve:dev",
-    "api": "json-server --watch src/data/JsonServerData.json --port 3001",
+    "api": "npx json-server --watch src/data/JsonServerData.json --port 3001",
     "serve:dev": "vue-cli-service serve",
     "serve:prod": "vue-cli-service serve --mode prod",
     "build": "vue-cli-service build --mode prod",
