@@ -13,6 +13,7 @@
                     >
                         <template #title>
                             <ul class="item-title">
+                                <!-- eslint-disable-next-line vue/no-parsing-error -->
                                 <li>【訂單編號】{{ order.id }}</li>
                                 <li>{{ formatTime(order.createTime) }}</li>
                             </ul>

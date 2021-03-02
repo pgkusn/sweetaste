@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+// eslint-disable-next-line no-unused-vars
 import device from 'current-device';
 import { ElCollapse, ElCollapseItem } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';

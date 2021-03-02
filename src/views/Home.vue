@@ -53,8 +53,6 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import cloneDeep from 'lodash/cloneDeep';
-import alertify from 'alertifyjs';
-import 'alertifyjs/build/css/alertify.min.css';
 import Card from '@/components/Card.vue';
 
 export default {

@@ -44,8 +44,6 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import alertify from 'alertifyjs';
 import 'alertifyjs/build/css/alertify.min.css';
-import firebase from 'firebase/app';
-import 'firebase/auth';
 
 export default {
     name: 'SignUp',

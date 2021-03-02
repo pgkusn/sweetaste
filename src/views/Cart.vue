@@ -62,7 +62,6 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import cloneDeep from 'lodash/cloneDeep';
 
 export default {
     name: 'Cart',
