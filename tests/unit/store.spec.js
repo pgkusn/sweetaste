@@ -2,9 +2,6 @@
 import store from '@/store';
 
 describe('test cart', () => {
-    it('init', async () => {
-        expect(store.state.cart.cartList).toBe(null);
-    });
     it('add cart', async () => {
         const item = {
             id: 1,
