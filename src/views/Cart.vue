@@ -97,7 +97,7 @@ export default {
             store.dispatch('cart/removeCartList', { id });
         };
         const checkout = () => {
-            router.push({ name: 'Ship' });
+            router.push('/checkout');
         };
 
         return {

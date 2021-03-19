@@ -67,7 +67,7 @@ const routes = [
                 component: () => import('@/views/Payment.vue'),
                 beforeEnter (to, from, next) {
                     if (from.name !== 'Ship') {
-                        next({ name: 'Ship' });
+                        next('/checkout');
                     }
                     else {
                         next();
@@ -80,7 +80,7 @@ const routes = [
                 component: () => import('@/views/Invoice.vue'),
                 beforeEnter (to, from, next) {
                     if (from.name !== 'Payment') {
-                        next({ name: 'Ship' });
+                        next('/checkout');
                     }
                     else {
                         next();
