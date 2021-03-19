@@ -1,11 +1,13 @@
 const API = {
     userLogin: {
         method: 'post',
-        url: '/accounts:signInWithPassword'
+        url: '/accounts:signInWithPassword',
+        baseURL: process.env.VUE_APP_GOOGLE_API_URL
     },
     userSignUp: {
         method: 'post',
-        url: '/accounts:signUp'
+        url: '/accounts:signUp',
+        baseURL: process.env.VUE_APP_GOOGLE_API_URL
     },
     productList: {
         method: 'get',
@@ -13,11 +15,13 @@ const API = {
     },
     orderList: {
         method: 'get',
-        url: '/order'
+        url: '/order',
+        baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
     },
     order: {
         method: 'post',
-        url: '/order'
+        url: '/order',
+        baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
     }
 };
 

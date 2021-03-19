@@ -66,7 +66,7 @@ export default {
                 const { data } = await axios({
                     method: API.userLogin.method,
                     url: `${API.userLogin.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
-                    baseURL: process.env.VUE_APP_GOOGLE_API_URL,
+                    baseURL: API.userLogin.baseURL,
                     data: {
                         ...payload,
                         returnSecureToken: true
@@ -105,7 +105,7 @@ export default {
                 const { data } = await axios({
                     method: API.userLogin.method,
                     url: `${API.userSignUp.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
-                    baseURL: process.env.VUE_APP_GOOGLE_API_URL,
+                    baseURL: API.userSignUp.baseURL,
                     data: {
                         ...payload,
                         returnSecureToken: true
