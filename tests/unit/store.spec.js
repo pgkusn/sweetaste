@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import store from '@/store';
 
 describe('test cart', () => {
