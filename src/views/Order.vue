@@ -97,7 +97,7 @@ export default {
             }
 
             // set active names
-            const index = Object.keys(data.list).findIndex(value => value === props.id);
+            const index = data.list.findIndex(item => item.id === props.id);
             activeNames.value = [index === -1 ? 0 : index];
 
             orderList.value = data.list;
