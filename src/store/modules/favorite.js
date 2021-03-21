@@ -1,4 +1,4 @@
-import LS from '@/modules/LocalStorage';
+import LS from '@/modules/localStorage';
 
 export default {
     namespaced: true,

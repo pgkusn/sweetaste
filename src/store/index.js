@@ -25,14 +25,6 @@ axios.interceptors.response.use(function (response) {
 });
 
 export default createStore({
-    state: {
-        tabletWidth: false
-    },
-    mutations: {
-        setMediaWidth (state, payload) {
-            state[payload.mediaType + 'Width'] = payload.value;
-        }
-    },
     modules: {
         login,
         cart,

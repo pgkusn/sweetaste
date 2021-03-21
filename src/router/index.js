@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { checkLogin } from '@/modules/CheckLogin.js';
+import { checkLogin } from '@/modules/checkLogin';
 import Home from '../views/Home.vue';
 import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';

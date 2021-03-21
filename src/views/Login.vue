@@ -55,14 +55,10 @@
 </template>
 
 <script>
-import { reactive } from 'vue';
-import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import Cookies from 'js-cookie';
-import alertify from 'alertifyjs';
-import 'alertifyjs/build/css/alertify.min.css';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import useGoogleLogin from '@/modules/googleLogin';
+import useFbLogin from '@/modules/fbLogin';
+import useLineLogin from '@/modules/lineLogin';
+import useUserLogin from '@/modules/userLogin';
 
 export default {
     name: 'Login',
@@ -71,125 +67,10 @@ export default {
         next();
     },
     setup () {
-        const store = useStore();
-        const router = useRouter();
-
-        // =============================================================================
-        // google login
-        // =============================================================================
-        const googleLogin = () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider)
-                .then(result => {
-                    const { uid, displayName, email, photoURL } = result.user;
-                    const userProfile = {
-                        uid,
-                        displayName,
-                        email,
-                        photoURL
-                    };
-                    store.commit('login/setUserProfile', userProfile);
-                    localStorage.setItem('userProfile', JSON.stringify(userProfile));
-
-                    const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
-                    router.push({ name: beforeLoginPage });
-                    sessionStorage.removeItem('beforeLoginPage');
-                })
-                .catch(error => console.error(error.message));
-        };
-
-        // =============================================================================
-        // fb login
-        // =============================================================================
-        const fbLogin = () => {
-            /* eslint-disable no-undef */
-            const getStatus = res => {
-                if (res.status === 'connected') {
-                    // get user profile
-                    FB.api('/me', 'GET', { fields: ['picture', 'name', 'email'] }, res => {
-                        const userProfile = {
-                            uid: res.id,
-                            displayName: res.name,
-                            email: res.email,
-                            photoURL: res.picture.data.url
-                        };
-                        store.commit('login/setUserProfile', userProfile);
-                        localStorage.setItem('userProfile', JSON.stringify(userProfile));
-
-                        const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
-                        router.push({ name: beforeLoginPage });
-                        sessionStorage.removeItem('beforeLoginPage');
-                    });
-                }
-            };
-            FB.login(getStatus);
-        };
-
-        // =============================================================================
-        // line login
-        // =============================================================================
-        const lineLogin = () => {
-            const { channelID, callbackURL, state } = store.getters['login/lineInfo'];
-            let url = 'https://access.line.me/oauth2/v2.1/authorize?';
-            url += 'response_type=code';
-            url += '&client_id=' + channelID;
-            url += '&redirect_uri=' + callbackURL;
-            url += '&state=' + state;
-            url += '&scope=openid%20email%20profile';
-            location.href = url; // 前往 line 登入畫面
-        };
-
-        // =============================================================================
-        // user login
-        // =============================================================================
-        const loginInfo = reactive({
-            email: '',
-            password: '',
-            rememberMe: false
-        });
-
-        // 記住我
-        if (Cookies.get('userLoginInfo')) {
-            const userLoginInfo = JSON.parse(Cookies.get('userLoginInfo'));
-            loginInfo.email = userLoginInfo.email;
-            loginInfo.password = userLoginInfo.password;
-            loginInfo.rememberMe = true;
-        }
-
-        const userLogin = async () => {
-            const data = await store.dispatch('login/userLogin', {
-                email: loginInfo.email.trim(),
-                password: loginInfo.password.trim()
-            });
-
-            if (!data.success) {
-                alertify.error(data.message);
-                return;
-            }
-
-            alertify.success('登入成功');
-
-            // 記住我
-            if (loginInfo.rememberMe) {
-                Cookies.set('userLoginInfo', JSON.stringify({ email: loginInfo.email, password: loginInfo.password }, { expires: 7 }));
-            }
-            else {
-                Cookies.remove('userLoginInfo');
-            }
-
-            const { localId: uid, displayName, email } = data;
-            const userProfile = {
-                uid,
-                displayName,
-                email
-            };
-            store.commit('login/setUserProfile', userProfile);
-            localStorage.setItem('userProfile', JSON.stringify(userProfile));
-
-            const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
-            router.push({ name: beforeLoginPage });
-            sessionStorage.removeItem('beforeLoginPage');
-        };
+        const { googleLogin } = useGoogleLogin();
+        const { fbLogin } = useFbLogin();
+        const { lineLogin } = useLineLogin();
+        const { loginInfo, userLogin } = useUserLogin();
 
         return {
             googleLogin,

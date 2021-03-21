@@ -59,6 +59,8 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
+import useShowList from '@/modules/showList';
+import useMediaSensor from '@/modules/mediaSensor';
 
 export default {
     name: 'Product',
@@ -78,7 +80,6 @@ export default {
         router.replace({ name: 'Product' }); // remove query string from home
 
         const contentRef = ref(null);
-        const tabletWidth = computed(() => store.state.tabletWidth);
         const productList = computed(() => store.state.product.productList);
 
         // 類別
@@ -119,25 +120,15 @@ export default {
         });
 
         // 分頁資料
-        const perPage = 4;
+        const { md } = useMediaSensor();
         const currentPage = ref(1);
+        const showList = useShowList(currentCategoryList);
         const totalPage = computed(() => showList.value.length);
-        const showList = computed(() => {
-            const newList = [];
-            currentCategoryList.value.forEach((item, i) => {
-                if (i % perPage === 0) {
-                    newList.push([]);
-                }
-                const page = parseInt(i / perPage);
-                newList[page].push(item);
-            });
-            return newList;
-        });
         watch(showList, () => {
             currentPage.value = 1;
         });
-        watch(currentPage, value => {
-            if (tabletWidth.value) {
+        watch(currentPage, () => {
+            if (!md.value) {
                 const contentRefTop = contentRef.value.offsetTop;
                 window.scrollTo(0, contentRefTop);
             }
