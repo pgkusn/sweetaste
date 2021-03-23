@@ -55,9 +55,8 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 import Card from '@/components/Card.vue';
 import useShowList from '@/modules/showList';
 import useMediaSensor from '@/modules/mediaSensor';
@@ -75,10 +74,6 @@ export default {
     },
     setup (props) {
         const store = useStore();
-        const router = useRouter();
-
-        router.replace({ name: 'Product' }); // remove query string from home
-
         const contentRef = ref(null);
         const productList = computed(() => store.state.product.productList);
 
@@ -129,9 +124,21 @@ export default {
         });
         watch(currentPage, () => {
             if (!md.value) {
-                const contentRefTop = contentRef.value.offsetTop;
-                window.scrollTo(0, contentRefTop);
+                window.scrollTo({
+                    top: contentRef.value.offsetTop,
+                    behavior: 'smooth'
+                });
             }
+        });
+
+        onMounted(() => {
+            if (props.cate) {
+                window.scrollTo({
+                    top: contentRef.value.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+            history.replaceState({}, '', '/#/product');
         });
 
         return {
