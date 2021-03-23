@@ -13,6 +13,7 @@ import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';
 import useLineLoginCallback from '@/modules/lineLoginCallback';
+import { checkLogin } from '@/modules/checkLogin';
 
 export default {
     name: 'App',
@@ -44,6 +45,12 @@ export default {
         firebase.initializeApp(firebaseConfig);
 
         useLineLoginCallback();
+
+        // check login status
+        const userProfile = checkLogin();
+        if (userProfile) {
+            store.commit('login/setUserProfile', JSON.parse(userProfile));
+        }
 
         onMounted(async () => {
             const data = await store.dispatch('product/getProductList');

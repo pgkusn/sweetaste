@@ -27,11 +27,6 @@ export default {
         const route = useRoute();
         const router = useRouter();
 
-        // check login
-        const userProfile = localStorage.getItem('userProfile');
-        if (userProfile) {
-            store.commit('login/setUserProfile', JSON.parse(userProfile));
-        }
         const isLogin = computed(() => store.state.login.userProfile);
 
         // logout
