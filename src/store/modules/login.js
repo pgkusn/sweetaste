@@ -1,5 +1,6 @@
 import axios from 'axios';
 import API from '@/data/api.js';
+import LS from '@/modules/localStorage';
 
 export default {
     namespaced: true,
@@ -137,6 +138,10 @@ export default {
                     message
                 };
             }
+        },
+        setUserProfileHandler ({ commit }, userProfile) {
+            commit('setUserProfile', userProfile);
+            LS.set('userProfile', JSON.stringify(userProfile));
         }
     }
 };

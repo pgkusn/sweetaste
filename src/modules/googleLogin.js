@@ -12,14 +12,12 @@ export default () => {
         firebase.auth().signInWithPopup(provider)
             .then(result => {
                 const { uid, displayName, email, photoURL } = result.user;
-                const userProfile = {
+                store.dispatch('login/setUserProfileHandler', {
                     uid,
                     displayName,
                     email,
                     photoURL
-                };
-                store.commit('login/setUserProfile', userProfile);
-                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                });
 
                 const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
                 router.push({ name: beforeLoginPage });

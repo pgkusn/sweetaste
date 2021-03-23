@@ -38,13 +38,11 @@ export default async () => {
         removeQueryString();
         return;
     }
-    const userProfile = {
+    store.dispatch('login/setUserProfileHandler', {
         uid: profileData.userId,
         displayName: profileData.displayName,
         photoURL: profileData.pictureUrl
-    };
-    store.commit('login/setUserProfile', userProfile);
-    localStorage.setItem('userProfile', JSON.stringify(userProfile));
+    });
 
     removeQueryString();
     const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';

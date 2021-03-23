@@ -45,13 +45,11 @@ export default () => {
         }
 
         const { localId: uid, displayName, email } = data;
-        const userProfile = {
+        store.dispatch('login/setUserProfileHandler', {
             uid,
             displayName,
             email
-        };
-        store.commit('login/setUserProfile', userProfile);
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+        });
 
         const beforeLoginPage = sessionStorage.getItem('beforeLoginPage') || 'Home';
         router.push({ name: beforeLoginPage });
