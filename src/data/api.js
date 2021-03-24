@@ -2,12 +2,12 @@ const API = {
     userLogin: {
         method: 'post',
         url: '/accounts:signInWithPassword',
-        baseURL: process.env.VUE_APP_GOOGLE_API_URL
+        baseURL: 'https://identitytoolkit.googleapis.com/v1'
     },
     userSignUp: {
         method: 'post',
         url: '/accounts:signUp',
-        baseURL: process.env.VUE_APP_GOOGLE_API_URL
+        baseURL: 'https://identitytoolkit.googleapis.com/v1'
     },
     productList: {
         method: 'get',
