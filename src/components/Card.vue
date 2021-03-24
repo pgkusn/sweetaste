@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card__img">
-            <img :src="require(`@/assets/images/${props.info.url}`)" alt="">
+            <img :src="props.info.url" alt="">
             <div class="card__tag">
                 {{ showCategory }}
             </div>
