@@ -24,7 +24,7 @@
                 <ul class="list__content">
                     <li v-for="item in cartList" :key="item.id">
                         <div class="list__content--img">
-                            <img :src="require(`@/assets/images/${item.url}`)" alt="">
+                            <img :src="item.url" alt="">
                         </div>
                         <div class="list__content--text">
                             <p>{{ item.name }} ({{ item.orderAmount }})</p>

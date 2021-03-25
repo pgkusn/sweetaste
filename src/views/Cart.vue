@@ -7,7 +7,7 @@
                 </h2>
                 <div v-for="item in cartList" :key="item.id" class="list">
                     <div class="list__img">
-                        <img :src="require(`@/assets/images/${item.url}`)" alt="">
+                        <img :src="item.url" alt="">
                     </div>
                     <div class="list__detail">
                         <div class="list__name">
