@@ -44,12 +44,17 @@
                             <label>記住我</label>
                         </div>
                     </div>
-                    <router-link :to="{ name: 'SignUp' }">
-                        註冊
-                    </router-link>
                 </div>
             </div>
             <input type="submit" class="login__user--submit" value="登入帳號">
+            <router-link v-slot="{ navigate }" :to="{ name: 'SignUp' }" custom>
+                <input
+                    type="submit"
+                    class="login__user--submit"
+                    value="建立帳戶"
+                    @click="navigate"
+                >
+            </router-link>
         </form>
     </main>
 </template>
@@ -218,7 +223,7 @@ export default {
             }
         }
         &--submit {
-            width: 100%;
+            width: 50%;
             border: none;
             background-color: #ffe180;
             color: $dark-color;
@@ -226,6 +231,9 @@ export default {
             font-size: 24px;
             line-height: 65px;
             cursor: pointer;
+            + .login__user--submit {
+                border-left: 1px solid #fff;
+            }
         }
     }
 }
