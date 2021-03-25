@@ -2,6 +2,14 @@ import axios from 'axios';
 import API from '@/data/api.js';
 import LS from '@/modules/localStorage';
 
+// doc：https://firebase.google.com/docs/reference/rest/auth
+const firebaseApi = axios.create({
+    baseURL: 'https://identitytoolkit.googleapis.com/v1',
+    params: {
+        key: process.env.VUE_APP_FIREBASE_API_KEY
+    }
+});
+
 export default {
     namespaced: true,
     state: {
@@ -62,12 +70,10 @@ export default {
             }
         },
         async userLogin (context, payload) {
-            // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
-                const { data } = await axios({
+                const { data } = await firebaseApi({
                     method: API.userLogin.method,
-                    url: `${API.userLogin.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
-                    baseURL: API.userLogin.baseURL,
+                    url: API.userLogin.url,
                     data: {
                         ...payload,
                         returnSecureToken: true
@@ -101,12 +107,10 @@ export default {
             }
         },
         async userSignUp (context, payload) {
-            // doc：https://firebase.google.com/docs/reference/rest/auth
             try {
-                const { data } = await axios({
+                const { data } = await firebaseApi({
                     method: API.userLogin.method,
-                    url: `${API.userSignUp.url}?key=${process.env.VUE_APP_FIREBASE_API_KEY}`,
-                    baseURL: API.userSignUp.baseURL,
+                    url: API.userSignUp.url,
                     data: {
                         ...payload,
                         returnSecureToken: true

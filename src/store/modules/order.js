@@ -1,15 +1,18 @@
 import axios from 'axios';
 import API from '@/data/api.js';
 
+const orderApi = axios.create({
+    baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
+});
+
 export default {
     namespaced: true,
     actions: {
         async getOrderList (context, uid) {
             try {
-                const { data } = await axios({
+                const { data } = await orderApi({
                     method: API.orderList.method,
-                    url: `${API.orderList.url}/${uid}`,
-                    baseURL: API.orderList.baseURL
+                    url: `${API.orderList.url}/${uid}`
                 });
                 return {
                     success: true,
@@ -26,10 +29,9 @@ export default {
         },
         async order (context, payload) {
             try {
-                const { data } = await axios({
+                const { data } = await orderApi({
                     method: API.order.method,
                     url: API.order.url,
-                    baseURL: API.order.baseURL,
                     data: payload
                 });
                 return {

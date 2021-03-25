@@ -1,13 +1,11 @@
 const API = {
     userLogin: {
         method: 'post',
-        url: '/accounts:signInWithPassword',
-        baseURL: 'https://identitytoolkit.googleapis.com/v1'
+        url: '/accounts:signInWithPassword'
     },
     userSignUp: {
         method: 'post',
-        url: '/accounts:signUp',
-        baseURL: 'https://identitytoolkit.googleapis.com/v1'
+        url: '/accounts:signUp'
     },
     productList: {
         method: 'get',
@@ -15,13 +13,11 @@ const API = {
     },
     orderList: {
         method: 'get',
-        url: '/order',
-        baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
+        url: '/order'
     },
     order: {
         method: 'post',
-        url: '/order',
-        baseURL: 'https://kenge-mock-api.herokuapp.com/sweetaste'
+        url: '/order'
     }
 };
 
