@@ -21,7 +21,7 @@
                     </tr>
                     <tr>
                         <td class="pr-5">
-                            <input type="text">
+                            <input v-focus type="text">
                         </td>
                         <td class="pl-5">
                             <input type="text">

@@ -8,4 +8,12 @@ import { ElCollapse, ElCollapseItem } from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
 import 'nprogress/nprogress.css';
 
-createApp(App).use(store).use(router).use(ElCollapse).use(ElCollapseItem).mount('#app');
+const app = createApp(App);
+
+app.directive('focus', {
+    mounted (el) {
+        el.focus();
+    }
+});
+
+app.use(store).use(router).use(ElCollapse).use(ElCollapseItem).mount('#app');

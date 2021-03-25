@@ -27,7 +27,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="text">
+                                <input v-focus type="text">
                             </td>
                         </tr>
                     </template>

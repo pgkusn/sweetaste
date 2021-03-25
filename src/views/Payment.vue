@@ -18,7 +18,7 @@
                     </tr>
                     <tr>
                         <td class="card" colspan="2">
-                            <input type="text">
+                            <input v-focus type="text">
                             <span class="material-icons">payment</span>
                         </td>
                     </tr>

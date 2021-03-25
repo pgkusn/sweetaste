@@ -23,6 +23,7 @@
                     <span class="material-icons">person</span>
                     <input
                         v-model="loginInfo.email"
+                        v-focus
                         type="text"
                         placeholder="電子信箱/手機號碼"
                         required
