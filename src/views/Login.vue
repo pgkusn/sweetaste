@@ -61,10 +61,7 @@
 </template>
 
 <script>
-import useGoogleLogin from '@/modules/googleLogin';
-import useFbLogin from '@/modules/fbLogin';
-import useLineLogin from '@/modules/lineLogin';
-import useUserLogin from '@/modules/userLogin';
+import { useGoogleLogin, useFbLogin, useLineLogin, useUserLogin } from '@/modules/login';
 
 export default {
     name: 'Login',

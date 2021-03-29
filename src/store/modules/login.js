@@ -1,6 +1,7 @@
 import axios from 'axios';
 import API from '@/data/api.js';
 import LS from '@/modules/localStorage';
+import { checkLogin } from '@/modules/login';
 
 // doc：https://firebase.google.com/docs/reference/rest/auth
 const firebaseApi = axios.create({
@@ -145,7 +146,17 @@ export default {
         },
         setUserProfileHandler ({ commit }, userProfile) {
             commit('setUserProfile', userProfile);
-            LS.set('userProfile', JSON.stringify(userProfile));
+            LS.set('userProfile', userProfile);
+        },
+        setUserProfileFromCookie ({ commit }) {
+            const userProfile = checkLogin();
+            if (userProfile) {
+                commit('setUserProfile', JSON.parse(userProfile));
+            }
+        },
+        logout ({ commit }) {
+            commit('setUserProfile', null);
+            LS.remove('userProfile');
         }
     }
 };

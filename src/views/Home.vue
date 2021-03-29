@@ -54,6 +54,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import cloneDeep from 'lodash/cloneDeep';
 import Card from '@/components/Card.vue';
+import { useLineLoginCallback } from '@/modules/login';
 
 export default {
     name: 'Home',
@@ -62,6 +63,8 @@ export default {
     },
     setup () {
         const store = useStore();
+
+        useLineLoginCallback();
 
         // showcase
         const categoryList = computed(() => store.getters['product/productCategoryList']);

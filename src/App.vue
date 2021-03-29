@@ -7,13 +7,10 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
 import { useStore } from 'vuex';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';
-import useLineLoginCallback from '@/modules/lineLoginCallback';
-import { checkLogin } from '@/modules/checkLogin';
 
 export default {
     name: 'App',
@@ -24,7 +21,6 @@ export default {
     setup () {
         const store = useStore();
 
-        // init fb
         FB.init({
             appId: '512477409242587',
             autoLogAppEvents: true,
@@ -32,7 +28,6 @@ export default {
             version: 'v9.0'
         });
 
-        // init firebase
         const firebaseConfig = {
             apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
             authDomain: 'sweetaste-9013f.firebaseapp.com',
@@ -44,18 +39,10 @@ export default {
         };
         firebase.initializeApp(firebaseConfig);
 
-        useLineLoginCallback();
-
-        // check login status
-        const userProfile = checkLogin();
-        if (userProfile) {
-            store.commit('login/setUserProfile', JSON.parse(userProfile));
-        }
-
-        onMounted(async () => {
-            const data = await store.dispatch('product/getProductList');
-            if (data) {
-                store.dispatch('cart/getCartList');
+        store.dispatch('login/setUserProfileFromCookie');
+        store.dispatch('cart/getCartList');
+        store.dispatch('product/getProductList').then(res => {
+            if (res) {
                 store.dispatch('favorite/getFavoriteProducts');
             }
         });

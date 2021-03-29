@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import dayjs from 'dayjs';
 import alertify from 'alertifyjs';
@@ -89,18 +89,18 @@ export default {
         const orderList = ref(null);
         const uid = computed(() => store.state.login.userProfile?.uid);
         const formatTime = time => dayjs(time).format('YYYY-MM-DD HH:mm:ss');
-        onMounted(async () => {
-            const data = await store.dispatch('order/getOrderList', uid.value);
-            if (!data.success) {
-                alertify.error(data.message);
+
+        store.dispatch('order/getOrderList', uid.value).then(res => {
+            if (!res.success) {
+                alertify.error(res.message);
                 return;
             }
 
             // set active names
-            const index = data.list.findIndex(item => item.id === props.id);
+            const index = res.list.findIndex(item => item.id === props.id);
             activeNames.value = [index === -1 ? 0 : index];
 
-            orderList.value = data.list;
+            orderList.value = res.list;
         });
 
         return {

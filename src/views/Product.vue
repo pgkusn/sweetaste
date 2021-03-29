@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { computed, ref, watch, onMounted } from 'vue';
+import { computed, ref, watch, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import Card from '@/components/Card.vue';
 import useShowList from '@/modules/showList';
@@ -93,8 +93,10 @@ export default {
         });
         const getCategoryCount = name => productList.value.filter(item => item.category === name).length;
         const changeCategory = category => {
+            if (currentCategory.value === category) return;
             currentCategory.value = category;
             showFavorite.value = false;
+            currentPage.value = 1;
         };
 
         // 我的最愛
@@ -119,9 +121,6 @@ export default {
         const currentPage = ref(1);
         const showList = useShowList(currentCategoryList);
         const totalPage = computed(() => showList.value.length);
-        watch(showList, () => {
-            currentPage.value = 1;
-        });
         watch(currentPage, () => {
             if (!md.value) {
                 window.scrollTo({
@@ -132,13 +131,32 @@ export default {
         });
 
         onMounted(() => {
+            // 從首頁分類進入時先預載入圖片後再滾動至商品內容處
             if (props.cate) {
-                window.scrollTo({
-                    top: contentRef.value.offsetTop,
-                    behavior: 'smooth'
+                const stop = watchEffect(() => {
+                    if (productList.value.length) {
+                        const productImgs = showList.value[currentPage.value - 1].map(item => item.url);
+                        const preloadImgs = ['images/hero-product.jpeg', ...productImgs];
+
+                        let loaded = 0;
+                        for (const url of preloadImgs) {
+                            const img = new Image();
+                            img.src = url;
+                            img.onload = () => {
+                                loaded++;
+                                if (loaded === preloadImgs.length) {
+                                    stop();
+                                    window.scrollTo({
+                                        top: contentRef.value.offsetTop,
+                                        behavior: 'smooth'
+                                    });
+                                    history.replaceState({}, '', '/#/product');
+                                }
+                            };
+                        }
+                    }
                 });
             }
-            history.replaceState({}, '', '/#/product');
         });
 
         return {

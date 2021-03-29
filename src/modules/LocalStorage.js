@@ -4,5 +4,8 @@ export default {
     },
     set (item, content) {
         localStorage.setItem(item, JSON.stringify(content));
+    },
+    remove (item) {
+        localStorage.removeItem(item);
     }
 };

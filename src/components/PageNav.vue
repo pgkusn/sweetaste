@@ -28,16 +28,10 @@ export default {
         const router = useRouter();
 
         const isLogin = computed(() => store.state.login.userProfile);
-
-        // logout
-        const logout = () => {
-            if (store.state.login.userProfile) {
-                store.commit('login/setUserProfile', null);
-                localStorage.removeItem('userProfile');
-
-                if (route.fullPath.split('/').includes('checkout') || route.name === 'Success' || route.name === 'Order') {
-                    router.replace({ name: 'Home' });
-                }
+        const logout = async () => {
+            await store.dispatch('login/logout');
+            if (route.fullPath.split('/').includes('checkout') || route.name === 'Success' || route.name === 'Order') {
+                router.replace({ name: 'Home' });
             }
         };
 
