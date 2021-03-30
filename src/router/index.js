@@ -5,7 +5,6 @@ import Product from '../views/Product.vue';
 import Login from '../views/Login.vue';
 import SignUp from '../views/SignUp.vue';
 import Cart from '../views/Cart.vue';
-import Checkout from '../views/Checkout.vue';
 
 const routes = [
     {
@@ -45,12 +44,12 @@ const routes = [
     {
         path: '/checkout',
         name: 'Checkout',
-        component: Checkout,
+        component: () => import(/* webpackChunkName: "group-checkout" */ '@/views/Checkout.vue'),
         children: [
             {
                 path: '',
                 name: 'Ship',
-                component: () => import('@/views/Ship.vue'),
+                component: () => import(/* webpackChunkName: "group-checkout" */ '@/views/Ship.vue'),
                 beforeEnter (to, from, next) {
                     if (!checkLogin()) {
                         sessionStorage.setItem('beforeLoginPage', 'Ship');
@@ -64,7 +63,7 @@ const routes = [
             {
                 path: 'payment',
                 name: 'Payment',
-                component: () => import('@/views/Payment.vue'),
+                component: () => import(/* webpackChunkName: "group-checkout" */ '@/views/Payment.vue'),
                 beforeEnter (to, from, next) {
                     if (from.name !== 'Ship') {
                         next('/checkout');
@@ -77,7 +76,7 @@ const routes = [
             {
                 path: 'invoice',
                 name: 'Invoice',
-                component: () => import('@/views/Invoice.vue'),
+                component: () => import(/* webpackChunkName: "group-checkout" */ '@/views/Invoice.vue'),
                 beforeEnter (to, from, next) {
                     if (from.name !== 'Payment') {
                         next('/checkout');
