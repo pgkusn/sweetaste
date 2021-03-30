@@ -1,7 +1,7 @@
 <template>
-    <ul :class="['progress', { success: props.now === 4 }]">
+    <ul :class="['progress', { success: $props.now === 4 }]">
         <li v-for="n in 3" :key="n" :class="getItemStyle(n)">
-            {{ (props.now - 2 === n || props.now - 1 === n || props.now === 4) ? 'check' : '' }}
+            {{ ($props.now - 2 === n || $props.now - 1 === n || $props.now === 4) ? 'check' : '' }}
         </li>
     </ul>
 </template>
@@ -25,7 +25,6 @@ export default {
             }
         };
         return {
-            props,
             getItemStyle
         };
     }

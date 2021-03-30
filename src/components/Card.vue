@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="card__img">
-            <img :src="props.info.url" alt="">
+            <img :src="$props.info.url" alt="">
             <div class="card__tag">
                 {{ showCategory }}
             </div>
@@ -11,10 +11,10 @@
         </div>
         <div class="card__text">
             <div class="card__text--name">
-                {{ props.info.name }}
+                {{ $props.info.name }}
             </div>
             <div class="card__text--price">
-                NT$ {{ props.info.price }}
+                NT$ {{ $props.info.price }}
             </div>
         </div>
         <button class="card__add" :disabled="checkCart" @click="addCart">
@@ -67,7 +67,6 @@ export default {
         };
 
         return {
-            props,
             showCategory,
             checkCart,
             addCart,
