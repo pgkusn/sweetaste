@@ -11,7 +11,7 @@ import { useStore } from 'vuex';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';
-import { useMediaSensor } from '@/modules/mediaSensor';
+import { useMediaSensor } from '@/composition/mediaSensor';
 
 export default {
     name: 'App',

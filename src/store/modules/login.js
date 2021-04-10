@@ -1,7 +1,7 @@
 import axios from 'axios';
 import API from '@/data/api.js';
-import LS from '@/modules/localStorage';
-import { checkLogin } from '@/modules/login';
+import LS from '@/composition/localStorage';
+import { checkLogin } from '@/composition/login';
 
 // doc：https://firebase.google.com/docs/reference/rest/auth
 const firebaseApi = axios.create({

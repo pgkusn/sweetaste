@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import store from '@/store';
-import showList from '@/modules/showList';
+import showList from '@/composition/showList';
 
 describe('test cart', () => {
     it('add cart', async () => {

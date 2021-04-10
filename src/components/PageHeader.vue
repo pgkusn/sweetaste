@@ -27,7 +27,7 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import PageNav from '@/components/PageNav.vue';
-import { screens } from '@/modules/mediaSensor';
+import { screens } from '@/composition/mediaSensor';
 
 export default {
     name: 'PageHeader',

@@ -58,8 +58,8 @@
 import { computed, ref, watch, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import Card from '@/components/Card.vue';
-import useShowList from '@/modules/showList';
-import { screens } from '@/modules/mediaSensor';
+import useShowList from '@/composition/showList';
+import { screens } from '@/composition/mediaSensor';
 
 export default {
     name: 'Product',

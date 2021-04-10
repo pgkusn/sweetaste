@@ -54,7 +54,7 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import cloneDeep from 'lodash/cloneDeep';
 import Card from '@/components/Card.vue';
-import { useLineLoginCallback } from '@/modules/login';
+import { useLineLoginCallback } from '@/composition/login';
 
 export default {
     name: 'Home',
