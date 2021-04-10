@@ -59,7 +59,7 @@ import { computed, ref, watch, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import Card from '@/components/Card.vue';
 import useShowList from '@/modules/showList';
-import useMediaSensor from '@/modules/mediaSensor';
+import { screens } from '@/modules/mediaSensor';
 
 export default {
     name: 'Product',
@@ -117,12 +117,11 @@ export default {
         });
 
         // 分頁資料
-        const { md } = useMediaSensor();
         const currentPage = ref(1);
         const showList = useShowList(currentCategoryList);
         const totalPage = computed(() => showList.value.length);
         watch(currentPage, () => {
-            if (!md.value) {
+            if (!screens.md) {
                 window.scrollTo({
                     top: contentRef.value.offsetTop,
                     behavior: 'smooth'

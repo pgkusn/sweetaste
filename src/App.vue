@@ -11,6 +11,7 @@ import { useStore } from 'vuex';
 import firebase from 'firebase/app';
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';
+import { useMediaSensor } from '@/modules/mediaSensor';
 
 export default {
     name: 'App',
@@ -19,7 +20,7 @@ export default {
         PageFooter
     },
     setup () {
-        const store = useStore();
+        useMediaSensor();
 
         FB.init({
             appId: '512477409242587',
@@ -39,6 +40,7 @@ export default {
         };
         firebase.initializeApp(firebaseConfig);
 
+        const store = useStore();
         store.dispatch('login/setUserProfileFromCookie');
         store.dispatch('cart/getCartList');
         store.dispatch('product/getProductList').then(res => {

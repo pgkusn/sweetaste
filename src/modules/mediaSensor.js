@@ -1,21 +1,18 @@
-import { reactive, toRefs } from 'vue';
+import { reactive } from 'vue';
 
-export default () => {
-    const screens = reactive({
-        md: null
-    });
+export const screens = reactive({
+    sm: null,
+    md: null,
+    xl: null
+});
 
+export const useMediaSensor = () => {
     const mediaSensor = ({ width, size }) => {
-        const resizeWidth = pMatchMedia => (screens[size] = pMatchMedia.matches);
-        const mm = window.matchMedia(`(min-width: ${width}px)`);
-        mm.addListener(resizeWidth);
-        resizeWidth(mm);
+        const screenTest = e => (screens[size] = e.matches);
+        const mqList = window.matchMedia(`(min-width: ${width}px)`);
+        mqList.addListener(screenTest);
+        screenTest(mqList);
     };
 
-    mediaSensor({
-        width: 768,
-        size: 'md'
-    });
-
-    return toRefs(screens);
+    mediaSensor({ width: 768, size: 'md' });
 };

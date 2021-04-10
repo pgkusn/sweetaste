@@ -8,8 +8,8 @@
                     <img src="@/assets/images/logo-m.svg" alt="Sweetaste">
                 </picture>
             </h1>
-            <PageNav v-if="md" />
-            <div v-show="md && avatarSrc" class="avatar">
+            <PageNav v-if="screens.md" />
+            <div v-show="screens.md && avatarSrc" class="avatar">
                 <img :src="avatarSrc" alt="">
             </div>
             <router-link :to="{ name: 'Cart' }" class="cart">
@@ -18,7 +18,7 @@
             </router-link>
         </div>
         <input id="toggler-input" v-model="showNav" type="checkbox">
-        <PageNav v-if="!md" />
+        <PageNav v-if="!screens.md" />
     </header>
 </template>
 
@@ -27,7 +27,7 @@ import { computed, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import PageNav from '@/components/PageNav.vue';
-import useMediaSensor from '@/modules/mediaSensor';
+import { screens } from '@/modules/mediaSensor';
 
 export default {
     name: 'PageHeader',
@@ -38,7 +38,6 @@ export default {
         const store = useStore();
         const route = useRoute();
 
-        const { md } = useMediaSensor();
         const avatarSrc = computed(() => store.state.login.userProfile?.photoURL);
         const cartTotal = computed(() => {
             const total = store.state.cart.cartList?.length;
@@ -54,7 +53,7 @@ export default {
         });
 
         return {
-            md,
+            screens,
             avatarSrc,
             showNav,
             cartTotal
