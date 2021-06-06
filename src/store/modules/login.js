@@ -88,16 +88,13 @@ export default {
             catch (error) {
                 console.error(error.message);
 
-                let message = '';
-                switch (error.response.data.error?.message) {
+                let message = error.response.data.error.message;
+                switch (message) {
                 case 'EMAIL_NOT_FOUND':
                     message = 'Email 不存在';
                     break;
                 case 'INVALID_PASSWORD':
                     message = '密碼錯誤';
-                    break;
-                default:
-                    message = '登入失敗';
                     break;
                 }
 
@@ -125,16 +122,13 @@ export default {
             catch (error) {
                 console.error(error.message);
 
-                let message = '';
-                switch (error.response.data.error?.message) {
+                let message = error.response.data.error.message;
+                switch (message) {
                 case 'EMAIL_EXISTS':
                     message = 'Email 重複';
                     break;
-                case 'INVALID_EMAIL",':
+                case 'INVALID_EMAIL':
                     message = 'Email 格式錯誤';
-                    break;
-                default:
-                    message = '註冊失敗';
                     break;
                 }
 
