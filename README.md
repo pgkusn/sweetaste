@@ -1,29 +1,9 @@
-# sweetaste
+# Sweetaste
 
-## Project setup
-```
-npm install
-```
+使用 Node.js 自行撰寫 API，介接 Firebase Database、Auth 實作出一個購物車電商網站
 
-### Run JSON Server and Compiles
-```
-npm start
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Deploy to Firebase Hosting
-```
-npm run deploy
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
+## Skill
+Vue3、Vue CLI、Vue Router、Vuex、Node.js、Firebase、Element UI、Jest
 
 ## Mockup
 https://pse.is/DBJGW
