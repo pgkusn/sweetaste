@@ -1,12 +1,12 @@
-# Sweetaste 購物車電商網站
+水果電商
 
-使用 Node Express 建立 API 介接 Firebase Database、Auth REST API，並整合了第三方登入
+使用 Vue3 串接由 Node Express 及 Firebase Admin 建立的後端 API，並整合了第三方登入 (FB、LINE)
 
 ## Website
 https://github.com/pgkusn/sweetaste
 
 ## Skill
-Vue3、Vue CLI、Vue Router、Vuex、Express、Firebase、Element UI、Jest
+Vue3、Vue CLI、Vue Router、Vuex、Firebase Auth、Firebase Admin、Express、Element UI、Jest
 
 ## Mockup
 https://pse.is/DBJGW
