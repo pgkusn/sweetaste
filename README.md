@@ -1,4 +1,4 @@
-水果電商
+# 水果電商
 
 使用 Vue3 串接由 Node Express 及 Firebase Admin 建立的後端 API，並整合了第三方登入 (FB、LINE)
 
